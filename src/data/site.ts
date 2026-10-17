@@ -14,10 +14,13 @@ export const company = {
   // Human-readable version shown on the page.
   whatsappDisplay: '+57 317 402 0722',
   email: 'supervisor@cicdiagnostica.com',
-  address: '[Calle 00 # 00-00, Cali, Valle del Cauca]',
-  city: 'Cali',
+  street: 'Carrera 13 # 4-51',
+  city: '[Ciudad]',
   region: 'Valle del Cauca',
-  hours: ['[Lunes a viernes: 7:00 a.m. – 5:00 p.m.]'],
+  get address() {
+    return `${this.street}, ${this.city}, ${this.region}`;
+  },
+  hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.'],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
   // Used for canonical URL, Open Graph and JSON-LD. Also set `site` in astro.config.mjs.

@@ -105,8 +105,7 @@ Every push to `main` deploys to production. Other branches get preview URLs.
 
 All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the page as-is until you replace them.
 
-- [ ] `company.address`: `[Calle 00 # 00-00, Cali, Valle del Cauca]` (also check `company.city`)
-- [ ] `company.hours`: `[Lunes a viernes: 7:00 a.m. – 5:00 p.m.]` (add a line per schedule)
+- [ ] `company.city`: city of Carrera 13 # 4-51 (`[Ciudad]`); the full address is derived from it
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
 - [ ] `company.legalName`: `CIC Diagnostica S.A.S. [RAZÓN SOCIAL]`
 - [ ] `company.url` **and** `site` in `astro.config.mjs`: `https://www.cicdiagnostica.com`

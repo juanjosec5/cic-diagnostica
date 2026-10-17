@@ -45,15 +45,15 @@ export const freeFreightFrom = '$600.000';
 
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
-  general: 'Hola, CIC Diagnóstica. Quisiera más información sobre sus productos.',
+  general: 'Hola, CIC Diagnóstica. Quisiera recibir más información sobre sus productos.',
   quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
-  urgent: 'Hola, CIC Diagnóstica. Tengo un pedido urgente: nos estamos quedando sin insumos.',
+  urgent: 'Hola, CIC Diagnóstica. Necesito hacer un pedido urgente porque nos estamos quedando sin insumos.',
   catalog: 'Hola, CIC Diagnóstica. Quisiera conocer los precios de los productos de su catálogo.',
-  contract: 'Hola, CIC Diagnóstica. Me interesa un contrato de suministro para mi institución.',
+  contract: 'Hola, CIC Diagnóstica. Quisiera información sobre un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
-  hospital: 'Hola, CIC Diagnóstica. Escribo de un hospital / IPS y me interesa un convenio de suministro.',
-  lab: 'Hola, CIC Diagnóstica. Escribo de un laboratorio clínico y quisiera una cotización de reactivos e insumos.',
-  drugstore: 'Hola, CIC Diagnóstica. Escribo de una droguería y quisiera conocer sus productos y condiciones.',
+  hospital: 'Hola, CIC Diagnóstica. Escribo desde un hospital o IPS y me interesa un contrato de suministro.',
+  lab: 'Hola, CIC Diagnóstica. Escribo desde un laboratorio clínico y quisiera cotizar reactivos e insumos.',
+  drugstore: 'Hola, CIC Diagnóstica. Escribo desde una droguería y quisiera conocer sus productos y condiciones.',
   independent: 'Hola, CIC Diagnóstica. Quisiera cotizar algunos insumos para mi consultorio o establecimiento.',
 } as const;
 
@@ -61,7 +61,7 @@ export type WhatsAppIntent = keyof typeof whatsappMessages;
 
 /** Proof row under the hero. Only confirmed figures. */
 export const stats = [
-  { value: 'Desde 2021', label: 'en el mercado' },
+  { value: 'Desde 2021', label: 'en el sector salud' },
   { value: '40+', label: 'clientes activos' },
   { value: String(municipalities.length), label: 'municipios con ruta fija' },
   { value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
@@ -78,22 +78,22 @@ export const clientPlans: {
     icon: 'hospital',
     title: 'Hospitales e IPS',
     benefits: [
-      'Contratos de suministro u órdenes de compra',
-      'Facturación centralizada',
-      'Cupo de crédito con pago a 30 a 45 días',
-      'Entregas programadas con vehículos propios',
+      'Contrato de suministro u orden de compra, según prefiera',
+      'Facturación centralizada para su institución',
+      'Cupo de crédito con plazo de pago de 30 a 45 días',
+      'Entregas programadas en vehículos propios',
     ],
-    cta: 'Solicitar convenio',
+    cta: 'Solicitar un contrato',
     whatsapp: 'hospital',
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
     benefits: [
-      'Reactivos, toma de muestras y consumibles en un solo proveedor',
-      'Despachos todos los días en nuestras rutas',
-      'Sin pedido mínimo',
-      'Abastecemos al laboratorio clínico CIC: conocemos su operación',
+      'Reactivos, toma de muestras y consumibles con un solo proveedor',
+      'Despachos diarios en nuestras rutas de entrega',
+      'Sin pedido mínimo: pida solo lo que necesita',
+      'Abastecemos al laboratorio clínico CIC y conocemos su día a día',
     ],
     cta: 'Cotizar para mi laboratorio',
     whatsapp: 'lab',
@@ -103,8 +103,8 @@ export const clientPlans: {
     title: 'Droguerías',
     benefits: [
       'Pruebas rápidas y elementos de bioseguridad',
-      'Sin pedido mínimo',
-      'Entrega en su municipio según el calendario de ruta',
+      'Sin pedido mínimo: pida solo lo que necesita',
+      'Entregas en su municipio según el calendario de ruta',
     ],
     cta: 'Cotizar para mi droguería',
     whatsapp: 'drugstore',
@@ -114,8 +114,8 @@ export const clientPlans: {
     title: 'Consultorios y otros establecimientos',
     benefits: [
       'Veterinarias, fisioterapia, odontología, clínicas ortopédicas y más',
-      'Sin pedido mínimo ni contrato',
-      'La misma línea que usan hospitales y laboratorios',
+      'Sin pedido mínimo y sin necesidad de contrato',
+      'Los mismos productos que usan hospitales y laboratorios',
       'Cotización directa por WhatsApp',
     ],
     cta: 'Cotizar por WhatsApp',
@@ -133,7 +133,7 @@ export const productCategories = [
   {
     icon: 'droplet',
     title: 'Toma de muestras',
-    items: ['Tubos al vacío', 'Agujas, jeringas y holders', 'Torniquetes', 'Recolectores de orina y coprológico'],
+    items: ['Tubos al vacío', 'Agujas, jeringas y portatubos (holders)', 'Torniquetes', 'Recolectores de orina y coprológico'],
   },
   {
     icon: 'test',
@@ -156,26 +156,26 @@ export const contractBenefits = [
   {
     icon: 'lock',
     title: 'Precio estable',
-    text: 'Por lo general mantenemos el precio acordado; solo algunos productos importados pueden variar con el dólar.',
+    text: 'Por lo general mantenemos el precio acordado. Solo algunos productos importados pueden variar con la tasa de cambio del dólar.',
   },
   {
     icon: 'calendar',
     title: 'Entregas programadas',
-    text: 'Acordamos las fechas con usted y despachamos en las rutas de la semana; para volúmenes grandes, despacho dedicado.',
+    text: 'Acordamos con usted las fechas de entrega y despachamos en nuestras rutas semanales. Para volúmenes grandes coordinamos un despacho dedicado.',
   },
-  { icon: 'card', title: 'Pago a 30 a 45 días', text: 'Cupo de crédito acordado con gerencia.' },
+  { icon: 'card', title: 'Pago a 30 a 45 días', text: 'Manejamos un cupo de crédito que se acuerda directamente con nuestra gerencia.' },
   {
     icon: 'check',
     title: 'Sin consumo mínimo',
-    text: 'Al completar el cupo del contrato, renovamos con un otrosí o un contrato nuevo.',
+    text: 'No exigimos un consumo mínimo. Cuando se completa el cupo del contrato, lo renovamos mediante un otrosí o un contrato nuevo.',
   },
 ];
 
 export const contractSteps = [
-  { title: 'Solicite una cotización', text: 'Le respondemos en 2 a 48 horas con precios y condiciones.' },
+  { title: 'Solicite una cotización', text: 'Le enviamos precios y condiciones en un plazo de 2 a 48 horas.' },
   {
-    title: 'Negociamos con usted',
-    text: 'Por lo general de forma digital; si lo prefiere, nuestro asesor comercial lo visita en su sede.',
+    title: 'Acordamos las condiciones',
+    text: 'Por lo general lo hacemos de forma digital. Si lo prefiere, nuestro asesor comercial lo visita en su sede.',
   },
 ];
 
@@ -197,27 +197,27 @@ export const testimonials: { quote: string; name: string; role?: string; org?: s
 export const faqs = [
   {
     q: '¿Puedo comprar en línea?',
-    a: 'Todavía no tenemos tienda en línea. Puede ver nuestro catálogo en WhatsApp y pedirnos una cotización por ese medio o con el formulario.',
+    a: 'Por ahora no contamos con tienda en línea. Puede consultar nuestro catálogo en WhatsApp y solicitarnos una cotización por ese medio o a través del formulario.',
   },
   {
-    q: '¿Hay un pedido mínimo?',
-    a: `No hay pedido mínimo. El flete depende de la distancia y del valor del pedido; en compras superiores a ${freeFreightFrom} no cobramos flete.`,
+    q: '¿Manejan un pedido mínimo?',
+    a: `No, no manejamos pedido mínimo. El flete depende de la distancia y del valor del pedido, y en compras superiores a ${freeFreightFrom} no cobramos flete.`,
   },
   {
     q: '¿Ofrecen crédito?',
-    a: 'Los hospitales e IPS con contrato manejan un cupo de crédito con pago a 30 a 45 días. Otros clientes pueden acceder a crédito si cumplen los requisitos de la empresa.',
+    a: 'Sí. Los hospitales e IPS con contrato de suministro manejan un cupo de crédito con pago a 30 a 45 días. Los demás clientes pueden acceder a crédito si cumplen los requisitos de la empresa.',
   },
   {
-    q: '¿Cuánto tarda una entrega?',
-    a: 'Si el producto está en stock, entregamos en 1 a 3 días hábiles según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.',
+    q: '¿Cuánto tarda la entrega?',
+    a: 'Si el producto está disponible en inventario, lo entregamos en 1 a 3 días hábiles, según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.',
   },
   {
-    q: '¿Entregan fuera de las rutas?',
-    a: 'Sí, entregamos en todo el Valle del Cauca. Fuera de las rutas principales se cobra flete.',
+    q: '¿Entregan fuera de sus rutas?',
+    a: 'Sí, entregamos en todo el Valle del Cauca. Fuera de las rutas principales se cobra flete; consúltenos por WhatsApp para su municipio.',
   },
   {
     q: '¿Participan en licitaciones?',
-    a: 'Sí, participamos en licitaciones públicas. Enviamos RUT, certificado de Cámara de Comercio, registros sanitarios INVIMA y fichas técnicas en 48 horas hábiles.',
+    a: 'Sí, participamos en licitaciones públicas. Le enviamos el RUT, el certificado de Cámara de Comercio, los registros sanitarios INVIMA y las fichas técnicas en un plazo de 48 horas hábiles.',
   },
   {
     q: '¿Emiten factura electrónica?',

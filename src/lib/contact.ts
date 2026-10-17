@@ -52,10 +52,10 @@ export function validateContact(input: Record<string, unknown>): ContactErrors {
   else if (d.mensaje.length > LIMITS.message)
     errors.mensaje = `El mensaje no puede superar ${LIMITS.message} caracteres.`;
 
-  if (!d.consentimiento) errors.consentimiento = 'Debe autorizar el tratamiento de datos para enviar el formulario.';
+  if (!d.consentimiento) errors.consentimiento = 'Para enviar el formulario, autorice el tratamiento de sus datos.';
 
   for (const f of ['institucion', 'tipo', 'interes', 'municipio'] as const) {
-    if (d[f].length > LIMITS.short) errors[f] = 'Texto demasiado largo.';
+    if (d[f].length > LIMITS.short) errors[f] = 'El texto es demasiado largo.';
   }
   if (d.nit.length > LIMITS.nit) errors.nit = 'El NIT es demasiado largo.';
   if (d.consumo.length > LIMITS.consumption)

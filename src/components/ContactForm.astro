@@ -5,7 +5,7 @@ import { LIMITS } from '../lib/contact';
 ---
 
 <form id="contact-form" class="form" method="post" action="/api/contact" novalidate>
-  <h3 class="form__title">Formulario de contacto</h3>
+  <h3 class="form__title">Envíenos su solicitud</h3>
   <p class="form__hint">Los campos marcados con <span aria-hidden="true">*</span><span class="visually-hidden">asterisco</span> son obligatorios.</p>
 
   <div class="grid">
@@ -88,7 +88,7 @@ import { LIMITS } from '../lib/contact';
         required
         maxlength={LIMITS.message}
         aria-describedby="e-mensaje"
-        placeholder="¿Qué productos necesita, en qué cantidades mensuales y con qué frecuencia de entrega?"></textarea>
+        placeholder="Cuéntenos qué productos necesita, en qué cantidades al mes y con qué frecuencia de entrega."></textarea>
       <p class="error" id="e-mensaje"></p>
     </div>
 
@@ -102,8 +102,8 @@ import { LIMITS } from '../lib/contact';
       <div class="consent">
         <input id="f-consentimiento" name="consentimiento" type="checkbox" value="si" required aria-describedby="e-consentimiento" />
         <label for="f-consentimiento">
-          Autorizo a {company.name} a tratar mis datos personales para responder esta solicitud, de acuerdo con la Ley
-          1581 de 2012 y su política de tratamiento de datos. <span class="req" aria-hidden="true">*</span>
+          Autorizo a {company.name} para tratar mis datos personales con el fin de atender esta solicitud, conforme a la
+          Ley 1581 de 2012 y a su política de tratamiento de datos. <span class="req" aria-hidden="true">*</span>
         </label>
       </div>
       <p class="error" id="e-consentimiento"></p>
@@ -119,20 +119,20 @@ import { LIMITS } from '../lib/contact';
   <template id="tpl-success">
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
-      <p>Un asesor le responderá en menos de {company.responseTime} por correo o WhatsApp.</p>
+      <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por correo electrónico o WhatsApp.</p>
     </div>
   </template>
   <template id="tpl-invalid">
     <div class="status__box status__box--error">
-      <strong>Revise los campos marcados.</strong>
+      <strong>Por favor, revise los campos marcados.</strong>
     </div>
   </template>
   <template id="tpl-failed">
     <div class="status__box status__box--error">
-      <strong>No pudimos enviar su mensaje.</strong>
+      <strong>No fue posible enviar su mensaje.</strong>
       <p>
-        Por favor escríbanos por <a href={waLink('general')} target="_blank" rel="noopener">WhatsApp</a> o al correo
-        <a href={`mailto:${company.email}`}>{company.email}</a> y le atendemos de inmediato.
+        Por favor, escríbanos por <a href={waLink('general')} target="_blank" rel="noopener">WhatsApp</a> o al correo
+        <a href={`mailto:${company.email}`}>{company.email}</a> y le atenderemos de inmediato.
       </p>
     </div>
   </template>

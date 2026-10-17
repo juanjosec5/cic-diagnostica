@@ -1,4 +1,5 @@
 ---
+import Analytics from '@vercel/analytics/astro';
 import '../styles/global.css';
 import { company, municipalities } from '../data/site';
 
@@ -58,6 +59,9 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Vercel Web Analytics: privacy-friendly page views, enabled in the Vercel dashboard. -->
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>

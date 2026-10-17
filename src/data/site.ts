@@ -51,13 +51,8 @@ export const whatsappMessages = {
   general: 'Hola, CIC Diagnóstica. Quisiera recibir más información sobre sus productos.',
   quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
   urgent: 'Hola, CIC Diagnóstica. Necesito hacer un pedido urgente porque nos estamos quedando sin insumos.',
-  catalog: 'Hola, CIC Diagnóstica. Quisiera conocer los precios de los productos de su catálogo.',
   contract: 'Hola, CIC Diagnóstica. Quisiera información sobre un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
-  hospital: 'Hola, CIC Diagnóstica. Escribo desde un hospital o IPS y me interesa un contrato de suministro.',
-  lab: 'Hola, CIC Diagnóstica. Escribo desde un laboratorio clínico y quisiera cotizar reactivos e insumos.',
-  drugstore: 'Hola, CIC Diagnóstica. Escribo desde una droguería y quisiera conocer sus productos y condiciones.',
-  independent: 'Hola, CIC Diagnóstica. Quisiera cotizar algunos insumos para mi consultorio o establecimiento.',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;
@@ -73,40 +68,26 @@ export const stats = [
 /** Delivery time for in-stock products; shown as a badge in the hero and in the FAQ. */
 export const deliveryTime = '1 a 3 días hábiles';
 
-export const clientPlans: {
-  icon: string;
-  title: string;
-  benefits: string[];
-  cta: string;
-  whatsapp: WhatsAppIntent;
-}[] = [
+export const clientPlans: { icon: string; title: string; benefits: string[] }[] = [
   {
     icon: 'hospital',
     title: 'Hospitales e IPS',
     benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días', 'Facturación centralizada'],
-    cta: 'Solicitar contrato',
-    whatsapp: 'hospital',
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
     benefits: ['Reactivos, toma de muestras y consumibles', 'Sin pedido mínimo'],
-    cta: 'Cotizar',
-    whatsapp: 'lab',
   },
   {
     icon: 'pill',
     title: 'Droguerías',
     benefits: ['Pruebas rápidas y bioseguridad', 'Sin pedido mínimo'],
-    cta: 'Cotizar',
-    whatsapp: 'drugstore',
   },
   {
     icon: 'user',
     title: 'Consultorios y otros establecimientos',
     benefits: ['Veterinarias, odontología, fisioterapia y más', 'Sin pedido mínimo ni contrato'],
-    cta: 'Cotizar',
-    whatsapp: 'independent',
   },
 ];
 

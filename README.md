@@ -100,13 +100,12 @@ Tracking is centralized, so components don't need per-element tags:
 
 | Event | When | Data |
 | --- | --- | --- |
-| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, catalog, contract, hospital…), `section`, `label` |
+| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, contract, outsideRoute, general…), `section`, `label` |
 | `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |
 | `outbound_click` | Any other external link | `url`, `section` |
 | `faq_open` | FAQ question expanded | `question` |
-| `map_open` | "Ver mapa" tapped in Contacto (loads the Google Maps embed) | — |
 | `form_submit` | Form sent successfully | `interest`, `client_type` |
 | `form_invalid` | Validation errors | `fields`, `source` (client/server) |
 | `form_failed` | Send failed | `interest`, `client_type`, `reason` (HTTP status or `network`) |

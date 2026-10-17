@@ -25,8 +25,9 @@ import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
     return container.id || container.tagName.toLowerCase();
   };
 
+  // innerText skips copy hidden at this screen size (e.g. the urgent bar's short/long variants).
   const labelOf = (a: HTMLAnchorElement): string =>
-    (a.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60) || a.getAttribute('aria-label') || '';
+    a.innerText.replace(/\s+/g, ' ').trim().slice(0, 60) || a.getAttribute('aria-label') || '';
 
   // One delegated listener covers every link and CTA, including ones added later.
   document.addEventListener('click', (event) => {
@@ -36,7 +37,9 @@ import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
     const href = a.getAttribute('href') ?? '';
     const section = sectionOf(a);
 
-    if (href.startsWith('https://wa.me/')) {
+    if (href.startsWith('https://wa.me/c/')) {
+      track('catalog_view', { section, label: labelOf(a) });
+    } else if (href.startsWith('https://wa.me/')) {
       const text = new URL(href).searchParams.get('text') ?? '';
       track('whatsapp_click', { intent: intentByMessage.get(text) ?? 'unknown', section, label: labelOf(a) });
     } else if (href.startsWith('mailto:')) {

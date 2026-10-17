@@ -1,18 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import { stats, brands } from '../data/site';
+import { stats } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="inicio" class="hero">
   <div class="container">
     <div class="hero__copy">
-      <span class="eyebrow">Distribuidor de insumos médicos y de laboratorio</span>
-      <h1>Reactivos e insumos de laboratorio, a tiempo en todo el Valle del Cauca</h1>
+      <span class="eyebrow">Distribuidora de insumos médicos y de laboratorio</span>
+      <h1>Reactivos e insumos de laboratorio, a tiempo en el suroccidente colombiano</h1>
       <p class="lead">
-        Somos parte del grupo que opera el laboratorio clínico CIC y la clínica Sane. Usamos lo que vendemos y
-        sabemos lo que significa para un laboratorio quedarse sin insumos: por eso entregamos con personal y
-        vehículos propios.
+        Somos una distribuidora independiente de insumos médicos y de laboratorio con sede en Buga. Como proveedores
+        del laboratorio clínico CIC y de la clínica Sane, sabemos lo que significa quedarse sin insumos. Por eso
+        llevamos sus pedidos con personal y vehículos propios.
       </p>
       <div class="hero__actions">
         <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener">
@@ -31,19 +31,6 @@ import { waLink } from '../lib/whatsapp';
         </div>
       ))}
     </dl>
-
-    {brands.length > 0 && (
-      <div class="brands">
-        <p class="brands__title">Marcas que distribuimos</p>
-        <ul class="brands__list">
-          {brands.map((b) => (
-            <li>
-              {b.logo ? <img src={b.logo} alt={b.name} loading="lazy" height="40" /> : <span>{b.name}</span>}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
   </div>
 </section>
 
@@ -111,54 +98,5 @@ import { waLink } from '../lib/whatsapp';
   .stat dt {
     color: var(--muted);
     font-size: 0.925rem;
-  }
-
-  .brands {
-    margin-top: 2.5rem;
-  }
-
-  .brands__title {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-  }
-
-  .brands__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  @media (min-width: 768px) {
-    .brands__list {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-  }
-
-  .brands__list li {
-    display: grid;
-    place-items: center;
-    height: 64px;
-    padding: 0.5rem;
-    border: 1px dashed #c3cfdc;
-    border-radius: 10px;
-    background: #fff;
-    color: var(--muted);
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .brands__list img {
-    max-height: 40px;
-    width: auto;
-    filter: grayscale(1);
-    opacity: 0.8;
   }
 </style>

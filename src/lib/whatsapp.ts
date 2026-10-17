@@ -4,3 +4,8 @@ import { company, whatsappMessages, type WhatsAppIntent } from '../data/site';
 export function waLink(intent: WhatsAppIntent = 'general'): string {
   return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(whatsappMessages[intent])}`;
 }
+
+/** Opens the WhatsApp Business product catalog. */
+export function waCatalogLink(): string {
+  return `https://wa.me/c/${company.whatsapp}`;
+}

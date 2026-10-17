@@ -172,7 +172,10 @@ export const contractBenefits = [
 ];
 
 export const contractSteps = [
-  { title: 'Solicite una cotización', text: 'Le enviamos precios y condiciones en un plazo de 2 a 48 horas.' },
+  {
+    title: 'Solicite una cotización',
+    text: 'Cuéntenos qué necesita y, en máximo 48 horas, recibirá una propuesta con precios y condiciones para su institución.',
+  },
   {
     title: 'Acordamos las condiciones',
     text: 'Por lo general lo hacemos de forma digital. Si lo prefiere, nuestro asesor comercial lo visita en su sede.',

@@ -10,10 +10,10 @@ export const company = {
   legalName: 'CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]',
   nit: '[NIT 000.000.000-0]',
   // Digits only, with country code, no "+" or spaces (e.g. 573001234567).
-  whatsapp: '570000000000',
+  whatsapp: '573174020722',
   // Human-readable version shown on the page.
-  whatsappDisplay: '+57 [300 000 0000]',
-  email: '[ventas@cicdiagnostica.com]',
+  whatsappDisplay: '+57 317 402 0722',
+  email: 'supervisor@cicdiagnostica.com',
   address: '[Calle 00 # 00-00, Cali, Valle del Cauca]',
   city: 'Cali',
   region: 'Valle del Cauca',

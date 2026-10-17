@@ -105,9 +105,6 @@ Every push to `main` deploys to production. Other branches get preview URLs.
 
 All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the page as-is until you replace them.
 
-- [ ] `company.whatsapp`: real number, digits only (currently `570000000000`)
-- [ ] `company.whatsappDisplay`: `+57 [300 000 0000]`
-- [ ] `company.email`: `[ventas@cicdiagnostica.com]`
 - [ ] `company.address`: `[Calle 00 # 00-00, Cali, Valle del Cauca]` (also check `company.city`)
 - [ ] `company.hours`: `[Lunes a viernes: 7:00 a.m. – 5:00 p.m.]` (add a line per schedule)
 - [ ] `company.nit`: `[NIT 000.000.000-0]`

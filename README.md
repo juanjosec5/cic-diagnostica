@@ -135,15 +135,15 @@ Originals in `public/brand/`, named by what they show:
 | File | Shows | Used in |
 | --- | --- | --- |
 | `logo-horizontal-color.png` | Horizontal: blue drops + navy wordmark | Source for the header logo |
-| `logo-horizontal-color-sm.png` | Same, 96 px tall | Header, from 640 px up |
+| `logo-horizontal-color-sm.png` | Same, 96 px tall, without the "~ CIC" text | Header, from 640 px up |
 | `logo-symbol.png` | Drops only, cropped from the horizontal logo | Header on phones |
-| `logo-horizontal-on-dark.png` / `-sm.png` | Horizontal: blue drops + white wordmark | Footer (navy background) |
-| `logo-stacked-color.png` | Stacked: drops over navy wordmark | JSON-LD `logo`, OG image |
+| `logo-horizontal-on-dark.png` / `-sm.png` | Horizontal: blue drops + white wordmark (`-sm` without "~ CIC") | Footer (navy background) |
+| `logo-stacked-color.png` / `-sm.png` | Stacked: drops over navy wordmark (`-sm`: 480 px tall, without "~ CIC") | JSON-LD `logo`, OG image |
 | `logo-stacked-on-dark.png` | Stacked: blue drops + white wordmark | Not used yet (dark backgrounds) |
 | `logo-horizontal-white.png`, `logo-stacked-white.png` | All-white versions | Not used yet (photos, dark backgrounds) |
 | `logo-seal.png` | Round seal with curved wordmark | Not used yet (stamps, stickers) |
 
-`public/favicon.png` and `public/apple-touch-icon.png` are the drops on a navy circle. The `-sm` files, the symbol and the icons are generated from the originals; regenerate them if the originals change.
+`public/favicon.png` and `public/apple-touch-icon.png` are the drops on a navy circle. The `-sm` files, the symbol and the icons are generated from the originals (the site doesn't show the "~ CIC" text, so it is erased in those copies); the originals are kept untouched. Regenerate the copies if the originals change.
 
 ## Placeholders to replace
 

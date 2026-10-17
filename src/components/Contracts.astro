@@ -9,20 +9,14 @@ import { waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Contratos de suministro</span>
       <h2>Pensados para hospitales e IPS</h2>
-      <p class="lead">
-        Asegure el abastecimiento de su institución con un contrato de suministro u orden de compra: precio estable,
-        entregas programadas y un plazo de pago de 30 a 45 días.
-      </p>
     </div>
 
     <ul class="benefits">
       {contractBenefits.map((b) => (
         <li class="benefit">
           <span class="benefit__icon"><Icon name={b.icon} /></span>
-          <div>
-            <h3>{b.title}</h3>
-            <p>{b.text}</p>
-          </div>
+          <h3>{b.title}</h3>
+          <p>{b.text}</p>
         </li>
       ))}
     </ul>
@@ -32,20 +26,22 @@ import { waLink } from '../lib/whatsapp';
       {contractSteps.map((s, i) => (
         <li class="step">
           <span class="step__num" aria-hidden="true">{i + 1}</span>
-          <h4>{s.title}</h4>
-          <p>{s.text}</p>
+          <div>
+            <h4>{s.title}</h4>
+            <p>{s.text}</p>
+          </div>
         </li>
       ))}
     </ol>
 
     <div class="contracts__cta">
-      <a class="btn btn--primary" href="#contacto" data-interest="contrato">
-        Solicitar propuesta de contrato
-        <Icon name="arrow" size={20} />
-      </a>
       <a class="btn btn--wa" href={waLink('contract')} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={22} />
         Hablar con un asesor
+      </a>
+      <a class="btn btn--light" href="#contacto" data-interest="contrato">
+        Solicitar propuesta
+        <Icon name="arrow" size={20} />
       </a>
     </div>
   </div>
@@ -67,35 +63,25 @@ import { waLink } from '../lib/whatsapp';
     color: var(--sky-light);
   }
 
-  .contracts .lead {
-    color: #c9d8e8;
-  }
-
+  /* 2×2 on every width; one row on desktop. */
   .benefits {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
   }
 
-  @media (min-width: 640px) {
-    .benefits {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  /* One row on desktop, however many benefits the data file lists. */
   @media (min-width: 1000px) {
     .benefits {
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
     }
   }
 
   .benefit {
-    display: flex;
-    gap: 1rem;
-    padding: 1.25rem;
+    padding: 0.9rem;
     border-radius: var(--radius);
     background: rgb(255 255 255 / 0.06);
     border: 1px solid rgb(255 255 255 / 0.14);
@@ -104,51 +90,51 @@ import { waLink } from '../lib/whatsapp';
   .benefit__icon {
     display: inline-grid;
     place-items: center;
-    flex: none;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.6rem;
     border-radius: 12px;
     background: color-mix(in srgb, var(--sky-light) 15%, transparent);
     color: var(--sky-light);
   }
 
   .benefit h3 {
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
   }
 
-  .benefit p,
-  .step p {
+  .benefit p {
     margin: 0;
     color: #c9d8e8;
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 
   .steps__title {
-    margin-top: 3rem;
-    font-size: 1.35rem;
+    margin-top: 2rem;
+    font-size: 1.2rem;
   }
 
   .steps {
     list-style: none;
-    margin: 1rem 0 0;
+    margin: 0.75rem 0 0;
     padding: 0;
     display: grid;
-    gap: 1rem;
+    gap: 0.6rem;
   }
 
   @media (min-width: 640px) {
     .steps {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1000px) {
-    .steps {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
     }
   }
 
   .step {
-    padding: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
     border-radius: var(--radius);
     background: #fff;
     color: var(--ink);
@@ -156,19 +142,22 @@ import { waLink } from '../lib/whatsapp';
 
   .step h4 {
     color: var(--blue-900);
-    font-size: 1.05rem;
-    margin: 0.75rem 0 0.25rem;
+    font-size: 1rem;
+    margin: 0.2rem 0 0.15rem;
   }
 
   .step p {
+    margin: 0;
     color: var(--muted);
+    font-size: 0.9rem;
   }
 
   .step__num {
     display: inline-grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    flex: none;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: var(--green-700);
     color: #fff;
@@ -176,7 +165,7 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .contracts__cta {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -186,13 +175,14 @@ import { waLink } from '../lib/whatsapp';
     flex: 1 1 260px;
   }
 
-  .contracts__cta .btn--primary {
-    background: #fff;
-    color: var(--blue-900);
+  .btn--light {
+    background: transparent;
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.6);
   }
 
-  .contracts__cta .btn--primary:hover {
-    background: var(--green-50);
+  .btn--light:hover {
+    background: rgb(255 255 255 / 0.1);
   }
 
   .contracts__cta .btn:focus-visible {

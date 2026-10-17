@@ -9,17 +9,14 @@ import { waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Cobertura y calendario de ruta</span>
       <h2>Entregamos en todo el Valle del Cauca</h2>
-      <p class="lead">
-        En los {municipalities.length} municipios donde CIC laboratorios tiene sede contamos con una ruta fija por día
-        de la semana, lo que agiliza sus entregas.
-      </p>
+      <p class="lead">Ruta fija semanal en los {municipalities.length} municipios con sede de CIC laboratorios.</p>
     </div>
 
     <ul class="days">
       {routeDays.map((d) => (
         <li class="day">
-          <h3>
-            <Icon name="calendar" size={20} />
+          <h3 class="day__name">
+            <Icon name="calendar" size={18} />
             {d.day}
           </h3>
           {d.towns ? (
@@ -34,88 +31,100 @@ import { waLink } from '../lib/whatsapp';
     </ul>
 
     <p class="note">
-      Fuera de las rutas principales se cobra flete. En compras superiores a {freeFreightFrom} no cobramos flete.
-      ¿Su municipio no aparece en el calendario?
-      <a href={waLink('outsideRoute')} target="_blank" rel="noopener">Consúltenos por WhatsApp</a>.
+      <Icon name="truck" size={20} />
+      <span>
+        Fuera de ruta se cobra flete; gratis en compras superiores a {freeFreightFrom}. ¿Otro municipio?
+        <a href={waLink('outsideRoute')} target="_blank" rel="noopener">Consúltenos por WhatsApp</a>.
+      </span>
     </p>
   </div>
 </section>
 
 <style>
+  /* One compact row per day: the day on the left, its towns as chips. */
   .days {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  @media (min-width: 600px) {
-    .days {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 960px) {
-    .days {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(0, 1fr);
-    }
-  }
-
-  .day {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: #fff;
     overflow: hidden;
   }
 
-  .day h3 {
+  .day {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .day:last-child {
+    border-bottom: 0;
+  }
+
+  @media (max-width: 479px) {
+    .day {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .day__name {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin: 0;
-    padding: 0.75rem 1rem;
-    background: var(--blue-50);
     color: var(--blue-900);
     font-size: 1rem;
   }
 
-  .day h3 :global(svg) {
+  .day__name :global(svg) {
     color: var(--blue-700);
   }
 
   .towns {
     list-style: none;
     margin: 0;
-    padding: 0.5rem 1rem 0.75rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
   }
 
   .towns li {
-    padding: 0.35rem 0;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--blue-50);
+    color: var(--blue-900);
     font-weight: 600;
-    border-bottom: 1px solid var(--line);
-    overflow-wrap: anywhere;
+    font-size: 0.9rem;
   }
 
   .day__note {
     margin: 0;
-    padding: 0.75rem 1rem;
     color: var(--muted);
-  }
-
-  .towns li:last-child {
-    border-bottom: 0;
+    font-size: 0.95rem;
   }
 
   .note {
-    margin: 1.5rem 0 0;
-    padding: 1rem 1.25rem;
-    border-left: 4px solid var(--green-600);
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin: 1rem 0 0;
+    padding: 0.9rem 1.1rem;
     background: var(--green-50);
-    border-radius: 0 10px 10px 0;
+    border: 1px solid var(--green-line);
+    border-radius: var(--radius);
     color: var(--ink);
+    font-size: 0.95rem;
+  }
+
+  .note :global(svg) {
+    flex: none;
+    margin-top: 0.15rem;
+    color: var(--green-700);
   }
 
   .note a {

@@ -13,7 +13,7 @@ One-page site for CIC Diagnostica, a medical and laboratory supplies distributor
 ├── .env.example            # RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
 ├── public/                 # favicon, apple-touch-icon, og-image.png (1200×630), brand/ (logo files)
 └── src/
-    ├── data/site.ts        # ← ALL editable content: contact, WhatsApp, stats, brands, plans, products, route, FAQ
+    ├── data/site.ts        # ← ALL editable content: contact, WhatsApp, stats, plans, products, route, FAQ
     ├── lib/
     │   ├── whatsapp.ts     # waLink(intent) → https://wa.me/<number>?text=<message>
     │   └── contact.ts      # form validation shared by browser and API
@@ -48,16 +48,16 @@ Everything is in `src/data/site.ts`:
 | Prefilled WhatsApp messages (quote, urgent, catalog, contract, one per client type…) | `whatsappMessages` |
 | Email, address, hours, NIT, legal name, response time | `company` |
 | Proof row under the hero (years, clients, municipalities, response time) | `stats` |
-| Brand logo strip | `brands` (set `logo: '/brands/x.svg'` and put the file in `public/brands/`) |
 | Plan cards per client type, with their WhatsApp button | `clientPlans` |
 | Product categories and example items | `productCategories` (icons: `flask droplet test box beaker shield`) |
-| Delivery route: municipalities grouped by weekday | `routeDays` |
+| Delivery route: municipalities grouped by weekday (a day without fixed towns takes a `note`) | `routeDays` |
+| Free-freight threshold (coverage note and FAQ) | `freeFreightFrom` |
 | Supplier documents list | `supplierDocuments` |
 | Testimonials (section hidden while empty) | `testimonials` |
 | FAQ | `faqs` |
 | Client-type and "me interesa" options of the form | `clientTypeOptions`, `interestOptions` |
 
-**Numbers stay consistent by construction.** The municipality count shown in the proof row, coverage heading, FAQ and meta description is `municipalities.length`, which is derived from `routeDays`. The response time comes from `company.responseTime` in the proof row, contact section and success message. Change each value once in the data file and it updates everywhere. Only publish numbers and claims you can back up.
+**Numbers stay consistent by construction.** The municipality count shown in the proof row, coverage section and meta description is `municipalities.length`, which is derived from `routeDays`. The response time comes from `company.responseTime` in the proof row, contact section and success message. Change each value once in the data file and it updates everywhere. Only publish numbers and claims you can back up.
 
 Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `paths` map.
 
@@ -133,13 +133,7 @@ Every push to `main` deploys to production. Other branches get preview URLs.
 All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the page as-is until you replace them.
 
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
-- [ ] `company.legalName`: `CIC Diagnostica S.A.S. [RAZÓN SOCIAL]`
-- [ ] `stats`: years in business `[00]` and active clients `[000]` (confirmed figures only)
-- [ ] `company.responseTime`: `24 horas` (check that you can keep this promise)
-- [ ] `brands`: `[Marca 1]`…`[Marca 6]`, the real brands and their logo files
-- [ ] `routeDays`: the real 16 municipalities and the weekday for each (current list and days are examples)
-- [ ] `productCategories`: real categories and example items
-- [ ] `faqs`: minimum order `[Definir pedido mínimo]`, `[Condiciones del crédito para compras sin contrato]`, `[Tiempo de entrega para pedidos urgentes]`
+- [ ] `company.legalName`: `CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]`
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] Consent text in `src/components/ContactForm.astro` mentions a "política de tratamiento de datos". Publish that policy (required by Ley 1581) and link it there.
 - [ ] `public/og-image.png`: social preview image; replace with a branded one if you have a logo. It's a static image, so keep any numbers out of it.

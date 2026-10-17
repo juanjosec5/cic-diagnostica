@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { municipalities, routeDays } from '../data/site';
+import { freeFreightFrom, municipalities, routeDays } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
@@ -8,10 +8,10 @@ import { waLink } from '../lib/whatsapp';
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Cobertura y calendario de ruta</span>
-      <h2>Entregamos en {municipalities.length} municipios del Valle del Cauca</h2>
+      <h2>Entregamos en todo el Valle del Cauca</h2>
       <p class="lead">
-        Nuestros vehículos visitan cada municipio un día fijo de la semana. Además, un asesor comercial visita una
-        ciudad diferente cada semana.
+        En los {municipalities.length} municipios con sede de CIC laboratorios tenemos ruta fija por día de la semana
+        y entregas más rápidas.
       </p>
     </div>
 
@@ -22,15 +22,19 @@ import { waLink } from '../lib/whatsapp';
             <Icon name="calendar" size={20} />
             {d.day}
           </h3>
-          <ul class="towns">
-            {d.towns.map((t) => <li>{t}</li>)}
-          </ul>
+          {d.towns ? (
+            <ul class="towns">
+              {d.towns.map((t) => <li>{t}</li>)}
+            </ul>
+          ) : (
+            <p class="day__note">{d.note}</p>
+          )}
         </li>
       ))}
     </ul>
 
     <p class="note">
-      ¿Su municipio no está en la lista? Evaluamos entregas fuera de la ruta según el volumen del pedido.
+      Fuera de las rutas principales se cobra flete; en compras superiores a {freeFreightFrom} no cobramos flete.
       <a href={waLink('outsideRoute')} target="_blank" rel="noopener">Consúltenos por WhatsApp</a>.
     </p>
   </div>
@@ -92,6 +96,12 @@ import { waLink } from '../lib/whatsapp';
     font-weight: 600;
     border-bottom: 1px solid var(--line);
     overflow-wrap: anywhere;
+  }
+
+  .day__note {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    color: var(--muted);
   }
 
   .towns li:last-child {

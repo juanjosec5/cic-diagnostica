@@ -20,57 +20,51 @@ export const company = {
   get address() {
     return `${this.street}, ${this.city}, ${this.region}`;
   },
-  hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.'],
+  hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.', 'Sábados: 7:30 a.m. – 11:00 a.m.'],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
 };
 
 /**
- * Delivery route: which weekday our own vehicles reach each municipality.
+ * Fixed delivery routes: the municipalities with a CIC laboratorios site, by weekday.
+ * A day without fixed towns shows its `note` instead.
  * The list of municipalities and their count are derived from this everywhere on the page.
  */
-export const routeDays = [
-  { day: 'Lunes', towns: ['Cali', 'Jamundí', 'Yumbo'] },
+export const routeDays: { day: string; towns?: string[]; note?: string }[] = [
+  { day: 'Lunes', towns: ['Cali', 'Yumbo', 'Vijes', 'Dagua', 'La Cumbre'] },
   { day: 'Martes', towns: ['Palmira', 'Candelaria', 'Pradera', 'Florida'] },
   { day: 'Miércoles', towns: ['Buga', 'Guacarí', 'El Cerrito', 'Ginebra'] },
   { day: 'Jueves', towns: ['Tuluá', 'Zarzal', 'Roldanillo', 'Cartago'] },
-  { day: 'Viernes', towns: ['Buenaventura'] },
+  { day: 'Viernes', note: 'Envíos a municipios cercanos' },
 ];
 
-export const municipalities = routeDays.flatMap((d) => d.towns);
+export const municipalities = routeDays.flatMap((d) => d.towns ?? []);
+
+/** Orders above this value ship without freight charge (COP). */
+export const freeFreightFrom = '$600.000';
 
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
   general: 'Hola, CIC Diagnóstica. Quisiera más información sobre sus productos.',
   quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
   urgent: 'Hola, CIC Diagnóstica. Tengo un pedido urgente: nos estamos quedando sin insumos.',
-  catalog: 'Hola, CIC Diagnóstica. ¿Me pueden enviar el catálogo con precios, por favor?',
+  catalog: 'Hola, CIC Diagnóstica. Quisiera conocer los precios de los productos de su catálogo.',
   contract: 'Hola, CIC Diagnóstica. Me interesa un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
   hospital: 'Hola, CIC Diagnóstica. Escribo de un hospital / IPS y me interesa un convenio de suministro.',
   lab: 'Hola, CIC Diagnóstica. Escribo de un laboratorio clínico y quisiera una cotización de reactivos e insumos.',
   drugstore: 'Hola, CIC Diagnóstica. Escribo de una droguería y quisiera conocer sus productos y condiciones.',
-  independent: 'Hola, CIC Diagnóstica. Quisiera cotizar algunos insumos para mi consultorio.',
+  independent: 'Hola, CIC Diagnóstica. Quisiera cotizar algunos insumos para mi consultorio o establecimiento.',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;
 
-/** Proof row under the hero. Replace the bracketed values with confirmed figures. */
+/** Proof row under the hero. Only confirmed figures. */
 export const stats = [
-  { value: '[00]', label: 'años en el mercado' },
-  { value: '[000]', label: 'clientes activos' },
-  { value: String(municipalities.length), label: 'municipios con entrega propia' },
+  { value: 'Desde 2021', label: 'en el mercado' },
+  { value: '40+', label: 'clientes activos' },
+  { value: String(municipalities.length), label: 'municipios con ruta fija' },
   { value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
-];
-
-/** Brands we distribute. Set `logo` to a file in /public (e.g. '/brands/marca.svg') to show the image. */
-export const brands: { name: string; logo?: string }[] = [
-  { name: '[Marca 1]' },
-  { name: '[Marca 2]' },
-  { name: '[Marca 3]' },
-  { name: '[Marca 4]' },
-  { name: '[Marca 5]' },
-  { name: '[Marca 6]' },
 ];
 
 export const clientPlans: {
@@ -84,9 +78,9 @@ export const clientPlans: {
     icon: 'hospital',
     title: 'Hospitales e IPS',
     benefits: [
-      'Convenios y contratos de suministro',
+      'Contratos de suministro u órdenes de compra',
       'Facturación centralizada',
-      'Precio fijo y pago a 30 o 60 días',
+      'Cupo de crédito con pago a 30 a 45 días',
       'Entregas programadas con vehículos propios',
     ],
     cta: 'Solicitar convenio',
@@ -97,9 +91,9 @@ export const clientPlans: {
     title: 'Laboratorios clínicos',
     benefits: [
       'Reactivos, toma de muestras y consumibles en un solo proveedor',
-      'Stock reservado para su consumo mensual',
-      'Entregas semanales o quincenales',
-      'Respaldo de un grupo con laboratorio clínico propio',
+      'Despachos todos los días en nuestras rutas',
+      'Sin pedido mínimo',
+      'Abastecemos al laboratorio clínico CIC: conocemos su operación',
     ],
     cta: 'Cotizar para mi laboratorio',
     whatsapp: 'lab',
@@ -109,7 +103,7 @@ export const clientPlans: {
     title: 'Droguerías',
     benefits: [
       'Pruebas rápidas y elementos de bioseguridad',
-      'Contrato de suministro con precio fijo',
+      'Sin pedido mínimo',
       'Entrega en su municipio según el calendario de ruta',
     ],
     cta: 'Cotizar para mi droguería',
@@ -117,11 +111,12 @@ export const clientPlans: {
   },
   {
     icon: 'user',
-    title: 'Consultorios e independientes',
+    title: 'Consultorios y otros establecimientos',
     benefits: [
-      'Pedidos sin necesidad de contrato',
+      'Veterinarias, fisioterapia, odontología, clínicas ortopédicas y más',
+      'Sin pedido mínimo ni contrato',
+      'La misma línea que usan hospitales y laboratorios',
       'Cotización directa por WhatsApp',
-      'Los mismos productos que usan hospitales y laboratorios',
     ],
     cta: 'Cotizar por WhatsApp',
     whatsapp: 'independent',
@@ -138,7 +133,7 @@ export const productCategories = [
   {
     icon: 'droplet',
     title: 'Toma de muestras',
-    items: ['Tubos al vacío', 'Agujas y holders', 'Torniquetes', 'Recolectores de orina y coprológico'],
+    items: ['Tubos al vacío', 'Agujas, jeringas y holders', 'Torniquetes', 'Recolectores de orina y coprológico'],
   },
   {
     icon: 'test',
@@ -151,11 +146,6 @@ export const productCategories = [
     items: ['Puntas de micropipeta', 'Láminas y laminillas', 'Algodón y gasas', 'Alcohol y antisépticos'],
   },
   {
-    icon: 'beaker',
-    title: 'Vidriería y plásticos',
-    items: ['Tubos de ensayo', 'Pipetas', 'Gradillas', 'Frascos y cajas de Petri'],
-  },
-  {
     icon: 'shield',
     title: 'Bioseguridad',
     items: ['Guantes de nitrilo y látex', 'Tapabocas y respiradores', 'Batas desechables', 'Guardianes'],
@@ -163,18 +153,33 @@ export const productCategories = [
 ];
 
 export const contractBenefits = [
-  { icon: 'lock', title: 'Precio fijo', text: 'El precio acordado se mantiene durante toda la vigencia del contrato.' },
-  { icon: 'calendar', title: 'Entregas programadas', text: 'Despachos semanales o quincenales según su consumo.' },
-  { icon: 'card', title: 'Pago a 30 o 60 días', text: 'Crédito para instituciones con contrato de suministro.' },
-  { icon: 'box', title: 'Stock reservado', text: 'Apartamos su inventario para que no se quede sin insumos.' },
+  {
+    icon: 'lock',
+    title: 'Precio estable',
+    text: 'Por lo general mantenemos el precio acordado; solo algunos productos importados pueden variar con el dólar.',
+  },
+  {
+    icon: 'calendar',
+    title: 'Entregas programadas',
+    text: 'Acordamos las fechas con usted y despachamos en las rutas de la semana; para volúmenes grandes, despacho dedicado.',
+  },
+  { icon: 'card', title: 'Pago a 30 a 45 días', text: 'Cupo de crédito acordado con gerencia.' },
+  {
+    icon: 'check',
+    title: 'Sin consumo mínimo',
+    text: 'Al completar el cupo del contrato, renovamos con un otrosí o un contrato nuevo.',
+  },
 ];
 
 export const contractSteps = [
-  { title: 'Reciba una propuesta', text: 'Le enviamos precios fijos, frecuencia de entrega y plazo de pago.' },
-  { title: 'Lo visita un asesor', text: 'Nuestro asesor comercial revisa la propuesta con usted en su sede.' },
+  { title: 'Solicite una cotización', text: 'Le respondemos en 2 a 48 horas con precios y condiciones.' },
+  {
+    title: 'Negociamos con usted',
+    text: 'Por lo general de forma digital; si lo prefiere, nuestro asesor comercial lo visita en su sede.',
+  },
 ];
 
-/** Documents purchasing departments can request. */
+/** Documents purchasing departments can request. INVIMA records and data sheets come from each manufacturer. */
 export const supplierDocuments = [
   'RUT',
   'Certificado de Cámara de Comercio',
@@ -192,27 +197,31 @@ export const testimonials: { quote: string; name: string; role?: string; org?: s
 export const faqs = [
   {
     q: '¿Puedo comprar en línea?',
-    a: 'Todavía no tenemos tienda en línea. Escríbanos por WhatsApp o diligencie el formulario y le enviamos el catálogo con precios y una cotización.',
+    a: 'Todavía no tenemos tienda en línea. Puede ver nuestro catálogo en WhatsApp y pedirnos una cotización por ese medio o con el formulario.',
   },
   {
     q: '¿Hay un pedido mínimo?',
-    a: '[Definir pedido mínimo]. También atendemos pedidos pequeños de consultorios e independientes.',
+    a: `No hay pedido mínimo. El flete depende de la distancia y del valor del pedido; en compras superiores a ${freeFreightFrom} no cobramos flete.`,
   },
   {
     q: '¿Ofrecen crédito?',
-    a: 'Sí. Los clientes con contrato de suministro pueden pagar a 30 o 60 días. [Condiciones del crédito para compras sin contrato].',
+    a: 'Los hospitales e IPS con contrato manejan un cupo de crédito con pago a 30 a 45 días. Otros clientes pueden acceder a crédito si cumplen los requisitos de la empresa.',
   },
   {
     q: '¿Cuánto tarda una entrega?',
-    a: 'Entregamos con personal y vehículos propios según el calendario de ruta: cada municipio tiene un día fijo de entrega. [Tiempo de entrega para pedidos urgentes].',
+    a: 'Si el producto está en stock, entregamos en 1 a 3 días hábiles según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.',
   },
   {
-    q: `¿Entregan fuera de los ${municipalities.length} municipios?`,
-    a: 'Evaluamos cada caso según el volumen y la ubicación. Escríbanos y le confirmamos.',
+    q: '¿Entregan fuera de las rutas?',
+    a: 'Sí, entregamos en todo el Valle del Cauca. Fuera de las rutas principales se cobra flete.',
   },
   {
-    q: '¿Qué documentación entregan para licitaciones?',
-    a: 'Le enviamos RUT, certificado de Cámara de Comercio, registros sanitarios INVIMA y fichas técnicas de los productos.',
+    q: '¿Participan en licitaciones?',
+    a: 'Sí, participamos en licitaciones públicas. Enviamos RUT, certificado de Cámara de Comercio, registros sanitarios INVIMA y fichas técnicas en 48 horas hábiles.',
+  },
+  {
+    q: '¿Emiten factura electrónica?',
+    a: 'Sí, todas nuestras ventas se facturan electrónicamente.',
   },
 ];
 
@@ -222,13 +231,17 @@ export const clientTypeOptions = [
   'Laboratorio clínico',
   'Droguería',
   'Consultorio / independiente',
+  'Veterinaria',
+  'Fisioterapia',
+  'Odontología',
+  'Clínica ortopédica',
   'Otro',
 ];
 
 export const interestOptions = [
   { key: 'cotizacion', label: 'Cotización' },
   { key: 'contrato', label: 'Contrato de suministro' },
-  { key: 'catalogo', label: 'Catálogo con precios' },
+  { key: 'catalogo', label: 'Precios del catálogo' },
   { key: 'documentos', label: 'Documentos para proveedor' },
   { key: 'otra', label: 'Otra' },
 ] as const;

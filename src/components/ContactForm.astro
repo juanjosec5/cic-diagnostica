@@ -50,6 +50,9 @@ import { LIMITS } from '../lib/contact';
     <!-- Shown only for "Contrato de suministro"; disabled while hidden so it isn't submitted. -->
     <fieldset class="contract-fields field--full" id="contract-fields" hidden disabled>
       <legend>Datos para el contrato</legend>
+      <p class="contract-fields__hint">
+        Para formalizar el contrato le solicitaremos el NIT, el RUT y la certificación bancaria de su institución.
+      </p>
       <div class="field">
         <label for="f-nit">NIT de la institución</label>
         <input id="f-nit" name="nit" type="text" inputmode="numeric" maxlength={LIMITS.nit} aria-describedby="e-nit" placeholder="900.000.000-0" />
@@ -278,6 +281,12 @@ import { LIMITS } from '../lib/contact';
 
   .contract-fields[hidden] {
     display: none;
+  }
+
+  .contract-fields__hint {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    color: var(--muted);
   }
 
   .contract-fields legend {

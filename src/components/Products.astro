@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { productCategories } from '../data/site';
-import { waLink } from '../lib/whatsapp';
+import { waCatalogLink, waLink } from '../lib/whatsapp';
 ---
 
 <section id="productos" class="section section--soft">
@@ -9,7 +9,7 @@ import { waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Productos</span>
       <h2>Lo que su laboratorio necesita, en un solo proveedor</h2>
-      <p class="lead">Estas son algunas de nuestras líneas. Consulte el catálogo completo con precios.</p>
+      <p class="lead">Estas son algunas de nuestras líneas. Vea el catálogo completo en nuestro WhatsApp.</p>
     </div>
 
     <ul class="grid">
@@ -26,18 +26,18 @@ import { waLink } from '../lib/whatsapp';
 
     <div class="notice">
       <div class="notice__copy">
-        <h3>Reciba el catálogo con precios</h3>
+        <h3>Vea nuestro catálogo en WhatsApp</h3>
         <p>
-          Aún no tenemos tienda en línea. Pídanos el catálogo por WhatsApp o por correo y le enviamos los precios
-          junto con una cotización según sus cantidades.
+          Aún no tenemos tienda en línea. Nuestro catálogo está en WhatsApp: ábralo desde el chat y pídanos los
+          precios con una cotización según sus cantidades.
         </p>
       </div>
       <div class="notice__actions">
-        <a class="btn btn--wa" href={waLink('catalog')} target="_blank" rel="noopener">
+        <a class="btn btn--wa" href={waCatalogLink()} target="_blank" rel="noopener">
           <Icon name="whatsapp" size={22} />
-          Reciba el catálogo con precios
+          Ver catálogo en WhatsApp
         </a>
-        <a class="btn btn--outline" href="#contacto" data-interest="catalogo">Pedirlo por correo</a>
+        <a class="btn btn--outline" href={waLink('catalog')} target="_blank" rel="noopener">Pedir precios</a>
       </div>
     </div>
   </div>

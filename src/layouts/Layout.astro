@@ -10,7 +10,7 @@ interface Props {
 }
 const { title, description } = Astro.props;
 
-const base = Astro.site ?? company.url;
+const base = Astro.site!; // always set in astro.config.mjs
 const canonical = new URL(Astro.url.pathname, base).href;
 const ogImage = new URL('/og-image.png', base).href;
 
@@ -20,7 +20,7 @@ const jsonLd = {
   name: company.name,
   legalName: company.legalName,
   description,
-  url: company.url,
+  url: new URL('/', base).href,
   image: ogImage,
   logo: new URL('/brand/logo-diagnostica.png', base).href,
   email: company.email,

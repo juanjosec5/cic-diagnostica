@@ -84,9 +84,10 @@ import { waLink } from '../lib/whatsapp';
     }
   }
 
+  /* One row on desktop, however many benefits the data file lists. */
   @media (min-width: 1000px) {
     .benefits {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
   }
 
@@ -141,7 +142,7 @@ import { waLink } from '../lib/whatsapp';
 
   @media (min-width: 1000px) {
     .steps {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
   }
 

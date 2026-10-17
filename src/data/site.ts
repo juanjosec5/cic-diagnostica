@@ -23,8 +23,6 @@ export const company = {
   hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.'],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
-  // Used for canonical URL, Open Graph and JSON-LD. Also set `site` in astro.config.mjs.
-  url: 'https://www.cicdiagnostica.com',
 };
 
 /**
@@ -169,14 +167,11 @@ export const contractBenefits = [
   { icon: 'calendar', title: 'Entregas programadas', text: 'Despachos semanales o quincenales según su consumo.' },
   { icon: 'card', title: 'Pago a 30 o 60 días', text: 'Crédito para instituciones con contrato de suministro.' },
   { icon: 'box', title: 'Stock reservado', text: 'Apartamos su inventario para que no se quede sin insumos.' },
-  { icon: 'chart', title: 'Informe mensual', text: 'Reporte de consumo para planear compras y presupuesto.' },
 ];
 
 export const contractSteps = [
-  { title: 'Envíe su consumo mensual', text: 'Compártanos qué productos usa y en qué cantidades.' },
   { title: 'Reciba una propuesta', text: 'Le enviamos precios fijos, frecuencia de entrega y plazo de pago.' },
   { title: 'Lo visita un asesor', text: 'Nuestro asesor comercial revisa la propuesta con usted en su sede.' },
-  { title: 'Firme y empiece a recibir', text: 'Firmamos el contrato y programamos las primeras entregas.' },
 ];
 
 /** Documents purchasing departments can request. */

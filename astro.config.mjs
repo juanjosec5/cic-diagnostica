@@ -2,10 +2,15 @@
 import { defineConfig, envField } from 'astro/config';
 import vercel from '@astrojs/vercel';
 
+// Base URL for canonical, Open Graph and JSON-LD links. SITE_URL wins when set; otherwise Vercel's
+// production domain, which is the *.vercel.app URL until a custom domain is added and then that
+// domain, with no code change.
+const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+const site = process.env.SITE_URL ?? (vercelDomain ? `https://${vercelDomain}` : 'http://localhost:4321');
+
 // https://astro.build/config
 export default defineConfig({
-  // Keep in sync with company.url in src/data/site.ts.
-  site: 'https://www.cicdiagnostica.com',
+  site,
   // Every page is prerendered except routes that opt out (src/pages/api/contact.ts).
   output: 'static',
   adapter: vercel(),

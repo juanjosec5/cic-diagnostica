@@ -80,6 +80,7 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 | `RESEND_API_KEY` | yes (production) | `re_xxxxxxxx` |
 | `CONTACT_TO` | yes (production) | `ventas@cicdiagnostica.com` (comma-separate several) |
 | `CONTACT_FROM` | no | `CIC Diagnostica <web@cicdiagnostica.com>`. Default: `CIC Diagnostica <onboarding@resend.dev>` |
+| `SITE_URL` | no | Canonical base URL, e.g. `https://www.cicdiagnostica.com`. Defaults to Vercel's production domain. |
 | `PUBLIC_UMAMI_WEBSITE_ID` | no (Production only) | Umami website ID, see [Tracking](#tracking-umami) |
 
 These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'`, so Astro refuses to import them into client code.
@@ -119,7 +120,7 @@ Tracking is centralized, so components don't need per-element tags:
 4. **Import**: **Add New… → Project → Import** `cic-diagnostica`. Vercel detects Astro, so keep the defaults (build `npm run build`).
 5. **Environment variables**: before clicking Deploy (or later in **Settings → Environment Variables**), add `RESEND_API_KEY`, `CONTACT_TO` and `CONTACT_FROM` for *Production* and *Preview*. Then **Deploy**.
 6. **Test**: open the `*.vercel.app` URL, submit the form, and check the inbox. Function logs are in **Vercel → Project → Logs**.
-7. **Custom domain** (optional): **Vercel → Settings → Domains → Add** `cicdiagnostica.com` and `www.cicdiagnostica.com`, then create the DNS records Vercel shows at your registrar. Update `site` in `astro.config.mjs` and `company.url` in `src/data/site.ts`.
+7. **Custom domain** (optional): **Vercel → Settings → Domains → Add** `cicdiagnostica.com` and `www.cicdiagnostica.com`, then create the DNS records Vercel shows at your registrar. The canonical and Open Graph URLs follow automatically: they come from Vercel's production domain (`VERCEL_PROJECT_PRODUCTION_URL`). If both the apex and `www` are attached, Vercel picks the shorter one, so set `SITE_URL=https://www.cicdiagnostica.com` (or whichever domain is primary) in Vercel to pin it.
 8. **Verify your domain in Resend**: **Resend → Domains → Add domain** (`cicdiagnostica.com`, or a subdomain like `mail.cicdiagnostica.com`). Add the DNS records Resend lists (SPF/MX `TXT`+`MX` on `send.`, DKIM `TXT` on `resend._domainkey`, optional DMARC) at your registrar and click **Verify**. Once it shows *Verified*:
    - set `CONTACT_FROM` to e.g. `CIC Diagnostica <web@cicdiagnostica.com>`
    - set `CONTACT_TO` to the real sales inbox(es)
@@ -133,7 +134,6 @@ All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the pa
 
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
 - [ ] `company.legalName`: `CIC Diagnostica S.A.S. [RAZÓN SOCIAL]`
-- [ ] `company.url` **and** `site` in `astro.config.mjs`: `https://www.cicdiagnostica.com`
 - [ ] `stats`: years in business `[00]` and active clients `[000]` (confirmed figures only)
 - [ ] `company.responseTime`: `24 horas` (check that you can keep this promise)
 - [ ] `brands`: `[Marca 1]`…`[Marca 6]`, the real brands and their logo files

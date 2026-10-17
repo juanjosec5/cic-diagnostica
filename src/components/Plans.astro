@@ -1,0 +1,84 @@
+---
+import Icon from './Icon.astro';
+import { clientPlans } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section id="planes" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Planes por tipo de cliente</span>
+      <h2>Condiciones pensadas para su institución</h2>
+      <p class="lead">Desde hospitales con alto consumo mensual hasta consultorios y compradores pequeños.</p>
+    </div>
+
+    <ul class="grid">
+      {clientPlans.map((plan) => (
+        <li class="card plan">
+          <span class="icon-badge"><Icon name={plan.icon} /></span>
+          <h3>{plan.title}</h3>
+          <ul class="benefits">
+            {plan.benefits.map((b) => (
+              <li>
+                <Icon name="check" size={18} />
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+          <a class="btn btn--wa plan__cta" href={waLink(plan.whatsapp)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            {plan.cta}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .benefits {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--muted);
+  }
+
+  .benefits li {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .benefits :global(svg) {
+    flex: none;
+    margin-top: 0.2rem;
+    color: var(--green-700);
+  }
+
+  .plan__cta {
+    margin-top: auto;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+</style>

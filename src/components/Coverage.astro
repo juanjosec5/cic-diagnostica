@@ -1,24 +1,30 @@
 ---
 import Icon from './Icon.astro';
-import { municipalities } from '../data/site';
+import { municipalities, routeDays } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="cobertura" class="section">
-  <div class="container coverage">
+  <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Cobertura</span>
+      <span class="eyebrow">Cobertura y calendario de ruta</span>
       <h2>Entregamos en {municipalities.length} municipios del Valle del Cauca</h2>
       <p class="lead">
-        Con personal y vehículos propios. Además, un asesor comercial visita una ciudad diferente cada semana.
+        Nuestros vehículos visitan cada municipio un día fijo de la semana. Además, un asesor comercial visita una
+        ciudad diferente cada semana.
       </p>
     </div>
 
-    <ul class="towns">
-      {municipalities.map((m) => (
-        <li>
-          <Icon name="map" size={18} />
-          {m}
+    <ul class="days">
+      {routeDays.map((d) => (
+        <li class="day">
+          <h3>
+            <Icon name="calendar" size={20} />
+            {d.day}
+          </h3>
+          <ul class="towns">
+            {d.towns.map((t) => <li>{t}</li>)}
+          </ul>
         </li>
       ))}
     </ul>
@@ -31,43 +37,65 @@ import { waLink } from '../lib/whatsapp';
 </section>
 
 <style>
-  .towns {
+  .days {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.6rem;
+    gap: 0.75rem;
   }
 
-  @media (min-width: 640px) {
-    .towns {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+  @media (min-width: 600px) {
+    .days {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 960px) {
-    .towns {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .days {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
     }
   }
 
-  .towns li {
+  .day {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .day h3 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: #fff;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background: var(--blue-50);
+    color: var(--blue-900);
+    font-size: 1rem;
+  }
+
+  .day h3 :global(svg) {
+    color: var(--blue-700);
+  }
+
+  .towns {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem 0.75rem;
+  }
+
+  .towns li {
+    padding: 0.35rem 0;
     font-weight: 600;
-    min-width: 0;
+    border-bottom: 1px solid var(--line);
     overflow-wrap: anywhere;
   }
 
-  .towns :global(svg) {
-    flex: none;
-    color: var(--green-700);
+  .towns li:last-child {
+    border-bottom: 0;
   }
 
   .note {

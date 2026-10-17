@@ -1,39 +1,49 @@
 ---
 import Icon from './Icon.astro';
-import { heroFacts } from '../data/site';
+import { stats, brands } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="inicio" class="hero">
-  <div class="container hero__inner">
+  <div class="container">
     <div class="hero__copy">
       <span class="eyebrow">Distribuidor de insumos médicos y de laboratorio</span>
       <h1>Reactivos e insumos de laboratorio, a tiempo en todo el Valle del Cauca</h1>
       <p class="lead">
         Somos parte del grupo que opera el laboratorio clínico CIC y la clínica Sane. Usamos lo que vendemos y
-        sabemos lo que significa para un laboratorio quedarse sin insumos: por eso entregamos con flota propia y
-        stock reservado para nuestros clientes.
+        sabemos lo que significa para un laboratorio quedarse sin insumos: por eso entregamos con personal y
+        vehículos propios.
       </p>
       <div class="hero__actions">
         <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener">
           <Icon name="whatsapp" size={22} />
           Cotizar por WhatsApp
         </a>
-        <a class="btn btn--outline" href="#contacto">Escribirnos por formulario</a>
+        <a class="btn btn--outline" href="#contacto">Enviar una solicitud</a>
       </div>
     </div>
 
-    <ul class="facts" aria-label="Datos clave">
-      {heroFacts.map((fact) => (
-        <li class="fact">
-          <span class="fact__icon"><Icon name={fact.icon} /></span>
-          <span>
-            <strong>{fact.value}</strong>
-            <span class="fact__label">{fact.label}</span>
-          </span>
-        </li>
+    <dl class="stats">
+      {stats.map((s) => (
+        <div class="stat">
+          <dt>{s.label}</dt>
+          <dd>{s.value}</dd>
+        </div>
       ))}
-    </ul>
+    </dl>
+
+    {brands.length > 0 && (
+      <div class="brands">
+        <p class="brands__title">Marcas que distribuimos</p>
+        <ul class="brands__list">
+          {brands.map((b) => (
+            <li>
+              {b.logo ? <img src={b.logo} alt={b.name} loading="lazy" height="40" /> : <span>{b.name}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
   </div>
 </section>
 
@@ -42,12 +52,7 @@ import { waLink } from '../lib/whatsapp';
     background:
       radial-gradient(1200px 500px at 100% 0%, var(--green-50), transparent 60%),
       linear-gradient(180deg, var(--blue-50), #fff 85%);
-    padding-block: clamp(40px, 8vw, 96px) clamp(48px, 8vw, 88px);
-  }
-
-  .hero__inner {
-    display: grid;
-    gap: 2.5rem;
+    padding-block: clamp(40px, 8vw, 96px) clamp(40px, 6vw, 72px);
   }
 
   .hero__copy {
@@ -71,51 +76,89 @@ import { waLink } from '../lib/whatsapp';
     }
   }
 
-  .facts {
+  .stats {
+    margin: 2.5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding: 1rem 1.1rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .stat dd {
+    margin: 0;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--blue-700);
+  }
+
+  .stat dt {
+    color: var(--muted);
+    font-size: 0.925rem;
+  }
+
+  .brands {
+    margin-top: 2.5rem;
+  }
+
+  .brands__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .brands__list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
   }
 
-  .fact {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1rem 1.1rem;
-    box-shadow: var(--shadow);
-  }
-
-  .fact__icon {
-    display: inline-grid;
-    place-items: center;
-    flex: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--green-50);
-    color: var(--green-700);
-  }
-
-  .fact strong {
-    display: block;
-    font-size: 1.2rem;
-    color: var(--blue-900);
-    line-height: 1.25;
-  }
-
-  .fact__label {
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-
   @media (min-width: 768px) {
-    .facts {
-      grid-template-columns: repeat(3, 1fr);
+    .brands__list {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
     }
+  }
+
+  .brands__list li {
+    display: grid;
+    place-items: center;
+    height: 64px;
+    padding: 0.5rem;
+    border: 1px dashed #c3cfdc;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .brands__list img {
+    max-height: 40px;
+    width: auto;
+    filter: grayscale(1);
+    opacity: 0.8;
   }
 </style>

@@ -1,7 +1,8 @@
 /**
  * Editable site content. Everything a non-developer may need to change
- * (contact details, WhatsApp number, products, municipalities, FAQ) lives here.
+ * (contact details, WhatsApp number, numbers, products, route, FAQ) lives here.
  * Values wrapped in [brackets] are placeholders; see README > Placeholders.
+ * Only publish numbers and claims that are confirmed.
  */
 
 export const company = {
@@ -16,48 +17,113 @@ export const company = {
   address: '[Calle 00 # 00-00, Cali, Valle del Cauca]',
   city: 'Cali',
   region: 'Valle del Cauca',
-  hours: ['Lunes a viernes: [7:00 a.m. – 5:00 p.m.]', 'Sábados: [8:00 a.m. – 12:00 m.]'],
+  hours: ['[Lunes a viernes: 7:00 a.m. – 5:00 p.m.]'],
+  // Shown in the proof row, the contact section and the form's success message.
+  responseTime: '24 horas',
   // Used for canonical URL, Open Graph and JSON-LD. Also set `site` in astro.config.mjs.
   url: 'https://www.cicdiagnostica.com',
 };
+
+/**
+ * Delivery route: which weekday our own vehicles reach each municipality.
+ * The list of municipalities and their count are derived from this everywhere on the page.
+ */
+export const routeDays = [
+  { day: 'Lunes', towns: ['Cali', 'Jamundí', 'Yumbo'] },
+  { day: 'Martes', towns: ['Palmira', 'Candelaria', 'Pradera', 'Florida'] },
+  { day: 'Miércoles', towns: ['Buga', 'Guacarí', 'El Cerrito', 'Ginebra'] },
+  { day: 'Jueves', towns: ['Tuluá', 'Zarzal', 'Roldanillo', 'Cartago'] },
+  { day: 'Viernes', towns: ['Buenaventura'] },
+];
+
+export const municipalities = routeDays.flatMap((d) => d.towns);
 
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
   general: 'Hola, CIC Diagnostica. Quisiera más información sobre sus productos.',
   quote: 'Hola, CIC Diagnostica. Quisiera solicitar una cotización de insumos de laboratorio.',
+  urgent: 'Hola, CIC Diagnostica. Tengo un pedido urgente: nos estamos quedando sin insumos.',
   catalog: 'Hola, CIC Diagnostica. ¿Me pueden enviar el catálogo con precios, por favor?',
   contract: 'Hola, CIC Diagnostica. Me interesa un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnostica. Quisiera saber si pueden hacer entregas en mi municipio.',
+  hospital: 'Hola, CIC Diagnostica. Escribo de un hospital / IPS y me interesa un convenio de suministro.',
+  lab: 'Hola, CIC Diagnostica. Escribo de un laboratorio clínico y quisiera una cotización de reactivos e insumos.',
+  drugstore: 'Hola, CIC Diagnostica. Escribo de una droguería y quisiera conocer sus productos y condiciones.',
+  independent: 'Hola, CIC Diagnostica. Quisiera cotizar algunos insumos para mi consultorio.',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;
 
-export const heroFacts = [
-  { icon: 'map', value: '16', label: 'municipios del Valle con entrega' },
-  { icon: 'truck', value: 'Flota propia', label: 'entregas con personal y vehículos propios' },
-  { icon: 'card', value: '30 a 60 días', label: 'de crédito para clientes con contrato' },
+/** Proof row under the hero. Replace the bracketed values with confirmed figures. */
+export const stats = [
+  { value: '[00]', label: 'años en el mercado' },
+  { value: '[000]', label: 'clientes activos' },
+  { value: String(municipalities.length), label: 'municipios con entrega propia' },
+  { value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
 ];
 
-export const clientTypes = [
+/** Brands we distribute. Set `logo` to a file in /public (e.g. '/brands/marca.svg') to show the image. */
+export const brands: { name: string; logo?: string }[] = [
+  { name: '[Marca 1]' },
+  { name: '[Marca 2]' },
+  { name: '[Marca 3]' },
+  { name: '[Marca 4]' },
+  { name: '[Marca 5]' },
+  { name: '[Marca 6]' },
+];
+
+export const clientPlans: {
+  icon: string;
+  title: string;
+  benefits: string[];
+  cta: string;
+  whatsapp: WhatsAppIntent;
+}[] = [
   {
     icon: 'hospital',
     title: 'Hospitales e IPS',
-    text: 'Suministro programado con contrato, precio fijo y crédito a 30 o 60 días.',
+    benefits: [
+      'Convenios y contratos de suministro',
+      'Facturación centralizada',
+      'Precio fijo y pago a 30 o 60 días',
+      'Entregas programadas con vehículos propios',
+    ],
+    cta: 'Solicitar convenio',
+    whatsapp: 'hospital',
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
-    text: 'Reactivos, tubos y consumibles con stock reservado para que nunca se detenga su operación.',
+    benefits: [
+      'Reactivos, toma de muestras y consumibles en un solo proveedor',
+      'Stock reservado para su consumo mensual',
+      'Entregas semanales o quincenales',
+      'Respaldo de un grupo con laboratorio clínico propio',
+    ],
+    cta: 'Cotizar para mi laboratorio',
+    whatsapp: 'lab',
   },
   {
     icon: 'pill',
     title: 'Droguerías',
-    text: 'Pruebas rápidas y material de bioseguridad con reposición frecuente y precios de distribuidor.',
+    benefits: [
+      'Pruebas rápidas y elementos de bioseguridad',
+      'Contrato de suministro con precio fijo',
+      'Entrega en su municipio según el calendario de ruta',
+    ],
+    cta: 'Cotizar para mi droguería',
+    whatsapp: 'drugstore',
   },
   {
     icon: 'user',
     title: 'Consultorios e independientes',
-    text: 'Pedidos pequeños con la misma calidad, atención directa por WhatsApp.',
+    benefits: [
+      'Pedidos sin necesidad de contrato',
+      'Cotización directa por WhatsApp',
+      'Los mismos productos que usan hospitales y laboratorios',
+    ],
+    cta: 'Cotizar por WhatsApp',
+    whatsapp: 'independent',
   },
 ];
 
@@ -110,25 +176,20 @@ export const contractSteps = [
   { title: 'Firme y empiece a recibir', text: 'Firmamos el contrato y programamos las primeras entregas.' },
 ];
 
-/** Municipalities on the delivery route. Replace with the real 16. */
-export const municipalities = [
-  'Cali',
-  'Palmira',
-  'Jamundí',
-  'Yumbo',
-  'Candelaria',
-  'Buga',
-  'Tuluá',
-  'Cartago',
-  'Buenaventura',
-  'Florida',
-  'Pradera',
-  'El Cerrito',
-  'Ginebra',
-  'Guacarí',
-  'Zarzal',
-  'Roldanillo',
+/** Documents purchasing departments can request. */
+export const supplierDocuments = [
+  'RUT',
+  'Certificado de Cámara de Comercio',
+  'Registros sanitarios INVIMA',
+  'Fichas técnicas de los productos',
 ];
+
+/**
+ * Client testimonials. The section stays hidden while this list is empty.
+ * Only add quotes the client has approved, e.g.:
+ * { quote: '…', name: 'Nombre Apellido', role: 'Coordinadora de compras', org: 'Hospital X', logo: '/clients/x.svg' }
+ */
+export const testimonials: { quote: string; name: string; role?: string; org?: string; logo?: string }[] = [];
 
 export const faqs = [
   {
@@ -137,27 +198,27 @@ export const faqs = [
   },
   {
     q: '¿Hay un pedido mínimo?',
-    a: '[Definir pedido mínimo]. Para pedidos más pequeños, consúltenos: atendemos también a consultorios e independientes.',
+    a: '[Definir pedido mínimo]. También atendemos pedidos pequeños de consultorios e independientes.',
   },
   {
     q: '¿Ofrecen crédito?',
-    a: 'Sí. Los clientes con contrato de suministro pueden pagar a 30 o 60 días, sujeto a estudio de crédito. Las compras ocasionales se pagan de contado.',
+    a: 'Sí. Los clientes con contrato de suministro pueden pagar a 30 o 60 días. [Condiciones del crédito para compras sin contrato].',
   },
   {
     q: '¿Cuánto tarda una entrega?',
-    a: 'En los municipios de nuestra ruta entregamos en [1 a 3 días hábiles] con personal y vehículos propios. Los clientes con contrato reciben en las fechas programadas.',
+    a: 'Entregamos con personal y vehículos propios según el calendario de ruta: cada municipio tiene un día fijo de entrega. [Tiempo de entrega para pedidos urgentes].',
   },
   {
-    q: '¿Entregan fuera de los 16 municipios?',
+    q: `¿Entregan fuera de los ${municipalities.length} municipios?`,
     a: 'Evaluamos cada caso según el volumen y la ubicación. Escríbanos y le confirmamos.',
   },
   {
     q: '¿Qué documentación entregan para licitaciones?',
-    a: 'Le enviamos RUT, certificado de cámara de comercio, registros sanitarios INVIMA y fichas técnicas de los productos, además de los documentos que su proceso requiera.',
+    a: 'Le enviamos RUT, certificado de Cámara de Comercio, registros sanitarios INVIMA y fichas técnicas de los productos.',
   },
 ];
 
-/** Options for the contact form selects. `value` is what gets emailed. */
+/** Options for the contact form selects. */
 export const clientTypeOptions = [
   'Hospital / IPS',
   'Laboratorio clínico',
@@ -170,11 +231,12 @@ export const interestOptions = [
   { key: 'cotizacion', label: 'Cotización' },
   { key: 'contrato', label: 'Contrato de suministro' },
   { key: 'catalogo', label: 'Catálogo con precios' },
+  { key: 'documentos', label: 'Documentos para proveedor' },
   { key: 'otra', label: 'Otra' },
 ] as const;
 
 export const navLinks = [
-  { href: '#clientes', label: 'Clientes' },
+  { href: '#planes', label: 'Planes' },
   { href: '#productos', label: 'Productos' },
   { href: '#contratos', label: 'Contratos' },
   { href: '#cobertura', label: 'Cobertura' },

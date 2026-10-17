@@ -15,7 +15,7 @@ export const company = {
   whatsappDisplay: '+57 317 402 0722',
   email: 'supervisor@cicdiagnostica.com',
   street: 'Carrera 13 # 4-51',
-  city: '[Ciudad]',
+  city: 'Buga',
   region: 'Valle del Cauca',
   get address() {
     return `${this.street}, ${this.city}, ${this.region}`;

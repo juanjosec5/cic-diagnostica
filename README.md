@@ -106,6 +106,7 @@ Tracking is centralized, so components don't need per-element tags:
 | `email_click` | Any `mailto:` link | `section` |
 | `outbound_click` | Any other external link | `url`, `section` |
 | `faq_open` | FAQ question expanded | `question` |
+| `map_open` | "Ver mapa" tapped in Contacto (loads the Google Maps embed) | — |
 | `form_submit` | Form sent successfully | `interest`, `client_type` |
 | `form_invalid` | Validation errors | `fields`, `source` (client/server) |
 | `form_failed` | Send failed | `interest`, `client_type`, `reason` (HTTP status or `network`) |

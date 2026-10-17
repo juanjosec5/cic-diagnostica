@@ -15,11 +15,11 @@ import { waLink } from '../lib/whatsapp';
         Entregamos con personal y vehículos propios.
       </p>
       <div class="hero__actions">
-        <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener">
+        <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
           <Icon name="whatsapp" size={22} />
           Cotizar por WhatsApp
         </a>
-        <a class="btn btn--outline" href="#contacto">Enviar una solicitud</a>
+        <a class="link-action" href="#contacto">Enviar una solicitud <Icon name="arrow" size={18} /></a>
       </div>
       <p class="badge">
         <Icon name="truck" size={20} />
@@ -56,12 +56,13 @@ import { waLink } from '../lib/whatsapp';
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
     margin-top: 1.5rem;
   }
 
   .hero__actions .btn {
-    flex: 1 1 220px;
+    flex: 1 1 100%;
   }
 
   @media (min-width: 640px) {

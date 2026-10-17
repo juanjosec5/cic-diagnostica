@@ -27,9 +27,11 @@ import { waLink } from '../lib/whatsapp';
               </li>
             ))}
           </ul>
-          <a class="btn btn--wa tile__cta" href={waLink(plan.whatsapp)} target="_blank" rel="noopener">
+          <!-- The link stretches over the whole tile (::after), so the tile is one tap target. -->
+          <a class="tile__cta" href={waLink(plan.whatsapp)} target="_blank" rel="noopener">
             <Icon name="whatsapp" size={20} />
             {plan.cta}
+            <Icon name="arrow" size={18} />
           </a>
         </li>
       ))}
@@ -60,6 +62,7 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .tile {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -108,9 +111,33 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .tile__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-top: auto;
-    width: 100%;
     min-height: 44px;
-    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--wa-dark);
+    text-decoration: none;
+  }
+
+  .tile__cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+
+  .tile:hover {
+    border-color: var(--wa-dark);
+  }
+
+  .tile:focus-within {
+    outline: 3px solid var(--blue-600);
+    outline-offset: 2px;
+  }
+
+  .tile__cta:focus-visible {
+    outline: none;
   }
 </style>

@@ -33,4 +33,40 @@ import { waLink } from '../lib/whatsapp';
     outline-offset: 3px;
     border-radius: 50%;
   }
+
+  .wa-float.is-hidden {
+    opacity: 0;
+    transform: scale(0.6);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wa-float {
+      transition: transform 0.15s, opacity 0.2s;
+    }
+  }
+
+  /* Desktop shows "Cotizar" in the header instead. */
+  @media (min-width: 640px) {
+    .wa-float {
+      display: none;
+    }
+  }
 </style>
+
+<script>
+  // Hide the floating button while a section's own WhatsApp button ([data-wa-primary]) is visible,
+  // so two green WhatsApp buttons never compete on the same screen.
+  const float = document.querySelector<HTMLAnchorElement>('.wa-float');
+  const primaries = document.querySelectorAll('[data-wa-primary]');
+  if (float && primaries.length && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+      const hide = visible.size > 0;
+      float.classList.toggle('is-hidden', hide);
+      float.tabIndex = hide ? -1 : 0;
+    });
+    primaries.forEach((el) => io.observe(el));
+  }
+</script>

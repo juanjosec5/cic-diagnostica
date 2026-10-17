@@ -45,6 +45,19 @@ import { supplierDocuments } from '../data/site';
     box-shadow: var(--shadow);
   }
 
+  /* Full width with tighter padding so the label stays on one line, even with enlarged phone text. */
+  .docs__cta {
+    width: 100%;
+    padding-inline: 0.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .docs__cta {
+      width: auto;
+      padding-inline: 1.25rem;
+    }
+  }
+
   @media (min-width: 900px) {
     .docs {
       grid-template-columns: 2fr 3fr;

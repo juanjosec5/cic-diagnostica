@@ -1,0 +1,73 @@
+---
+import { testimonials } from '../data/site';
+// Renders nothing until src/data/site.ts has approved testimonials.
+---
+
+{testimonials.length > 0 && (
+  <section id="testimonios" class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Testimonios</span>
+        <h2>Lo que dicen nuestros clientes</h2>
+      </div>
+      <ul class="grid">
+        {testimonials.map((t) => (
+          <li class="card">
+            <figure>
+              {t.logo && <img class="logo" src={t.logo} alt={t.org ?? ''} height="36" loading="lazy" />}
+              <blockquote>
+                <p>“{t.quote}”</p>
+              </blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                {(t.role || t.org) && <span>{[t.role, t.org].filter(Boolean).join(', ')}</span>}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .logo {
+    max-height: 36px;
+    width: auto;
+    margin-bottom: 1rem;
+  }
+
+  blockquote {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
+  figcaption {
+    display: grid;
+    color: var(--muted);
+    font-size: 0.925rem;
+  }
+
+  figcaption strong {
+    color: var(--blue-900);
+  }
+</style>

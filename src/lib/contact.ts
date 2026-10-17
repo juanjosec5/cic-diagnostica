@@ -3,7 +3,7 @@
  * so both enforce the same rules and return the same Spanish messages.
  */
 
-export const LIMITS = { short: 120, phone: 30, message: 3000 } as const;
+export const LIMITS = { short: 120, phone: 30, nit: 30, consumption: 1000, message: 3000 } as const;
 
 export const FIELDS = [
   'nombre',
@@ -12,6 +12,8 @@ export const FIELDS = [
   'telefono',
   'tipo',
   'interes',
+  'nit',
+  'consumo',
   'municipio',
   'mensaje',
   'consentimiento',
@@ -55,6 +57,9 @@ export function validateContact(input: Record<string, unknown>): ContactErrors {
   for (const f of ['institucion', 'tipo', 'interes', 'municipio'] as const) {
     if (d[f].length > LIMITS.short) errors[f] = 'Texto demasiado largo.';
   }
+  if (d.nit.length > LIMITS.nit) errors.nit = 'El NIT es demasiado largo.';
+  if (d.consumo.length > LIMITS.consumption)
+    errors.consumo = `El consumo no puede superar ${LIMITS.consumption} caracteres.`;
 
   return errors;
 }

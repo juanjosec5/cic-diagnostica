@@ -47,6 +47,27 @@ import { LIMITS } from '../lib/contact';
       </select>
     </div>
 
+    <!-- Shown only for "Contrato de suministro"; disabled while hidden so it isn't submitted. -->
+    <fieldset class="contract-fields field--full" id="contract-fields" hidden disabled>
+      <legend>Datos para el contrato</legend>
+      <div class="field">
+        <label for="f-nit">NIT de la institución</label>
+        <input id="f-nit" name="nit" type="text" inputmode="numeric" maxlength={LIMITS.nit} aria-describedby="e-nit" placeholder="900.000.000-0" />
+        <p class="error" id="e-nit"></p>
+      </div>
+      <div class="field">
+        <label for="f-consumo">Consumo mensual aproximado</label>
+        <textarea
+          id="f-consumo"
+          name="consumo"
+          rows="3"
+          maxlength={LIMITS.consumption}
+          aria-describedby="e-consumo"
+          placeholder="Ej.: 2.000 tubos tapa lila, 50 cajas de guantes, 20 kits de glucosa"></textarea>
+        <p class="error" id="e-consumo"></p>
+      </div>
+    </fieldset>
+
     <div class="field field--full">
       <label for="f-municipio">Municipio</label>
       <input id="f-municipio" name="municipio" type="text" list="municipios" autocomplete="address-level2" maxlength={LIMITS.short} />
@@ -95,7 +116,7 @@ import { LIMITS } from '../lib/contact';
   <template id="tpl-success">
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
-      <p>Un asesor le responderá pronto por correo o WhatsApp en horario hábil.</p>
+      <p>Un asesor le responderá en menos de {company.responseTime} por correo o WhatsApp.</p>
     </div>
   </template>
   <template id="tpl-invalid">
@@ -119,11 +140,24 @@ import { LIMITS } from '../lib/contact';
 
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
 
-  // Buttons with data-interest (e.g. the contracts CTA) preselect the "Me interesa" option.
+  const interest = document.getElementById('f-interes') as HTMLSelectElement | null;
+  const contractFields = document.getElementById('contract-fields') as HTMLFieldSetElement | null;
+
+  const syncContractFields = () => {
+    if (!interest || !contractFields) return;
+    const show = interest.value === 'contrato';
+    contractFields.hidden = !show;
+    contractFields.disabled = !show;
+  };
+  interest?.addEventListener('change', syncContractFields);
+  syncContractFields();
+
+  // Buttons with data-interest (contracts, catalog, supplier documents) preselect the "Me interesa" option.
   document.querySelectorAll<HTMLElement>('[data-interest]').forEach((el) => {
     el.addEventListener('click', () => {
-      const select = document.getElementById('f-interes') as HTMLSelectElement | null;
-      if (select && el.dataset.interest) select.value = el.dataset.interest;
+      if (!interest || !el.dataset.interest) return;
+      interest.value = el.dataset.interest;
+      syncContractFields();
     });
   });
 
@@ -178,6 +212,7 @@ import { LIMITS } from '../lib/contact';
 
         if (res.ok && body.ok) {
           form.reset();
+          syncContractFields();
           showStatus('success');
           status.focus();
         } else if (res.status === 400 && body.errors) {
@@ -221,6 +256,26 @@ import { LIMITS } from '../lib/contact';
     .field--full {
       grid-column: 1 / -1;
     }
+  }
+
+  .contract-fields {
+    min-width: 0;
+    margin: 0 0 1rem;
+    padding: 1rem 1rem 0;
+    border: 1px solid #c7e8db;
+    border-radius: 10px;
+    background: var(--green-50);
+  }
+
+  .contract-fields[hidden] {
+    display: none;
+  }
+
+  .contract-fields legend {
+    padding: 0 0.4rem;
+    font-weight: 700;
+    color: var(--green-700);
+    font-size: 0.95rem;
   }
 
   .field {

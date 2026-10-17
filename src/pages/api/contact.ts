@@ -23,6 +23,15 @@ function buildEmail(d: ContactData) {
   const who = d.institucion ? `${d.nombre} (${d.institucion})` : d.nombre;
   const subject = `[Web] ${interest}: ${oneLine(who)}`;
 
+  // The form only sends these when "contrato" is selected.
+  const contractRows: [string, string][] =
+    d.interes === 'contrato'
+      ? [
+          ['NIT de la institución', d.nit],
+          ['Consumo mensual aproximado', d.consumo],
+        ]
+      : [];
+
   const rows: [string, string][] = [
     ['Nombre', d.nombre],
     ['Institución / empresa', d.institucion],
@@ -30,6 +39,7 @@ function buildEmail(d: ContactData) {
     ['Teléfono / WhatsApp', d.telefono],
     ['Tipo de cliente', d.tipo],
     ['Me interesa', interest],
+    ...contractRows,
     ['Municipio', d.municipio],
     ['Mensaje', d.mensaje],
     ['Autorización de datos (Ley 1581)', 'Sí'],

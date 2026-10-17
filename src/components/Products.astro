@@ -9,7 +9,7 @@ import { waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Productos</span>
       <h2>Lo que su laboratorio necesita, en un solo proveedor</h2>
-      <p class="lead">Estas son algunas de nuestras líneas. Manejamos más referencias de las que aparecen aquí.</p>
+      <p class="lead">Estas son algunas de nuestras líneas. Consulte el catálogo completo con precios.</p>
     </div>
 
     <ul class="grid">
@@ -25,14 +25,20 @@ import { waLink } from '../lib/whatsapp';
     </ul>
 
     <div class="notice">
-      <div>
-        <h3>Aún no tenemos tienda en línea</h3>
-        <p>Pídanos el catálogo con precios por WhatsApp y le respondemos con una cotización según sus cantidades.</p>
+      <div class="notice__copy">
+        <h3>Reciba el catálogo con precios</h3>
+        <p>
+          Aún no tenemos tienda en línea. Pídanos el catálogo por WhatsApp o por correo y le enviamos los precios
+          junto con una cotización según sus cantidades.
+        </p>
       </div>
-      <a class="btn btn--wa" href={waLink('catalog')} target="_blank" rel="noopener">
-        <Icon name="whatsapp" size={22} />
-        Pedir catálogo con precios
-      </a>
+      <div class="notice__actions">
+        <a class="btn btn--wa" href={waLink('catalog')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={22} />
+          Reciba el catálogo con precios
+        </a>
+        <a class="btn btn--outline" href="#contacto" data-interest="catalogo">Pedirlo por correo</a>
+      </div>
     </div>
   </div>
 </section>
@@ -84,19 +90,24 @@ import { waLink } from '../lib/whatsapp';
 
   .notice {
     margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    padding: 1.5rem;
+    display: grid;
+    gap: 1.25rem 2rem;
+    padding: clamp(1.25rem, 4vw, 2rem);
     border-radius: var(--radius);
     background: var(--green-50);
     border: 1px solid #c7e8db;
   }
 
+  @media (min-width: 960px) {
+    .notice {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+
   .notice h3 {
-    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.35rem;
   }
 
   .notice p {
@@ -105,12 +116,18 @@ import { waLink } from '../lib/whatsapp';
     max-width: 560px;
   }
 
-  .notice .btn {
+  .notice__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .notice__actions .btn {
     flex: 1 1 240px;
   }
 
   @media (min-width: 640px) {
-    .notice .btn {
+    .notice__actions .btn {
       flex: 0 0 auto;
     }
   }

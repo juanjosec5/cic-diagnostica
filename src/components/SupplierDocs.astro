@@ -1,0 +1,83 @@
+---
+import Icon from './Icon.astro';
+import { supplierDocuments } from '../data/site';
+---
+
+<section id="documentos" class="section docs-section">
+  <div class="container">
+    <div class="docs">
+      <div>
+        <span class="eyebrow">Documentos para proveedor</span>
+        <h2>¿Necesita inscribirnos como proveedor?</h2>
+        <p class="lead">
+          Si su área de compras necesita nuestros documentos para inscribirnos como proveedor o para una licitación,
+          solicítelos y se los enviamos por correo.
+        </p>
+        <a class="btn btn--primary" href="#contacto" data-interest="documentos">
+          Solicitar documentos
+          <Icon name="arrow" size={20} />
+        </a>
+      </div>
+      <ul class="list">
+        {supplierDocuments.map((doc) => (
+          <li>
+            <Icon name="check" size={20} />
+            {doc}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .docs-section {
+    padding-top: 0;
+    background: var(--bg-soft);
+  }
+
+  .docs {
+    display: grid;
+    gap: 1.5rem 3rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  @media (min-width: 900px) {
+    .docs {
+      grid-template-columns: 3fr 2fr;
+      align-items: center;
+    }
+  }
+
+  .docs h2 {
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: var(--blue-50);
+    font-weight: 600;
+    color: var(--blue-900);
+  }
+
+  .list :global(svg) {
+    flex: none;
+    color: var(--green-700);
+  }
+</style>

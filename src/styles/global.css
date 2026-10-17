@@ -114,6 +114,13 @@ svg {
   padding-block: clamp(56px, 9vw, 96px);
 }
 
+/* Lazy rendering: the browser skips layout and paint for sections below the hero until they near the
+   viewport. `auto` in contain-intrinsic-size remembers each section's real height once rendered. */
+main > section:not(:first-child) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 .section--soft {
   background: var(--bg-soft);
 }
@@ -187,6 +194,22 @@ svg {
 
 .btn--outline:hover {
   background: var(--blue-50);
+}
+
+/* Secondary actions: a text link with a 44px tap target, so each section keeps one filled button. */
+.link-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-weight: 700;
+  color: var(--blue-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-action:hover {
+  color: var(--blue-900);
 }
 
 .card {

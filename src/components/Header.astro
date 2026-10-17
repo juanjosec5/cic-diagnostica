@@ -154,10 +154,18 @@ import { waLink } from '../lib/whatsapp';
     }
   }
 
+  /* Phones use the floating button instead, so only one WhatsApp entry is always visible. */
   .header__wa {
+    display: none;
     min-height: 44px;
     padding: 0.45rem 0.95rem;
     font-size: 0.95rem;
+  }
+
+  @media (min-width: 640px) {
+    .header__wa {
+      display: inline-flex;
+    }
   }
 
   .nav-toggle {

@@ -3,6 +3,11 @@ import Icon from './Icon.astro';
 import ContactForm from './ContactForm.astro';
 import { company } from '../data/site';
 import { waLink } from '../lib/whatsapp';
+
+// Google Maps without an API key: an embed (lazy-loaded near the viewport) and a directions link.
+const mapsQuery = encodeURIComponent(`${company.address}, Colombia`);
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 ---
 
 <section id="contacto" class="section section--soft">
@@ -15,7 +20,7 @@ import { waLink } from '../lib/whatsapp';
 
     <div class="contact">
       <aside class="info">
-        <a class="btn btn--wa info__wa" href={waLink('general')} target="_blank" rel="noopener">
+        <a class="btn btn--wa info__wa" href={waLink('general')} target="_blank" rel="noopener" data-wa-primary>
           <Icon name="whatsapp" size={22} />
           Escribir por WhatsApp
         </a>
@@ -38,6 +43,20 @@ import { waLink } from '../lib/whatsapp';
             <dd>{company.hours.map((h) => <span class="line">{h}</span>)}</dd>
           </div>
         </dl>
+
+        <div class="map">
+          <div class="map__frame">
+            <iframe
+              src={embedUrl}
+              title="Mapa: ubicación de CIC Diagnóstica"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+          </div>
+          <a class="link-action" href={directionsUrl} target="_blank" rel="noopener">
+            Cómo llegar <Icon name="arrow" size={18} />
+          </a>
+        </div>
       </aside>
 
       <div class="card form-card">
@@ -96,5 +115,31 @@ import { waLink } from '../lib/whatsapp';
 
   .form-card {
     padding: clamp(1.1rem, 4vw, 2rem);
+  }
+
+  .map {
+    margin-top: 1.5rem;
+  }
+
+  .map__frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 28px 28px,
+      var(--blue-50);
+  }
+
+  .map__frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 </style>

@@ -18,7 +18,7 @@ import { waCatalogLink } from '../lib/whatsapp';
         <li class="card product">
           <span class="icon-badge"><Icon name={cat.icon} /></span>
           <h3>{cat.title}</h3>
-          <ul class="chips">
+          <ul class="items">
             {cat.items.map((item) => <li>{item}</li>)}
           </ul>
         </li>
@@ -30,7 +30,7 @@ import { waCatalogLink } from '../lib/whatsapp';
       <p>Ábralo en el chat y pídanos su cotización.</p>
       <a class="btn btn--wa" href={waCatalogLink()} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={22} />
-        Ver catálogo en WhatsApp
+        Ver catálogo
       </a>
     </div>
   </div>
@@ -69,22 +69,30 @@ import { waCatalogLink } from '../lib/whatsapp';
     margin-bottom: 0.6rem;
   }
 
-  .chips {
+  .items {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    display: grid;
+    gap: 0.25rem;
+    color: var(--muted);
+    font-size: 0.95rem;
   }
 
-  .chips li {
-    padding: 0.3rem 0.65rem;
-    border-radius: 999px;
-    background: var(--blue-50);
-    color: var(--blue-900);
-    font-size: 0.875rem;
-    line-height: 1.3;
+  .items li {
+    position: relative;
+    padding-left: 0.9rem;
+  }
+
+  .items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green-600);
   }
 
   .swipe-hint {

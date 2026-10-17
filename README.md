@@ -100,7 +100,7 @@ Tracking is centralized, so components don't need per-element tags:
 
 | Event | When | Data |
 | --- | --- | --- |
-| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, catalog, contract, hospital…), `section`, `label` |
+| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, contract, outsideRoute, general…), `section`, `label` |
 | `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |

@@ -80,10 +80,36 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 | `RESEND_API_KEY` | yes (production) | `re_xxxxxxxx` |
 | `CONTACT_TO` | yes (production) | `ventas@cicdiagnostica.com` (comma-separate several) |
 | `CONTACT_FROM` | no | `CIC Diagnostica <web@cicdiagnostica.com>`. Default: `CIC Diagnostica <onboarding@resend.dev>` |
+| `PUBLIC_UMAMI_WEBSITE_ID` | no (Production only) | Umami website ID, see [Tracking](#tracking-umami) |
 
 These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'`, so Astro refuses to import them into client code.
 
 > **Testing before the domain is verified:** `onboarding@resend.dev` works as `CONTACT_FROM` without any DNS setup, but Resend only delivers it to the email address of your own Resend account. Set `CONTACT_TO` to that address until the domain is verified.
+
+## Tracking (Umami)
+
+Clicks and form outcomes go to [Umami Cloud](https://cloud.umami.is), which is cookieless, so there's no consent banner. The script only loads when `PUBLIC_UMAMI_WEBSITE_ID` is set.
+
+**Setup:** sign up at <https://cloud.umami.is>, go to **Websites → Add website** (domain `cicdiagnostica.com`), and copy the *Website ID*. In Vercel, add `PUBLIC_UMAMI_WEBSITE_ID` for **Production only**, so preview and dev visits aren't counted, then redeploy. It's a public value: it ends up in the page source by design.
+
+Tracking is centralized, so components don't need per-element tags:
+
+- `src/components/Tracking.astro` loads the script and runs one delegated click listener that classifies every link.
+- `src/lib/analytics.ts` exposes `track()`, which does nothing when Umami isn't loaded. The contact form uses it.
+
+| Event | When | Data |
+| --- | --- | --- |
+| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, catalog, contract, hospital…), `section`, `label` |
+| `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
+| `nav_click` | Header menu link | `target`, `label` |
+| `email_click` | Any `mailto:` link | `section` |
+| `outbound_click` | Any other external link | `url`, `section` |
+| `faq_open` | FAQ question expanded | `question` |
+| `form_submit` | Form sent successfully | `interest`, `client_type` |
+| `form_invalid` | Validation errors | `fields`, `source` (client/server) |
+| `form_failed` | Send failed | `interest`, `client_type`, `reason` (HTTP status or `network`) |
+
+`section` is the id of the page section (`inicio`, `planes`, `productos`, `contratos`, `cobertura`, `contacto`…), or `header`, `footer` or `floating` for the floating button. In Umami, open **Events** and filter by these properties. For example, `whatsapp_click` by `intent` shows which offers start conversations. A WhatsApp click means the chat was opened, not that a message was sent.
 
 ## Deploy (step by step)
 

@@ -22,6 +22,9 @@ export default defineConfig({
         access: 'secret',
         default: 'CIC Diagnostica <onboarding@resend.dev>',
       }),
+      // Public by design: Umami website IDs are visible in the page source anyway.
+      // Set it only for Production in Vercel so dev and preview visits aren't counted.
+      PUBLIC_UMAMI_WEBSITE_ID: envField.string({ context: 'client', access: 'public', optional: true }),
     },
   },
 });

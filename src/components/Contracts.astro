@@ -52,7 +52,7 @@ import { waLink } from '../lib/whatsapp';
 
 <style>
   .contracts {
-    background: linear-gradient(180deg, var(--blue-900), #0d3d6b);
+    background: linear-gradient(180deg, var(--blue-900), var(--blue-800));
     color: #e6eef7;
   }
 
@@ -63,7 +63,7 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .contracts .eyebrow {
-    color: #7fe0bd;
+    color: var(--sky-light);
   }
 
   .contracts .lead {
@@ -106,8 +106,8 @@ import { waLink } from '../lib/whatsapp';
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: rgb(127 224 189 / 0.15);
-    color: #7fe0bd;
+    background: color-mix(in srgb, var(--sky-light) 15%, transparent);
+    color: var(--sky-light);
   }
 
   .benefit h3 {
@@ -194,7 +194,7 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .contracts__cta .btn:focus-visible {
-    outline-color: #7fe0bd;
+    outline-color: var(--sky-light);
   }
 
   @media (min-width: 640px) {

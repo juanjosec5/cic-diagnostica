@@ -23,8 +23,6 @@ export const company = {
   hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.'],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
-  // Used for canonical URL, Open Graph and JSON-LD. Also set `site` in astro.config.mjs.
-  url: 'https://www.cicdiagnostica.com',
 };
 
 /**

@@ -10,9 +10,7 @@ import { waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Contacto</span>
       <h2>Cuéntenos qué necesita</h2>
-      <p class="lead">
-        Escríbanos por WhatsApp o diligencie el formulario y le responderemos en menos de {company.responseTime}.
-      </p>
+      <p class="lead">Le respondemos en menos de {company.responseTime}.</p>
     </div>
 
     <div class="contact">
@@ -25,7 +23,7 @@ import { waLink } from '../lib/whatsapp';
         <dl>
           <div class="row">
             <dt><Icon name="whatsapp" size={20} /><span>WhatsApp</span></dt>
-            <dd><a href={waLink('general')} target="_blank" rel="noopener">{company.whatsappDisplay}</a></dd>
+            <dd>{company.whatsappDisplay}</dd>
           </div>
           <div class="row">
             <dt><Icon name="mail" size={20} /><span>Correo</span></dt>

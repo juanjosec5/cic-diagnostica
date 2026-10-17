@@ -1,7 +1,7 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import '../styles/global.css';
-import { company, municipalities } from '../data/site';
+import { company, isPlaceholder, municipalities } from '../data/site';
 import Tracking from '../components/Tracking.astro';
 
 interface Props {
@@ -18,14 +18,14 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: company.name,
-  legalName: company.legalName,
+  ...(!isPlaceholder(company.legalName) && { legalName: company.legalName }),
   description,
   url: new URL('/', base).href,
   image: ogImage,
   logo: new URL('/brand/logo-stacked-color-sm.png', base).href,
   email: company.email,
   telephone: `+${company.whatsapp}`,
-  taxID: company.nit,
+  ...(!isPlaceholder(company.nit) && { taxID: company.nit }),
   address: {
     '@type': 'PostalAddress',
     streetAddress: company.street,

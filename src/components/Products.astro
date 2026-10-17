@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { productCategories } from '../data/site';
-import { waCatalogLink, waLink } from '../lib/whatsapp';
+import { waCatalogLink } from '../lib/whatsapp';
 ---
 
 <section id="productos" class="section section--soft">
@@ -9,128 +9,134 @@ import { waCatalogLink, waLink } from '../lib/whatsapp';
     <div class="section-head">
       <span class="eyebrow">Productos</span>
       <h2>Lo que su laboratorio necesita, con un solo proveedor</h2>
-      <p class="lead">
-        Estas son algunas de nuestras líneas de producto. Si busca algo que no aparece aquí, consulte el catálogo
-        completo en nuestro WhatsApp.
-      </p>
+      <p class="lead">Algunas de nuestras líneas. El catálogo completo está en WhatsApp.</p>
     </div>
 
-    <ul class="grid">
+    <!-- Phones: a horizontal swipe row (CSS scroll-snap, no JS). Wider screens: a grid. -->
+    <ul class="track" tabindex="0" aria-label="Líneas de producto">
       {productCategories.map((cat) => (
-        <li class="card">
+        <li class="card product">
           <span class="icon-badge"><Icon name={cat.icon} /></span>
           <h3>{cat.title}</h3>
-          <ul class="items">
+          <ul class="chips">
             {cat.items.map((item) => <li>{item}</li>)}
           </ul>
         </li>
       ))}
     </ul>
+    <p class="swipe-hint" aria-hidden="true">Deslice para ver más <Icon name="arrow" size={16} /></p>
 
-    <div class="notice">
-      <div class="notice__copy">
-        <h3>Consulte nuestro catálogo en WhatsApp</h3>
-        <p>
-          Por ahora no contamos con tienda en línea, pero puede revisar nuestro catálogo completo en WhatsApp.
-          Ábralo desde el chat y pídanos una cotización según las cantidades que necesite.
-        </p>
-      </div>
-      <div class="notice__actions">
-        <a class="btn btn--wa" href={waCatalogLink()} target="_blank" rel="noopener">
-          <Icon name="whatsapp" size={22} />
-          Ver catálogo en WhatsApp
-        </a>
-        <a class="btn btn--outline" href={waLink('catalog')} target="_blank" rel="noopener">Solicitar precios</a>
-      </div>
+    <div class="catalog">
+      <p>Ábralo en el chat y pídanos su cotización.</p>
+      <a class="btn btn--wa" href={waCatalogLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={22} />
+        Ver catálogo en WhatsApp
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .grid {
+  .track {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    margin: 0 -16px;
+    padding: 0.25rem 16px 0.75rem;
     display: grid;
-    gap: 1rem;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
   }
 
-  @media (min-width: 600px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .track::-webkit-scrollbar {
+    display: none;
   }
 
-  @media (min-width: 960px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .track:focus-visible {
+    outline-offset: -3px;
   }
 
-  .items {
+  .product {
+    scroll-snap-align: start;
+    padding: 1.1rem;
+  }
+
+  .product h3 {
+    margin-bottom: 0.6rem;
+  }
+
+  .chips {
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chips li {
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: var(--blue-50);
+    color: var(--blue-900);
+    font-size: 0.875rem;
+    line-height: 1.3;
+  }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.3rem;
+    margin: 0.25rem 0 0;
     color: var(--muted);
+    font-size: 0.85rem;
   }
 
-  .items li {
-    position: relative;
-    padding-left: 1.1rem;
-    margin-bottom: 0.25rem;
+  @media (min-width: 640px) {
+    .track {
+      margin: 0;
+      padding: 0;
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      overflow: visible;
+    }
+
+    .swipe-hint {
+      display: none;
+    }
   }
 
-  .items li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.65em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green-600);
-  }
-
-  .notice {
-    margin-top: 2rem;
-    display: grid;
-    gap: 1.25rem 2rem;
-    padding: clamp(1.25rem, 4vw, 2rem);
+  .catalog {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 1rem 1.25rem;
     border-radius: var(--radius);
     background: var(--green-50);
     border: 1px solid var(--green-line);
   }
 
-  @media (min-width: 960px) {
-    .notice {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-    }
-  }
-
-  .notice h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.35rem;
-  }
-
-  .notice p {
+  .catalog p {
     margin: 0;
-    color: var(--muted);
-    max-width: 560px;
+    font-weight: 600;
   }
 
-  .notice__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .notice__actions .btn {
+  .catalog .btn {
     flex: 1 1 240px;
   }
 
   @media (min-width: 640px) {
-    .notice__actions .btn {
+    .catalog .btn {
       flex: 0 0 auto;
     }
   }

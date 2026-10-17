@@ -25,6 +25,9 @@ export const company = {
   responseTime: '24 horas',
 };
 
+/** True while a value still holds a [bracketed] placeholder; such values are hidden on the page. */
+export const isPlaceholder = (value: string): boolean => /\[.*\]/.test(value);
+
 /**
  * Fixed delivery routes: the municipalities with a CIC laboratorios site, by weekday.
  * A day without fixed towns shows its `note` instead.
@@ -61,11 +64,14 @@ export type WhatsAppIntent = keyof typeof whatsappMessages;
 
 /** Proof row under the hero. Only confirmed figures. */
 export const stats = [
-  { value: 'Desde 2021', label: 'en el sector salud' },
-  { value: '40+', label: 'clientes activos' },
-  { value: String(municipalities.length), label: 'municipios con ruta fija' },
-  { value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
+  { icon: 'calendar', value: 'Desde 2021', label: 'en el sector salud' },
+  { icon: 'user', value: '40+', label: 'clientes activos' },
+  { icon: 'map', value: String(municipalities.length), label: 'municipios con ruta fija' },
+  { icon: 'clock', value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
 ];
+
+/** Delivery time for in-stock products; shown as a badge in the hero and in the FAQ. */
+export const deliveryTime = '1 a 3 días hábiles';
 
 export const clientPlans: {
   icon: string;
@@ -77,47 +83,28 @@ export const clientPlans: {
   {
     icon: 'hospital',
     title: 'Hospitales e IPS',
-    benefits: [
-      'Contrato de suministro u orden de compra, según prefiera',
-      'Facturación centralizada para su institución',
-      'Cupo de crédito con plazo de pago de 30 a 45 días',
-      'Entregas programadas en vehículos propios',
-    ],
+    benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días', 'Facturación centralizada'],
     cta: 'Solicitar un contrato',
     whatsapp: 'hospital',
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
-    benefits: [
-      'Reactivos, toma de muestras y consumibles con un solo proveedor',
-      'Despachos diarios en nuestras rutas de entrega',
-      'Sin pedido mínimo: pida solo lo que necesita',
-      'Abastecemos al laboratorio clínico CIC y conocemos su día a día',
-    ],
+    benefits: ['Reactivos, toma de muestras y consumibles', 'Sin pedido mínimo'],
     cta: 'Cotizar para mi laboratorio',
     whatsapp: 'lab',
   },
   {
     icon: 'pill',
     title: 'Droguerías',
-    benefits: [
-      'Pruebas rápidas y elementos de bioseguridad',
-      'Sin pedido mínimo: pida solo lo que necesita',
-      'Entregas en su municipio según el calendario de ruta',
-    ],
+    benefits: ['Pruebas rápidas y bioseguridad', 'Sin pedido mínimo'],
     cta: 'Cotizar para mi droguería',
     whatsapp: 'drugstore',
   },
   {
     icon: 'user',
     title: 'Consultorios y otros establecimientos',
-    benefits: [
-      'Veterinarias, fisioterapia, odontología, clínicas ortopédicas y más',
-      'Sin pedido mínimo y sin necesidad de contrato',
-      'Los mismos productos que usan hospitales y laboratorios',
-      'Cotización directa por WhatsApp',
-    ],
+    benefits: ['Veterinarias, odontología, fisioterapia y más', 'Sin pedido mínimo ni contrato'],
     cta: 'Cotizar por WhatsApp',
     whatsapp: 'independent',
   },
@@ -153,22 +140,10 @@ export const productCategories = [
 ];
 
 export const contractBenefits = [
-  {
-    icon: 'lock',
-    title: 'Precio estable',
-    text: 'Por lo general mantenemos el precio acordado. Solo algunos productos importados pueden variar con la tasa de cambio del dólar.',
-  },
-  {
-    icon: 'calendar',
-    title: 'Entregas programadas',
-    text: 'Acordamos con usted las fechas de entrega y despachamos en nuestras rutas semanales. Para volúmenes grandes coordinamos un despacho dedicado.',
-  },
-  { icon: 'card', title: 'Pago a 30 a 45 días', text: 'Manejamos un cupo de crédito que se acuerda directamente con nuestra gerencia.' },
-  {
-    icon: 'check',
-    title: 'Sin consumo mínimo',
-    text: 'No exigimos un consumo mínimo. Cuando se completa el cupo del contrato, lo renovamos mediante un otrosí o un contrato nuevo.',
-  },
+  { icon: 'lock', title: 'Precio estable', text: 'Solo algunos importados varían con el dólar.' },
+  { icon: 'calendar', title: 'Entregas programadas', text: 'En fechas acordadas, en nuestras rutas semanales.' },
+  { icon: 'card', title: 'Pago a 30–45 días', text: 'Cupo de crédito acordado con gerencia.' },
+  { icon: 'check', title: 'Sin consumo mínimo', text: 'Al completar el cupo, renovamos por otrosí.' },
 ];
 
 export const contractSteps = [
@@ -178,7 +153,7 @@ export const contractSteps = [
   },
   {
     title: 'Acordamos las condiciones',
-    text: 'Por lo general lo hacemos de forma digital. Si lo prefiere, nuestro asesor comercial lo visita en su sede.',
+    text: 'De forma digital o con visita del asesor a su sede.',
   },
 ];
 
@@ -212,7 +187,7 @@ export const faqs = [
   },
   {
     q: '¿Cuánto tarda la entrega?',
-    a: 'Si el producto está disponible en inventario, lo entregamos en 1 a 3 días hábiles, según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.',
+    a: `Si el producto está disponible en inventario, lo entregamos en ${deliveryTime}, según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.`,
   },
   {
     q: '¿Entregan fuera de sus rutas?',
@@ -220,7 +195,7 @@ export const faqs = [
   },
   {
     q: '¿Participan en licitaciones?',
-    a: 'Sí, participamos en licitaciones públicas. Le enviamos el RUT, el certificado de Cámara de Comercio, los registros sanitarios INVIMA y las fichas técnicas en un plazo de 48 horas hábiles.',
+    a: 'Sí, participamos en licitaciones públicas. Vea los documentos que enviamos en la sección «Documentos para proveedor».',
   },
   {
     q: '¿Emiten factura electrónica?',

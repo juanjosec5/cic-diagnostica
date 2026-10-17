@@ -9,24 +9,22 @@ import { supplierDocuments } from '../data/site';
       <div>
         <span class="eyebrow">Documentos para proveedor</span>
         <h2>¿Necesita inscribirnos como proveedor?</h2>
-        <p class="lead">
-          Si su área de compras requiere nuestros documentos para inscribirnos como proveedor o para una licitación,
-          solicítelos y se los enviaremos por correo electrónico en un plazo de 48 horas hábiles. Los registros
-          sanitarios INVIMA y las fichas técnicas corresponden a los de cada fabricante.
+        <p class="docs__line">
+          Se los enviamos por correo en 48 horas hábiles. INVIMA y fichas técnicas: las de cada fabricante.
         </p>
-        <a class="btn btn--primary" href="#contacto" data-interest="documentos">
-          Solicitar documentos
-          <Icon name="arrow" size={20} />
-        </a>
       </div>
-      <ul class="list">
+      <ul class="doc-tiles">
         {supplierDocuments.map((doc) => (
           <li>
-            <Icon name="check" size={20} />
-            {doc}
+            <Icon name="file" size={26} />
+            <span>{doc}</span>
           </li>
         ))}
       </ul>
+      <a class="btn btn--primary docs__cta" href="#contacto" data-interest="documentos">
+        Solicitar documentos
+        <Icon name="arrow" size={20} />
+      </a>
     </div>
   </div>
 </section>
@@ -39,8 +37,8 @@ import { supplierDocuments } from '../data/site';
 
   .docs {
     display: grid;
-    gap: 1.5rem 3rem;
-    padding: clamp(1.25rem, 4vw, 2.5rem);
+    gap: 1rem 2.5rem;
+    padding: clamp(1.1rem, 4vw, 2rem);
     border-radius: var(--radius);
     background: #fff;
     border: 1px solid var(--line);
@@ -49,36 +47,54 @@ import { supplierDocuments } from '../data/site';
 
   @media (min-width: 900px) {
     .docs {
-      grid-template-columns: 3fr 2fr;
+      grid-template-columns: 2fr 3fr;
       align-items: center;
+    }
+    .docs__cta {
+      grid-column: 1;
+      justify-self: start;
     }
   }
 
   .docs h2 {
-    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    font-size: clamp(1.3rem, 3.5vw, 1.6rem);
   }
 
-  .list {
+  .docs__line {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .doc-tiles {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.6rem;
   }
 
-  .list li {
+  @media (min-width: 900px) {
+    .doc-tiles {
+      grid-row: span 2;
+    }
+  }
+
+  .doc-tiles li {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 0.8rem;
+    border-radius: 12px;
     background: var(--blue-50);
     font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
     color: var(--blue-900);
   }
 
-  .list :global(svg) {
-    flex: none;
-    color: var(--green-700);
+  .doc-tiles :global(svg) {
+    color: var(--blue-700);
   }
 </style>

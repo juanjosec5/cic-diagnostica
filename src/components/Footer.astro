@@ -1,5 +1,5 @@
 ---
-import { company } from '../data/site';
+import { company, isPlaceholder } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 
 const year = new Date().getFullYear();
@@ -9,8 +9,9 @@ const year = new Date().getFullYear();
   <div class="container footer__inner">
     <div>
       <img class="footer__logo" src="/brand/logo-horizontal-on-dark-sm.png" width="177" height="36" alt={company.name} loading="lazy" />
-      <p class="footer__name">{company.legalName}</p>
-      <p>NIT {company.nit}</p>
+      <!-- Legal name and NIT appear once they're real values, not [placeholders]. -->
+      <p class="footer__name">{isPlaceholder(company.legalName) ? company.name : company.legalName}</p>
+      {!isPlaceholder(company.nit) && <p>NIT {company.nit}</p>}
       <p>Distribuidora de insumos médicos y de laboratorio · {company.region}, Colombia</p>
     </div>
     <ul class="footer__contact">

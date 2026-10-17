@@ -147,7 +147,7 @@ Originals in `public/brand/`, named by what they show:
 
 ## Placeholders to replace
 
-All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the page as-is until you replace them.
+All in `src/data/site.ts` unless noted. `company.legalName` and `company.nit` are hidden (footer and JSON-LD) while they hold a `[bracketed]` placeholder; see `isPlaceholder`.
 
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
 - [ ] `company.legalName`: `CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]`

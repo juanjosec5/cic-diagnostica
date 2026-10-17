@@ -30,7 +30,7 @@ One-page site for CIC Diagnostica, a medical and laboratory supplies distributor
 ```bash
 npm install
 cp .env.example .env      # optional; leave RESEND_API_KEY empty to mock sends
-npm run dev               # http://localhost:4321 (Astro picks the next free port if busy)
+npm run dev               # http://localhost:4322 (4321 belongs to the CIC laboratorios site)
 npm run check             # type check
 npm run build             # production build (.vercel/output)
 ```
@@ -143,7 +143,7 @@ Originals in `public/brand/`, named by what they show:
 | `logo-horizontal-white.png`, `logo-stacked-white.png` | All-white versions | Not used yet (photos, dark backgrounds) |
 | `logo-seal.png` | Round seal with curved wordmark | Not used yet (stamps, stickers) |
 
-`public/favicon.png` and `public/apple-touch-icon.png` are the drops on a navy circle. The `-sm` files, the symbol and the icons are generated from the originals (the site doesn't show the "~ CIC" text, so it is erased in those copies); the originals are kept untouched. Regenerate the copies if the originals change.
+`public/favicon.ico` (16, 32 and 48 px), `public/favicon.png` and `public/apple-touch-icon.png` are the drops on a navy circle. The `-sm` files, the symbol and the icons are generated from the originals (the site doesn't show the "~ CIC" text, so it is erased in those copies); the originals are kept untouched. Regenerate the copies if the originals change.
 
 ## Placeholders to replace
 

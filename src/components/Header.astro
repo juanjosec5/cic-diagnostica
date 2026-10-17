@@ -7,10 +7,15 @@ import { waLink } from '../lib/whatsapp';
 <header class="header">
   <div class="urgent">
     <div class="container urgent__inner">
-      <span class="urgent__text">¿Se está quedando sin insumos?</span>
+      <!-- Short copy on phones so the bar stays on one line. -->
+      <span class="urgent__text">
+        <span class="wide">¿Se está quedando sin insumos?</span>
+        <span class="narrow">¿Sin insumos?</span>
+      </span>
       <a href={waLink('urgent')} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={16} />
-        Pedidos urgentes
+        <span class="wide">Pedidos urgentes por WhatsApp</span>
+        <span class="narrow">Pedido urgente</span>
       </a>
     </div>
   </div>
@@ -89,6 +94,24 @@ import { waLink } from '../lib/whatsapp';
     justify-content: center;
     gap: 0.25rem 0.75rem;
     min-height: var(--urgent-h);
+  }
+
+  .urgent__text,
+  .urgent a {
+    white-space: nowrap;
+  }
+
+  .urgent .wide {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .urgent .wide {
+      display: inline;
+    }
+    .urgent .narrow {
+      display: none;
+    }
   }
 
   .urgent a {
@@ -217,11 +240,9 @@ import { waLink } from '../lib/whatsapp';
     border-bottom: 0;
   }
 
-  @media (max-width: 379px) {
-    .header__wa :global(svg) {
-      display: none;
-    }
-    .urgent__text {
+  /* Phones show only the round mark; the wordmark needs more width than the header has. */
+  @media (max-width: 639px) {
+    .logo__text {
       display: none;
     }
   }

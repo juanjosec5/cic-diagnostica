@@ -1,0 +1,60 @@
+/**
+ * Contact form validation shared by the browser script and the API route,
+ * so both enforce the same rules and return the same Spanish messages.
+ */
+
+export const LIMITS = { short: 120, phone: 30, message: 3000 } as const;
+
+export const FIELDS = [
+  'nombre',
+  'institucion',
+  'correo',
+  'telefono',
+  'tipo',
+  'interes',
+  'municipio',
+  'mensaje',
+  'consentimiento',
+] as const;
+
+export type ContactField = (typeof FIELDS)[number];
+export type ContactData = Record<ContactField, string>;
+export type ContactErrors = Partial<Record<ContactField, string>>;
+
+const EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i;
+
+/** Picks known fields from untrusted input, coerced to trimmed strings. */
+export function normalizeContact(input: Record<string, unknown>): ContactData {
+  return Object.fromEntries(
+    FIELDS.map((f) => [f, typeof input[f] === 'string' ? (input[f] as string).trim() : '']),
+  ) as ContactData;
+}
+
+export function validateContact(input: Record<string, unknown>): ContactErrors {
+  const d = normalizeContact(input);
+  const errors: ContactErrors = {};
+
+  if (!d.nombre) errors.nombre = 'Escriba su nombre.';
+  else if (d.nombre.length > LIMITS.short) errors.nombre = 'El nombre es demasiado largo.';
+
+  if (!d.correo) errors.correo = 'Escriba su correo electrónico.';
+  else if (d.correo.length > LIMITS.short || !EMAIL_RE.test(d.correo))
+    errors.correo = 'Escriba un correo válido, por ejemplo nombre@empresa.com.';
+
+  const digits = d.telefono.replace(/\D/g, '');
+  if (!d.telefono) errors.telefono = 'Escriba un teléfono o WhatsApp.';
+  else if (digits.length < 7 || digits.length > 15 || d.telefono.length > LIMITS.phone)
+    errors.telefono = 'Escriba un número válido, por ejemplo 300 123 4567.';
+
+  if (!d.mensaje) errors.mensaje = 'Cuéntenos qué productos necesita.';
+  else if (d.mensaje.length > LIMITS.message)
+    errors.mensaje = `El mensaje no puede superar ${LIMITS.message} caracteres.`;
+
+  if (!d.consentimiento) errors.consentimiento = 'Debe autorizar el tratamiento de datos para enviar el formulario.';
+
+  for (const f of ['institucion', 'tipo', 'interes', 'municipio'] as const) {
+    if (d[f].length > LIMITS.short) errors[f] = 'Texto demasiado largo.';
+  }
+
+  return errors;
+}

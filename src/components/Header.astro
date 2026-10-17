@@ -1,0 +1,190 @@
+---
+import Icon from './Icon.astro';
+import { company, navLinks } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="#inicio" class="logo" aria-label={`${company.name}, ir al inicio`}>
+      <span class="logo__mark" aria-hidden="true">CIC</span>
+      <span class="logo__text">Diagnostica</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul id="nav-list" class="nav__list">
+        {navLinks.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="btn btn--wa header__wa" href={waLink('general')} target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={20} />
+      <span>WhatsApp</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list" aria-label="Abrir menú">
+      <span class="nav-toggle__open"><Icon name="menu" /></span>
+      <span class="nav-toggle__close"><Icon name="close" /></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const list = document.getElementById('nav-list');
+  if (toggle && list) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      list.classList.toggle('is-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    list.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && list.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 255 255 / 0.96);
+    backdrop-filter: saturate(1.4) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: var(--header-h);
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--blue-900);
+    margin-right: auto;
+  }
+
+  .logo__mark {
+    display: inline-grid;
+    place-items: center;
+    height: 34px;
+    padding-inline: 0.5rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--blue-700), var(--green-600));
+    color: #fff;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+
+  .header__wa {
+    min-height: 40px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--blue-900);
+    cursor: pointer;
+  }
+
+  .nav-toggle__close,
+  .nav-toggle[aria-expanded='true'] .nav-toggle__open {
+    display: none;
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__close {
+    display: inline;
+  }
+
+  .nav__list {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 16px 1rem;
+    position: absolute;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .nav__list.is-open {
+    display: block;
+  }
+
+  .nav__list a {
+    display: block;
+    padding: 0.75rem 0.25rem;
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__list li:last-child a {
+    border-bottom: 0;
+  }
+
+  @media (max-width: 379px) {
+    .header__wa span {
+      display: none;
+    }
+    .header__wa {
+      padding-inline: 0.65rem;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .nav-toggle {
+      display: none;
+    }
+
+    .nav__list {
+      display: flex;
+      gap: 0.25rem;
+      position: static;
+      padding: 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .nav__list a {
+      padding: 0.5rem 0.75rem;
+      border: 0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .nav__list a:hover {
+      background: var(--blue-50);
+      color: var(--blue-700);
+    }
+  }
+</style>

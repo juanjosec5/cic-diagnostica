@@ -1,0 +1,356 @@
+---
+import { clientTypeOptions, interestOptions, municipalities, company } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+import { LIMITS } from '../lib/contact';
+---
+
+<form id="contact-form" class="form" method="post" action="/api/contact" novalidate>
+  <h3 class="form__title">Formulario de contacto</h3>
+  <p class="form__hint">Los campos marcados con <span aria-hidden="true">*</span><span class="visually-hidden">asterisco</span> son obligatorios.</p>
+
+  <div class="grid">
+    <div class="field">
+      <label for="f-nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+      <input id="f-nombre" name="nombre" type="text" autocomplete="name" required maxlength={LIMITS.short} aria-describedby="e-nombre" />
+      <p class="error" id="e-nombre"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-institucion">Institución o empresa</label>
+      <input id="f-institucion" name="institucion" type="text" autocomplete="organization" maxlength={LIMITS.short} />
+    </div>
+
+    <div class="field">
+      <label for="f-correo">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+      <input id="f-correo" name="correo" type="email" autocomplete="email" inputmode="email" required maxlength={LIMITS.short} aria-describedby="e-correo" />
+      <p class="error" id="e-correo"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-telefono">Teléfono o WhatsApp <span class="req" aria-hidden="true">*</span></label>
+      <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required maxlength={LIMITS.phone} aria-describedby="e-telefono" />
+      <p class="error" id="e-telefono"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-tipo">Tipo de cliente</label>
+      <select id="f-tipo" name="tipo">
+        <option value="">Seleccione…</option>
+        {clientTypeOptions.map((o) => <option value={o}>{o}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-interes">Me interesa</label>
+      <select id="f-interes" name="interes">
+        {interestOptions.map((o) => <option value={o.key}>{o.label}</option>)}
+      </select>
+    </div>
+
+    <div class="field field--full">
+      <label for="f-municipio">Municipio</label>
+      <input id="f-municipio" name="municipio" type="text" list="municipios" autocomplete="address-level2" maxlength={LIMITS.short} />
+      <datalist id="municipios">
+        {municipalities.map((m) => <option value={m} />)}
+      </datalist>
+    </div>
+
+    <div class="field field--full">
+      <label for="f-mensaje">Mensaje <span class="req" aria-hidden="true">*</span></label>
+      <textarea
+        id="f-mensaje"
+        name="mensaje"
+        rows="5"
+        required
+        maxlength={LIMITS.message}
+        aria-describedby="e-mensaje"
+        placeholder="¿Qué productos necesita, en qué cantidades mensuales y con qué frecuencia de entrega?"></textarea>
+      <p class="error" id="e-mensaje"></p>
+    </div>
+
+    <!-- Honeypot: hidden from people and screen readers; bots tend to fill it. -->
+    <div class="hp" aria-hidden="true">
+      <label for="f-website">No llene este campo</label>
+      <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="field field--full">
+      <div class="consent">
+        <input id="f-consentimiento" name="consentimiento" type="checkbox" value="si" required aria-describedby="e-consentimiento" />
+        <label for="f-consentimiento">
+          Autorizo a {company.name} a tratar mis datos personales para responder esta solicitud, de acuerdo con la Ley
+          1581 de 2012 y su política de tratamiento de datos. <span class="req" aria-hidden="true">*</span>
+        </label>
+      </div>
+      <p class="error" id="e-consentimiento"></p>
+    </div>
+  </div>
+
+  <button class="btn btn--primary form__submit" type="submit">
+    <span class="form__submit-label">Enviar solicitud</span>
+  </button>
+
+  <div class="status" role="status" aria-live="polite" tabindex="-1"></div>
+
+  <template id="tpl-success">
+    <div class="status__box status__box--ok">
+      <strong>¡Gracias! Recibimos su solicitud.</strong>
+      <p>Un asesor le responderá pronto por correo o WhatsApp en horario hábil.</p>
+    </div>
+  </template>
+  <template id="tpl-invalid">
+    <div class="status__box status__box--error">
+      <strong>Revise los campos marcados.</strong>
+    </div>
+  </template>
+  <template id="tpl-failed">
+    <div class="status__box status__box--error">
+      <strong>No pudimos enviar su mensaje.</strong>
+      <p>
+        Por favor escríbanos por <a href={waLink('general')} target="_blank" rel="noopener">WhatsApp</a> o al correo
+        <a href={`mailto:${company.email}`}>{company.email}</a> y le atendemos de inmediato.
+      </p>
+    </div>
+  </template>
+</form>
+
+<script>
+  import { validateContact, type ContactErrors } from '../lib/contact';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+  // Buttons with data-interest (e.g. the contracts CTA) preselect the "Me interesa" option.
+  document.querySelectorAll<HTMLElement>('[data-interest]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const select = document.getElementById('f-interes') as HTMLSelectElement | null;
+      if (select && el.dataset.interest) select.value = el.dataset.interest;
+    });
+  });
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const submit = form.querySelector<HTMLButtonElement>('.form__submit')!;
+    const submitLabel = submit.querySelector<HTMLElement>('.form__submit-label')!;
+
+    const showStatus = (tpl: 'success' | 'invalid' | 'failed') => {
+      const t = document.getElementById(`tpl-${tpl}`) as HTMLTemplateElement;
+      status.replaceChildren(t.content.cloneNode(true));
+    };
+
+    const showErrors = (errors: ContactErrors) => {
+      form.querySelectorAll<HTMLElement>('.error').forEach((el) => (el.textContent = ''));
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+      let first: HTMLElement | null = null;
+      for (const [field, message] of Object.entries(errors)) {
+        const input = form.elements.namedItem(field) as HTMLElement | null;
+        const slot = document.getElementById(`e-${field}`);
+        if (slot) slot.textContent = message;
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          first ??= input;
+        }
+      }
+      first?.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+
+      const errors = validateContact(data);
+      showErrors(errors);
+      if (Object.keys(errors).length) {
+        showStatus('invalid');
+        return;
+      }
+
+      submit.disabled = true;
+      submitLabel.textContent = 'Enviando…';
+      status.replaceChildren();
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok && body.ok) {
+          form.reset();
+          showStatus('success');
+          status.focus();
+        } else if (res.status === 400 && body.errors) {
+          showErrors(body.errors);
+          showStatus('invalid');
+        } else {
+          showStatus('failed');
+          status.focus();
+        }
+      } catch {
+        showStatus('failed');
+        status.focus();
+      } finally {
+        submit.disabled = false;
+        submitLabel.textContent = 'Enviar solicitud';
+      }
+    });
+  }
+</script>
+
+<style>
+  .form__title {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .form__hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .grid {
+    display: grid;
+    gap: 0 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .req {
+    color: var(--danger);
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  select,
+  textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid #b5c3d3;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    /* 16px avoids iOS zoom on focus */
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 130px;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--blue-600);
+    outline-offset: 1px;
+    border-color: var(--blue-600);
+  }
+
+  [aria-invalid='true'] {
+    border-color: var(--danger) !important;
+  }
+
+  .error {
+    margin: 0.3rem 0 0;
+    font-size: 0.875rem;
+    color: var(--danger);
+  }
+
+  .error:empty {
+    display: none;
+  }
+
+  .consent {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+
+  .consent input {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    margin-top: 0.15rem;
+    accent-color: var(--blue-700);
+  }
+
+  .consent label {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form__submit {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .form__submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .status:focus {
+    outline: none;
+  }
+
+  .status__box {
+    margin-top: 1rem;
+    padding: 1rem 1.1rem;
+    border-radius: 10px;
+  }
+
+  .status__box p {
+    margin: 0.25rem 0 0;
+  }
+
+  .status__box--ok {
+    background: var(--green-50);
+    border: 1px solid #a9dcc7;
+    color: #0a5c45;
+  }
+
+  .status__box--error {
+    background: #fdf0ef;
+    border: 1px solid #f2c4bf;
+    color: #8a1c13;
+  }
+
+  .status__box--error a {
+    color: inherit;
+    font-weight: 700;
+  }
+</style>

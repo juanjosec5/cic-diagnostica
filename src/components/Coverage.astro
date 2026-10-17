@@ -1,0 +1,85 @@
+---
+import Icon from './Icon.astro';
+import { municipalities } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section id="cobertura" class="section">
+  <div class="container coverage">
+    <div class="section-head">
+      <span class="eyebrow">Cobertura</span>
+      <h2>Entregamos en {municipalities.length} municipios del Valle del Cauca</h2>
+      <p class="lead">
+        Con personal y vehículos propios. Además, un asesor comercial visita una ciudad diferente cada semana.
+      </p>
+    </div>
+
+    <ul class="towns">
+      {municipalities.map((m) => (
+        <li>
+          <Icon name="map" size={18} />
+          {m}
+        </li>
+      ))}
+    </ul>
+
+    <p class="note">
+      ¿Su municipio no está en la lista? Evaluamos entregas fuera de la ruta según el volumen del pedido.
+      <a href={waLink('outsideRoute')} target="_blank" rel="noopener">Consúltenos por WhatsApp</a>.
+    </p>
+  </div>
+</section>
+
+<style>
+  .towns {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  @media (min-width: 640px) {
+    .towns {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .towns {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .towns li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    font-weight: 600;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .towns :global(svg) {
+    flex: none;
+    color: var(--green-700);
+  }
+
+  .note {
+    margin: 1.5rem 0 0;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--green-600);
+    background: var(--green-50);
+    border-radius: 0 10px 10px 0;
+    color: var(--ink);
+  }
+
+  .note a {
+    font-weight: 700;
+  }
+</style>

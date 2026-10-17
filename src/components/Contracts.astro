@@ -1,0 +1,205 @@
+---
+import Icon from './Icon.astro';
+import { contractBenefits, contractSteps } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section id="contratos" class="section contracts">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Contratos de suministro</span>
+      <h2>Para hospitales, laboratorios y droguerías con consumo constante</h2>
+      <p class="lead">
+        Asegure sus insumos con un contrato: precio estable, entregas programadas y crédito para pagar a su ritmo.
+      </p>
+    </div>
+
+    <ul class="benefits">
+      {contractBenefits.map((b) => (
+        <li class="benefit">
+          <span class="benefit__icon"><Icon name={b.icon} /></span>
+          <div>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="steps__title">Cómo funciona</h3>
+    <ol class="steps">
+      {contractSteps.map((s, i) => (
+        <li class="step">
+          <span class="step__num" aria-hidden="true">{i + 1}</span>
+          <h4>{s.title}</h4>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="contracts__cta">
+      <a class="btn btn--primary" href="#contacto" data-interest="contrato">
+        Solicitar propuesta de contrato
+        <Icon name="arrow" size={20} />
+      </a>
+      <a class="btn btn--wa" href={waLink('contract')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={22} />
+        Hablar con un asesor
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contracts {
+    background: linear-gradient(180deg, var(--blue-900), #0d3d6b);
+    color: #e6eef7;
+  }
+
+  .contracts h2,
+  .contracts h3,
+  .contracts h4 {
+    color: #fff;
+  }
+
+  .contracts .eyebrow {
+    color: #7fe0bd;
+  }
+
+  .contracts .lead {
+    color: #c9d8e8;
+  }
+
+  .benefits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .benefits {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .benefits {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .benefit {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.14);
+  }
+
+  .benefit__icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgb(127 224 189 / 0.15);
+    color: #7fe0bd;
+  }
+
+  .benefit h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .benefit p,
+  .step p {
+    margin: 0;
+    color: #c9d8e8;
+  }
+
+  .steps__title {
+    margin-top: 3rem;
+    font-size: 1.35rem;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .step {
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .step h4 {
+    color: var(--blue-900);
+    font-size: 1.05rem;
+    margin: 0.75rem 0 0.25rem;
+  }
+
+  .step p {
+    color: var(--muted);
+  }
+
+  .step__num {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--green-700);
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .contracts__cta {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contracts__cta .btn {
+    flex: 1 1 260px;
+  }
+
+  .contracts__cta .btn--primary {
+    background: #fff;
+    color: var(--blue-900);
+  }
+
+  .contracts__cta .btn--primary:hover {
+    background: var(--green-50);
+  }
+
+  .contracts__cta .btn:focus-visible {
+    outline-color: #7fe0bd;
+  }
+
+  @media (min-width: 640px) {
+    .contracts__cta .btn {
+      flex: 0 0 auto;
+    }
+  }
+</style>

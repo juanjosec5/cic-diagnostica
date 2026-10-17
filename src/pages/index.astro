@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Clients from '../components/Clients.astro';
+import Products from '../components/Products.astro';
+import Contracts from '../components/Contracts.astro';
+import Coverage from '../components/Coverage.astro';
+import Contact from '../components/Contact.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+
+const title = 'CIC Diagnostica | Reactivos e insumos de laboratorio en el Valle del Cauca';
+const description =
+  'Distribuidor de reactivos, insumos médicos y de laboratorio en el Valle del Cauca. Entregas con flota propia en 16 municipios, contratos de suministro y crédito a 30 o 60 días.';
+---
+
+<Layout title={title} description={description}>
+  <Header />
+  <main id="main">
+    <Hero />
+    <Clients />
+    <Products />
+    <Contracts />
+    <Coverage />
+    <Contact />
+    <Faq />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

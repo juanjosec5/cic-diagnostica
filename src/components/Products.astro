@@ -1,0 +1,117 @@
+---
+import Icon from './Icon.astro';
+import { productCategories } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section id="productos" class="section section--soft">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Productos</span>
+      <h2>Lo que su laboratorio necesita, en un solo proveedor</h2>
+      <p class="lead">Estas son algunas de nuestras líneas. Manejamos más referencias de las que aparecen aquí.</p>
+    </div>
+
+    <ul class="grid">
+      {productCategories.map((cat) => (
+        <li class="card">
+          <span class="icon-badge"><Icon name={cat.icon} /></span>
+          <h3>{cat.title}</h3>
+          <ul class="items">
+            {cat.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+
+    <div class="notice">
+      <div>
+        <h3>Aún no tenemos tienda en línea</h3>
+        <p>Pídanos el catálogo con precios por WhatsApp y le respondemos con una cotización según sus cantidades.</p>
+      </div>
+      <a class="btn btn--wa" href={waLink('catalog')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={22} />
+        Pedir catálogo con precios
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+  }
+
+  .items li {
+    position: relative;
+    padding-left: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-600);
+  }
+
+  .notice {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    background: var(--green-50);
+    border: 1px solid #c7e8db;
+  }
+
+  .notice h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .notice p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 560px;
+  }
+
+  .notice .btn {
+    flex: 1 1 240px;
+  }
+
+  @media (min-width: 640px) {
+    .notice .btn {
+      flex: 0 0 auto;
+    }
+  }
+</style>

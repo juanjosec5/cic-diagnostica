@@ -1,0 +1,121 @@
+---
+import Icon from './Icon.astro';
+import { heroFacts } from '../data/site';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section id="inicio" class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow">Distribuidor de insumos médicos y de laboratorio</span>
+      <h1>Reactivos e insumos de laboratorio, a tiempo en todo el Valle del Cauca</h1>
+      <p class="lead">
+        Somos parte del grupo que opera el laboratorio clínico CIC y la clínica Sane. Usamos lo que vendemos y
+        sabemos lo que significa para un laboratorio quedarse sin insumos: por eso entregamos con flota propia y
+        stock reservado para nuestros clientes.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={22} />
+          Cotizar por WhatsApp
+        </a>
+        <a class="btn btn--outline" href="#contacto">Escribirnos por formulario</a>
+      </div>
+    </div>
+
+    <ul class="facts" aria-label="Datos clave">
+      {heroFacts.map((fact) => (
+        <li class="fact">
+          <span class="fact__icon"><Icon name={fact.icon} /></span>
+          <span>
+            <strong>{fact.value}</strong>
+            <span class="fact__label">{fact.label}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background:
+      radial-gradient(1200px 500px at 100% 0%, var(--green-50), transparent 60%),
+      linear-gradient(180deg, var(--blue-50), #fff 85%);
+    padding-block: clamp(40px, 8vw, 96px) clamp(48px, 8vw, 88px);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .hero__copy {
+    max-width: 720px;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 220px;
+  }
+
+  @media (min-width: 640px) {
+    .hero__actions .btn {
+      flex: 0 0 auto;
+    }
+  }
+
+  .facts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .fact {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .fact__icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--green-50);
+    color: var(--green-700);
+  }
+
+  .fact strong {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--blue-900);
+    line-height: 1.25;
+  }
+
+  .fact__label {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 768px) {
+    .facts {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
+// Umami Cloud: cookieless analytics with custom events. See README > Tracking for the event list.
+---
+
+{
+  PUBLIC_UMAMI_WEBSITE_ID && (
+    <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={PUBLIC_UMAMI_WEBSITE_ID} />
+  )
+}
+
+<script>
+  import { whatsappMessages } from '../data/site';
+  import { track } from '../lib/analytics';
+
+  // Every WhatsApp link carries one of the configured messages, so the message identifies the button intent.
+  const intentByMessage = new Map<string, string>(
+    Object.entries(whatsappMessages).map(([intent, text]) => [text, intent]),
+  );
+
+  const sectionOf = (el: Element): string => {
+    const container = el.closest<HTMLElement>('.wa-float, section[id], header, footer');
+    if (!container) return 'page';
+    if (container.matches('.wa-float')) return 'floating';
+    return container.id || container.tagName.toLowerCase();
+  };
+
+  const labelOf = (a: HTMLAnchorElement): string =>
+    (a.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60) || a.getAttribute('aria-label') || '';
+
+  // One delegated listener covers every link and CTA, including ones added later.
+  document.addEventListener('click', (event) => {
+    const a = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
+    if (!a || a.classList.contains('skip-link')) return;
+
+    const href = a.getAttribute('href') ?? '';
+    const section = sectionOf(a);
+
+    if (href.startsWith('https://wa.me/')) {
+      const text = new URL(href).searchParams.get('text') ?? '';
+      track('whatsapp_click', { intent: intentByMessage.get(text) ?? 'unknown', section, label: labelOf(a) });
+    } else if (href.startsWith('mailto:')) {
+      track('email_click', { section });
+    } else if (href.startsWith('#')) {
+      track(a.closest('nav') ? 'nav_click' : 'cta_click', {
+        target: href.slice(1),
+        section,
+        label: labelOf(a),
+        ...(a.dataset.interest && { interest: a.dataset.interest }),
+      });
+    } else {
+      track('outbound_click', { url: href, section });
+    }
+  });
+
+  // `toggle` doesn't bubble, so listen in the capture phase.
+  document.addEventListener(
+    'toggle',
+    (event) => {
+      const details = event.target;
+      if (details instanceof HTMLDetailsElement && details.open) {
+        track('faq_open', { question: details.querySelector('summary')?.textContent?.trim() ?? '' });
+      }
+    },
+    true,
+  );
+</script>

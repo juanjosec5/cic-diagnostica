@@ -11,7 +11,7 @@ One-page site for CIC Diagnostica, a medical and laboratory supplies distributor
 ```
 ├── astro.config.mjs        # Vercel adapter, env var schema (astro:env)
 ├── .env.example            # RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
-├── public/                 # favicon.svg, og-image.png (1200×630 social preview)
+├── public/                 # favicon, apple-touch-icon, og-image.png (1200×630), brand/ (logo files)
 └── src/
     ├── data/site.ts        # ← ALL editable content: contact, WhatsApp, stats, brands, plans, products, route, FAQ
     ├── lib/
@@ -122,4 +122,4 @@ All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the pa
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] Consent text in `src/components/ContactForm.astro` mentions a "política de tratamiento de datos". Publish that policy (required by Ley 1581) and link it there.
 - [ ] `public/og-image.png`: social preview image; replace with a branded one if you have a logo. It's a static image, so keep any numbers out of it.
-- [ ] `public/favicon.svg`: replace with the real logo
+- [ ] **Final SVG logo** (interim assets were cropped from the PNG logo): replace `public/brand/mark.png` (header mark, used in `src/components/Header.astro`), `public/favicon.png`, `public/apple-touch-icon.png` and `public/brand/logo-diagnostica.png` (JSON-LD logo). The header wordmark is text styled after the logo; swap it for the SVG lockup when available.

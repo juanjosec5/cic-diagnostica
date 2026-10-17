@@ -6,8 +6,8 @@
  */
 
 export const company = {
-  name: 'CIC Diagnostica',
-  legalName: 'CIC Diagnostica S.A.S. [RAZÓN SOCIAL]',
+  name: 'CIC Diagnóstica',
+  legalName: 'CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]',
   nit: '[NIT 000.000.000-0]',
   // Digits only, with country code, no "+" or spaces (e.g. 573001234567).
   whatsapp: '570000000000',
@@ -40,16 +40,16 @@ export const municipalities = routeDays.flatMap((d) => d.towns);
 
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
-  general: 'Hola, CIC Diagnostica. Quisiera más información sobre sus productos.',
-  quote: 'Hola, CIC Diagnostica. Quisiera solicitar una cotización de insumos de laboratorio.',
-  urgent: 'Hola, CIC Diagnostica. Tengo un pedido urgente: nos estamos quedando sin insumos.',
-  catalog: 'Hola, CIC Diagnostica. ¿Me pueden enviar el catálogo con precios, por favor?',
-  contract: 'Hola, CIC Diagnostica. Me interesa un contrato de suministro para mi institución.',
-  outsideRoute: 'Hola, CIC Diagnostica. Quisiera saber si pueden hacer entregas en mi municipio.',
-  hospital: 'Hola, CIC Diagnostica. Escribo de un hospital / IPS y me interesa un convenio de suministro.',
-  lab: 'Hola, CIC Diagnostica. Escribo de un laboratorio clínico y quisiera una cotización de reactivos e insumos.',
-  drugstore: 'Hola, CIC Diagnostica. Escribo de una droguería y quisiera conocer sus productos y condiciones.',
-  independent: 'Hola, CIC Diagnostica. Quisiera cotizar algunos insumos para mi consultorio.',
+  general: 'Hola, CIC Diagnóstica. Quisiera más información sobre sus productos.',
+  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
+  urgent: 'Hola, CIC Diagnóstica. Tengo un pedido urgente: nos estamos quedando sin insumos.',
+  catalog: 'Hola, CIC Diagnóstica. ¿Me pueden enviar el catálogo con precios, por favor?',
+  contract: 'Hola, CIC Diagnóstica. Me interesa un contrato de suministro para mi institución.',
+  outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
+  hospital: 'Hola, CIC Diagnóstica. Escribo de un hospital / IPS y me interesa un convenio de suministro.',
+  lab: 'Hola, CIC Diagnóstica. Escribo de un laboratorio clínico y quisiera una cotización de reactivos e insumos.',
+  drugstore: 'Hola, CIC Diagnóstica. Escribo de una droguería y quisiera conocer sus productos y condiciones.',
+  independent: 'Hola, CIC Diagnóstica. Quisiera cotizar algunos insumos para mi consultorio.',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;

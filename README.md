@@ -30,7 +30,7 @@ One-page site for CIC Diagnostica, a medical and laboratory supplies distributor
 ```bash
 npm install
 cp .env.example .env      # optional; leave RESEND_API_KEY empty to mock sends
-npm run dev               # http://localhost:4321 (Astro picks the next free port if busy)
+npm run dev               # http://localhost:4322 (4321 belongs to the CIC laboratorios site)
 npm run check             # type check
 npm run build             # production build (.vercel/output)
 ```
@@ -128,6 +128,23 @@ Tracking is centralized, so components don't need per-element tags:
 
 Every push to `main` deploys to production. Other branches get preview URLs.
 
+## Brand assets
+
+Originals in `public/brand/`, named by what they show:
+
+| File | Shows | Used in |
+| --- | --- | --- |
+| `logo-horizontal-color.png` | Horizontal: blue drops + navy wordmark | Source for the header logo |
+| `logo-horizontal-color-sm.png` | Same, 96 px tall, without the "~ CIC" text | Header, from 640 px up |
+| `logo-symbol.png` | Drops only, cropped from the horizontal logo | Header on phones |
+| `logo-horizontal-on-dark.png` / `-sm.png` | Horizontal: blue drops + white wordmark (`-sm` without "~ CIC") | Footer (navy background) |
+| `logo-stacked-color.png` / `-sm.png` | Stacked: drops over navy wordmark (`-sm`: 480 px tall, without "~ CIC") | JSON-LD `logo`, OG image |
+| `logo-stacked-on-dark.png` | Stacked: blue drops + white wordmark | Not used yet (dark backgrounds) |
+| `logo-horizontal-white.png`, `logo-stacked-white.png` | All-white versions | Not used yet (photos, dark backgrounds) |
+| `logo-seal.png` | Round seal with curved wordmark | Not used yet (stamps, stickers) |
+
+`public/favicon.ico` (16, 32 and 48 px), `public/favicon.png` and `public/apple-touch-icon.png` are the drops on a navy circle. The `-sm` files, the symbol and the icons are generated from the originals (the site doesn't show the "~ CIC" text, so it is erased in those copies); the originals are kept untouched. Regenerate the copies if the originals change.
+
 ## Placeholders to replace
 
 All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the page as-is until you replace them.
@@ -137,4 +154,4 @@ All in `src/data/site.ts` unless noted. Values in `[brackets]` show up on the pa
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] Consent text in `src/components/ContactForm.astro` mentions a "política de tratamiento de datos". Publish that policy (required by Ley 1581) and link it there.
 - [ ] `public/og-image.png`: social preview image; replace with a branded one if you have a logo. It's a static image, so keep any numbers out of it.
-- [ ] **Final SVG logo** (interim assets were cropped from the PNG logo): replace `public/brand/mark.png` (header mark, used in `src/components/Header.astro`), `public/favicon.png`, `public/apple-touch-icon.png` and `public/brand/logo-diagnostica.png` (JSON-LD logo). The header wordmark is text styled after the logo; swap it for the SVG lockup when available.
+- [ ] **SVG logo** (optional): the logos are PNG today. When SVGs arrive, swap the files listed under *Brand assets* and keep the same names.

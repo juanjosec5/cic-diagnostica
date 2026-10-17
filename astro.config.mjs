@@ -14,6 +14,8 @@ export default defineConfig({
   // Every page is prerendered except routes that opt out (src/pages/api/contact.ts).
   output: 'static',
   adapter: vercel(),
+  // 4321 is used by the CIC laboratorios site (cic-web-2026); a fixed port avoids mixing up the two in the browser.
+  server: { port: 4322 },
   // Astro 7 defaults to 'jsx' whitespace collapsing, which can drop spaces
   // between inline elements; keep the v5/v6 behavior.
   compressHTML: true,

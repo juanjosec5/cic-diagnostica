@@ -22,12 +22,9 @@ import { waLink } from '../lib/whatsapp';
 
   <div class="container header__inner">
     <a href="#inicio" class="logo" aria-label={`${company.name}, ir al inicio`}>
-      <!-- Interim mark cropped from the PNG logo; swap for the final SVG when it arrives. -->
-      <img class="logo__mark" src="/brand/mark.png" width="40" height="40" alt="" />
-      <span class="logo__text" aria-hidden="true">
-        diagnóstica
-        <span class="logo__sub">cic</span>
-      </span>
+      <!-- Phones get the drops only; the full lockup needs more width than the header has. -->
+      <img class="logo__symbol" src="/brand/logo-symbol.png" width="61" height="40" alt="" />
+      <img class="logo__full" src="/brand/logo-horizontal-color-sm.png" width="197" height="40" alt="" />
     </a>
 
     <nav class="nav" aria-label="Principal">
@@ -141,45 +138,20 @@ import { waLink } from '../lib/whatsapp';
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    color: var(--blue-900);
     margin-right: auto;
   }
 
-  .logo__mark {
-    flex: none;
-    border-radius: 50%;
+  .logo .logo__full {
+    display: none;
   }
 
-  /* Mirrors the logo lockup: lowercase "diagnóstica" with a small "cic" below, right-aligned. */
-  .logo__text {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-weight: 700;
-    font-size: 1.25rem;
-    line-height: 1;
-    letter-spacing: 0.01em;
-  }
-
-  .logo__sub {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    margin-top: 0.15rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--blue-700);
-  }
-
-  .logo__sub::before {
-    content: '';
-    width: 0.9rem;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--sky);
+  @media (min-width: 640px) {
+    .logo .logo__symbol {
+      display: none;
+    }
+    .logo .logo__full {
+      display: block;
+    }
   }
 
   .header__wa {
@@ -238,13 +210,6 @@ import { waLink } from '../lib/whatsapp';
 
   .nav__list li:last-child a {
     border-bottom: 0;
-  }
-
-  /* Phones show only the round mark; the wordmark needs more width than the header has. */
-  @media (max-width: 639px) {
-    .logo__text {
-      display: none;
-    }
   }
 
   @media (min-width: 1040px) {

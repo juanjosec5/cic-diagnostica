@@ -8,7 +8,7 @@ import { waLink } from '../lib/whatsapp';
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Cobertura y calendario de ruta</span>
-      <h2>Entregamos en todo el Valle del Cauca</h2>
+      <h2>Entregamos en el Valle del Cauca y fuera de él</h2>
       <p class="lead">Ruta fija semanal en los {municipalities.length} municipios con sede de CIC laboratorios.</p>
     </div>
 
@@ -20,9 +20,7 @@ import { waLink } from '../lib/whatsapp';
             {d.day}
           </h3>
           {d.towns ? (
-            <ul class="towns">
-              {d.towns.map((t) => <li>{t}</li>)}
-            </ul>
+            <p class="towns">{d.towns.join(', ')}</p>
           ) : (
             <p class="day__note">{d.note}</p>
           )}
@@ -41,7 +39,7 @@ import { waLink } from '../lib/whatsapp';
 </section>
 
 <style>
-  /* One compact row per day: the day on the left, its towns as chips. */
+  /* One compact row per day: the day on the left, its towns as plain text. */
   .days {
     list-style: none;
     margin: 0;
@@ -85,21 +83,9 @@ import { waLink } from '../lib/whatsapp';
   }
 
   .towns {
-    list-style: none;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .towns li {
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
-    background: var(--blue-50);
-    color: var(--blue-900);
+    color: var(--ink);
     font-weight: 600;
-    font-size: 0.9rem;
   }
 
   .day__note {

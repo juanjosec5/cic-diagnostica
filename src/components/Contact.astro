@@ -27,8 +27,10 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
         <dl>
           <div class="row">
-            <dt><Icon name="whatsapp" size={20} /><span>WhatsApp</span></dt>
-            <dd>{company.whatsappDisplay}</dd>
+            <dt><Icon name="whatsapp" size={20} /><span>WhatsApp y llamadas</span></dt>
+            <dd>
+              {company.whatsappDisplay} · <a href={`tel:+${company.whatsapp}`}>Llamar</a>
+            </dd>
           </div>
           <div class="row">
             <dt><Icon name="mail" size={20} /><span>Correo</span></dt>

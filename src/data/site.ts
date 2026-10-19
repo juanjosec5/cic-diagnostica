@@ -77,7 +77,7 @@ export const clientPlans: { icon: string; title: string; benefits: string[] }[] 
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
-    benefits: ['Reactivos, toma de muestras y consumibles', 'Sin pedido mínimo'],
+    benefits: ['Reactivos, toma de muestras y consumibles', 'Despachos diarios', 'Sin pedido mínimo'],
   },
   {
     icon: 'pill',
@@ -172,7 +172,7 @@ export const faqs = [
   },
   {
     q: '¿Entregan fuera de sus rutas?',
-    a: 'Sí, entregamos en todo el Valle del Cauca. Fuera de las rutas principales se cobra flete; consúltenos por WhatsApp para su municipio.',
+    a: 'Sí, también entregamos fuera del Valle del Cauca. Fuera de las rutas principales se cobra flete; consúltenos por WhatsApp para su municipio.',
   },
   {
     q: '¿Participan en licitaciones?',

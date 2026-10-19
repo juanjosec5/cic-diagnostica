@@ -104,6 +104,7 @@ Tracking is centralized, so components don't need per-element tags:
 | `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |
+| `call_click` | Any `tel:` link ("Llamar" in Contacto) | `section` |
 | `outbound_click` | Any other external link | `url`, `section` |
 | `faq_open` | FAQ question expanded | `question` |
 | `form_submit` | Form sent successfully | `interest`, `client_type` |

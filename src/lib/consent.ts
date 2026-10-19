@@ -1,7 +1,7 @@
 /**
  * Visitor consent for optional third parties (analytics and the Google Maps embed).
  * Stored in localStorage as { v, analytics, ts }. Bump CONSENT_VERSION when the tools or purposes
- * change so every visitor is asked again. See docs/privacy-plan.md.
+ * change so every visitor is asked again.
  */
 
 export const CONSENT_KEY = 'cic-consent';

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 import { company, isPlaceholder, privacy } from '../data/site';
 
-// Draft until every company fact is filled in and a lawyer has reviewed it (see docs/privacy-plan.md).
+// Draft until every company fact is filled in and a lawyer has reviewed it (see README > Privacy and consent).
 const pending = [company.legalName, company.nit, ...Object.values(privacy)].some(isPlaceholder);
 ---
 

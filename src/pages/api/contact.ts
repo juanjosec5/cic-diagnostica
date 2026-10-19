@@ -35,7 +35,6 @@ function buildEmail(d: ContactData) {
   const rows: [string, string][] = [
     ['Nombre', d.nombre],
     ['Institución / empresa', d.institucion],
-    ['Correo', d.correo],
     ['Teléfono / WhatsApp', d.telefono],
     ['Tipo de cliente', d.tipo],
     ['Me interesa', interest],
@@ -67,7 +66,7 @@ function buildEmail(d: ContactData) {
 ${table(rows)}
 <h3 style="color:#0b4f8a;margin:20px 0 8px;font-size:15px;">Registro de autorización</h3>
 ${table(consentRows)}
-<p style="font-size:12px;color:#4d5f73;margin-top:16px;">Responda este correo para contestarle directamente al cliente.
+<p style="font-size:12px;color:#4d5f73;margin-top:16px;">Contacte al cliente por teléfono o WhatsApp.
 Conserve este correo según la política de datos; no lo reenvíe fuera de la empresa.</p>
 </body></html>`;
 
@@ -119,7 +118,6 @@ export const POST: APIRoute = async ({ request }) => {
     const { error } = await resend.emails.send({
       from: CONTACT_FROM,
       to: CONTACT_TO.split(',').map((s) => s.trim()).filter(Boolean),
-      replyTo: data.correo,
       subject,
       html,
       text,

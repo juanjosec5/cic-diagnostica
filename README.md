@@ -66,11 +66,11 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 `src/pages/api/contact.ts`:
 
 - Accepts JSON (what the page sends) or a regular form post.
-- Validates required fields, email format and phone length, and caps text lengths (message ≤ 3000 chars). It uses the same rules as the browser (`src/lib/contact.ts`).
+- Validates required fields (nombre, teléfono/WhatsApp, mensaje, consent) and phone length, and caps text lengths (message ≤ 3000 chars). It uses the same rules as the browser (`src/lib/contact.ts`).
 - When "Contrato de suministro" is selected, the form shows two extra optional fields (NIT de la institución, consumo mensual aproximado). They are disabled while hidden, so they're only submitted and emailed for contract requests.
-- The contracts, catalog ("Pedirlo por correo") and supplier-documents buttons scroll to the form with the matching "Me interesa" option preselected.
+- The contracts and supplier-documents buttons scroll to the form with the matching "Me interesa" option preselected.
 - Hidden honeypot field `website`: if it's filled, the endpoint answers `ok` and sends nothing.
-- HTML-escapes every value into a table email. The subject is `[Web] Contrato de suministro: Nombre (Institución)` and `reply_to` is the client's email, so you can just hit "Responder".
+- HTML-escapes every value into a table email. The subject is `[Web] Contrato de suministro: Nombre (Institución)`. The form has no email field (the company contacts requesters by phone or WhatsApp), so there is no `reply_to`.
 - Returns `200 {ok:true}`, `400 {ok:false, errors:{field: message}}`, or `5xx`. On 5xx or a network error the page tells the visitor to use WhatsApp or email, and keeps what they typed.
 
 ### Environment variables

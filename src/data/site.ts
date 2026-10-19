@@ -33,11 +33,13 @@ export const company = {
 export const privacy = {
   version: '1.0',
   effectiveDate: '[DATO: fecha de vigencia]',
-  requestEmail: '[DATO: correo para solicitudes sobre datos personales]',
-  responsibleArea: '[DATO: área o persona responsable]',
-  emailProvider: '[DATO: proveedor del correo corporativo]',
+  requestEmail: company.email,
+  responsibleArea: 'Gerencia',
+  // Mail for cicdiagnostica.com is hosted on the domain's cPanel server (MX → 174.136.57.9, VivaWebHost).
+  emailProvider: 'VivaWebHost (alojamiento del dominio)',
   analyticsRegion: '[DATO: país de alojamiento de Umami]',
-  leadRetention: '[DATO: plazo de conservación de solicitudes que no se convierten en clientes, p. ej. 24 meses]',
+  leadRetention:
+    'las solicitudes se conservan en el correo de la gerencia mientras sean necesarias para la relación comercial, y usted puede pedir su supresión en cualquier momento',
   rnbd: '[DATO: inscrita en el RNBD / no obligada a inscribirse]',
 };
 

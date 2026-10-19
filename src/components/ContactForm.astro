@@ -21,12 +21,6 @@ import { LIMITS } from '../lib/contact';
     </div>
 
     <div class="field">
-      <label for="f-correo">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
-      <input id="f-correo" name="correo" type="email" autocomplete="email" inputmode="email" required maxlength={LIMITS.short} aria-describedby="e-correo" />
-      <p class="error" id="e-correo"></p>
-    </div>
-
-    <div class="field">
       <label for="f-telefono">Teléfono o WhatsApp <span class="req" aria-hidden="true">*</span></label>
       <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required maxlength={LIMITS.phone} aria-describedby="e-telefono" />
       <p class="error" id="e-telefono"></p>
@@ -122,7 +116,7 @@ import { LIMITS } from '../lib/contact';
   <template id="tpl-success">
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
-      <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por correo electrónico o WhatsApp.</p>
+      <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por teléfono o WhatsApp.</p>
     </div>
   </template>
   <template id="tpl-invalid">

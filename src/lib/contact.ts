@@ -8,7 +8,6 @@ export const LIMITS = { short: 120, phone: 30, nit: 30, consumption: 1000, messa
 export const FIELDS = [
   'nombre',
   'institucion',
-  'correo',
   'telefono',
   'tipo',
   'interes',
@@ -23,7 +22,6 @@ export type ContactField = (typeof FIELDS)[number];
 export type ContactData = Record<ContactField, string>;
 export type ContactErrors = Partial<Record<ContactField, string>>;
 
-const EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i;
 
 /** Picks known fields from untrusted input, coerced to trimmed strings. */
 export function normalizeContact(input: Record<string, unknown>): ContactData {
@@ -38,10 +36,6 @@ export function validateContact(input: Record<string, unknown>): ContactErrors {
 
   if (!d.nombre) errors.nombre = 'Escriba su nombre.';
   else if (d.nombre.length > LIMITS.short) errors.nombre = 'El nombre es demasiado largo.';
-
-  if (!d.correo) errors.correo = 'Escriba su correo electrónico.';
-  else if (d.correo.length > LIMITS.short || !EMAIL_RE.test(d.correo))
-    errors.correo = 'Escriba un correo válido, por ejemplo nombre@empresa.com.';
 
   const digits = d.telefono.replace(/\D/g, '');
   if (!d.telefono) errors.telefono = 'Escriba un teléfono o WhatsApp.';

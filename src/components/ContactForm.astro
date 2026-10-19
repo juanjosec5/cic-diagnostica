@@ -212,6 +212,8 @@ import { LIMITS } from '../lib/contact';
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(data),
+          // Don't leave the button stuck on "Enviando…" if the server hangs.
+          signal: AbortSignal.timeout(15000),
         });
         const body = await res.json().catch(() => ({}));
 
@@ -230,10 +232,10 @@ import { LIMITS } from '../lib/contact';
           status.focus();
           track('form_failed', { ...formContext, reason: String(res.status) });
         }
-      } catch {
+      } catch (err) {
         showStatus('failed');
         status.focus();
-        track('form_failed', { ...formContext, reason: 'network' });
+        track('form_failed', { ...formContext, reason: (err as Error).name === 'TimeoutError' ? 'timeout' : 'network' });
       } finally {
         submit.disabled = false;
         submitLabel.textContent = 'Enviar solicitud';

@@ -7,6 +7,11 @@ import { CONSENT_TEXT_VERSION, interestOptions, privacy } from '../../data/site'
 // Runs on demand as a Vercel serverless function; the rest of the site is static.
 export const prerender = false;
 
+// The form's largest legitimate body is under 6 KB; anything bigger is rejected before parsing.
+const MAX_BODY_BYTES = 16 * 1024;
+// Fail before the platform kills the function, so the visitor gets the WhatsApp/email fallback message.
+const SEND_TIMEOUT_MS = 8000;
+
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
@@ -77,12 +82,19 @@ Conserve este correo según la política de datos; no lo reenvíe fuera de la em
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  if (Number(request.headers.get('content-length') ?? 0) > MAX_BODY_BYTES) {
+    return json({ ok: false, error: 'too_large' }, 413);
+  }
+
   let input: Record<string, unknown>;
   try {
     const type = request.headers.get('content-type') ?? '';
-    input = type.includes('application/json')
-      ? await request.json()
-      : Object.fromEntries(await request.formData());
+    // Read the raw body once so chunked requests without Content-Length are capped too.
+    const raw = await request.text();
+    if (new Blob([raw]).size > MAX_BODY_BYTES) return json({ ok: false, error: 'too_large' }, 413);
+    input = type.startsWith('application/json')
+      ? JSON.parse(raw)
+      : Object.fromEntries(await new Response(raw, { headers: { 'content-type': type } }).formData());
   } catch {
     return json({ ok: false, error: 'invalid_body' }, 400);
   }
@@ -115,13 +127,23 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const resend = new Resend(RESEND_API_KEY);
-    const { error } = await resend.emails.send({
+    const send = resend.emails.send({
       from: CONTACT_FROM,
       to: CONTACT_TO.split(',').map((s) => s.trim()).filter(Boolean),
       subject,
       html,
       text,
     });
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<'timeout'>((resolve) => {
+      timer = setTimeout(() => resolve('timeout'), SEND_TIMEOUT_MS);
+    });
+    const result = await Promise.race([send, timeout]).finally(() => clearTimeout(timer));
+    if (result === 'timeout') {
+      console.error('[contact] Resend timed out');
+      return json({ ok: false, error: 'send_timeout' }, 504);
+    }
+    const { error } = result;
     if (error) {
       console.error('[contact] Resend error', error);
       return json({ ok: false, error: 'send_failed' }, 502);

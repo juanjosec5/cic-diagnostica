@@ -104,7 +104,29 @@ The data-protection work follows `docs/privacy-plan.md` (Ley 1581 de 2012; not l
 
 
 
-Clicks and form outcomes go to [Umami Cloud](https://cloud.umami.is), which is cookieless, so there's no consent banner. The script only loads when `PUBLIC_UMAMI_WEBSITE_ID` is set.
+## Security
+
+- **Headers** (`vercel.json`, applied by Vercel to every response): `Content-Security-Policy`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` and `Permissions-Policy`. Vercel adds HSTS itself.
+  - The CSP allows `'self'`, Umami (`cloud.umami.is`, `gateway.umami.is`) and the Google Maps iframe (`www.google.com`).
+  - It allows `'unsafe-inline'` scripts and styles, because Astro inlines small component scripts and styles. The site renders no user content.
+  - **When you add a new third-party script or iframe, add its origin to the CSP**, otherwise the browser blocks it.
+- **Contact API** (`src/pages/api/contact.ts`):
+  - rejects bodies over 16 KB with a 413;
+  - accepts only the listed select values;
+  - times out the Resend call after 8 s (504), and the browser gives up after 15 s; both show the WhatsApp/email fallback;
+  - drops honeypot submissions;
+  - escapes all HTML in the email.
+- **Rate limiting (do this in Vercel):**
+  - Go to **Project → Firewall → Configure → New Rule**: *If* Request Path *equals* `/api/contact` *and* Method *equals* `POST`, *then* **Rate Limit** 5 requests per 60 s per IP → **Deny** (Log first if unsure).
+  - Also turn on a usage alert in Resend.
+- **`npm audit`:** it reports `path-to-regexp` (GHSA-9wv6-86v2-598j) through `@astrojs/vercel` → `@vercel/routing-utils`.
+  - That code runs only during `astro build` on our own route patterns. It is not in the deployed function, so it is **not exploitable**.
+  - **Don't run `npm audit fix --force`**: it downgrades the adapter to 8.x, which is incompatible with Astro 7.
+  - Update `@astrojs/vercel` when a fixed version ships.
+
+## Tracking (Umami)
+
+Clicks and form outcomes go to [Umami Cloud](https://cloud.umami.is), which is cookieless. The script loads only when `PUBLIC_UMAMI_WEBSITE_ID` is set **and** the visitor tapped "Aceptar" in the consent banner (see *Privacy and consent*).
 
 **Setup:** sign up at <https://cloud.umami.is>, go to **Websites → Add website** (domain `cicdiagnostica.com`), and copy the *Website ID*. In Vercel, add `PUBLIC_UMAMI_WEBSITE_ID` for **Production only**, so preview and dev visits aren't counted, then redeploy. It's a public value: it ends up in the page source by design.
 
@@ -120,6 +142,7 @@ Tracking is centralized, so components don't need per-element tags:
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |
 | `call_click` | Any `tel:` link ("Llamar" in Contacto) | `section` |
+| `internal_click` | Link to another page of the site (e.g. `/politica-de-datos`) | `url`, `section` |
 | `outbound_click` | Any other external link | `url`, `section` |
 | `faq_open` | FAQ question expanded | `question` |
 | `form_submit` | Form sent successfully | `interest`, `client_type` |

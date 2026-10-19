@@ -22,9 +22,11 @@ import { waLink } from '../lib/whatsapp';
 
   <div class="container header__inner">
     <a href="#inicio" class="logo" aria-label={`${company.name}, ir al inicio`}>
-      <!-- Phones get the drops only; the full lockup needs more width than the header has. -->
-      <img class="logo__symbol" src="/brand/logo-symbol.png" width="61" height="40" alt="" />
-      <img class="logo__full" src="/brand/logo-horizontal-color-sm.png" width="197" height="40" alt="" />
+      <!-- Phones get the drops only (the full lockup needs more width); <picture> downloads just one file. -->
+      <picture>
+        <source media="(min-width: 640px)" srcset="/brand/logo-horizontal-color-sm.png" width="197" height="40" />
+        <img src="/brand/logo-symbol.png" width="61" height="40" alt="" />
+      </picture>
     </a>
 
     <nav class="nav" aria-label="Principal">
@@ -141,17 +143,9 @@ import { waLink } from '../lib/whatsapp';
     margin-right: auto;
   }
 
-  .logo .logo__full {
-    display: none;
-  }
-
-  @media (min-width: 640px) {
-    .logo .logo__symbol {
-      display: none;
-    }
-    .logo .logo__full {
-      display: block;
-    }
+  .logo picture,
+  .logo img {
+    display: block;
   }
 
   /* Phones use the floating button instead, so only one WhatsApp entry is always visible. */

@@ -22,6 +22,9 @@
 
   const banner = document.getElementById('consent-banner');
   if (banner) {
+    // The link that reopened the banner; focus returns there after a choice.
+    let opener: HTMLElement | null = null;
+
     const setOpen = (open: boolean) => {
       banner.hidden = !open;
       document.body.classList.toggle('has-consent-banner', open);
@@ -32,6 +35,8 @@
     banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((button) =>
       button.addEventListener('click', () => {
         setOpen(false);
+        opener?.focus();
+        opener = null;
         saveConsent(button.dataset.consent as ConsentChoice);
       }),
     );
@@ -39,6 +44,7 @@
     document.querySelectorAll('[data-consent-open]').forEach((opener) =>
       opener.addEventListener('click', (event) => {
         event.preventDefault();
+        opener = event.currentTarget as HTMLElement;
         setOpen(true);
         banner.querySelector<HTMLButtonElement>('[data-consent]')?.focus();
       }),

@@ -8,15 +8,29 @@ import { waCatalogLink } from '../lib/whatsapp';
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Productos</span>
-      <h2>Lo que su laboratorio necesita, con un solo proveedor</h2>
-      <p class="lead">Algunas de nuestras líneas. El catálogo completo está en WhatsApp.</p>
+      <h2>Lo que distribuimos</h2>
+      <p class="lead">Estos son ejemplos de cada línea. Vea todas las referencias en nuestro catálogo de WhatsApp.</p>
     </div>
 
     <!-- Phones: a horizontal swipe row (CSS scroll-snap, no JS). Wider screens: a grid. -->
     <ul class="track" tabindex="0" aria-label="Líneas de producto">
       {productCategories.map((cat) => (
         <li class="card product">
-          <span class="icon-badge"><Icon name={cat.icon} /></span>
+          {cat.image ? (
+            <img
+              class="product__photo"
+              src={`${cat.image}-360.webp`}
+              srcset={`${cat.image}-360.webp 360w, ${cat.image}-640.webp 640w`}
+              sizes="(min-width: 640px) 240px, 78vw"
+              alt=""
+              width="360"
+              height="240"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <span class="icon-badge"><Icon name={cat.icon} /></span>
+          )}
           <h3>{cat.title}</h3>
           <ul class="items">
             {cat.items.map((item) => <li>{item}</li>)}
@@ -63,6 +77,19 @@ import { waCatalogLink } from '../lib/whatsapp';
   .product {
     scroll-snap-align: start;
     padding: 1.1rem;
+    overflow: hidden;
+  }
+
+  /* Full-bleed photo on top of the card (cancels the card padding). Decorative: the title names the line. */
+  .product__photo {
+    display: block;
+    width: calc(100% + 2.2rem);
+    max-width: none;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    margin: -1.1rem -1.1rem 0.9rem;
+    border-radius: var(--radius) var(--radius) 0 0;
   }
 
   .product h3 {

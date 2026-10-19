@@ -50,19 +50,22 @@ export const CONSENT_TEXT_VERSION = 'v1';
 export const isPlaceholder = (value: string): boolean => /\[.*\]/.test(value);
 
 /**
- * Fixed delivery routes: the municipalities with a CIC laboratorios site, by weekday.
- * A day without fixed towns shows its `note` instead.
- * The list of municipalities and their count are derived from this everywhere on the page.
+ * Municipalities with direct delivery: those with a CIC Laboratorios site (ciclaboratorios.com/sedes),
+ * grouped by subregion. The list and its count are derived from this everywhere on the page.
  */
-export const routeDays: { day: string; towns?: string[]; note?: string }[] = [
-  { day: 'Lunes', towns: ['Cali', 'Yumbo', 'Vijes', 'Dagua', 'La Cumbre'] },
-  { day: 'Martes', towns: ['Palmira', 'Candelaria', 'Pradera', 'Florida'] },
-  { day: 'Miércoles', towns: ['Buga', 'Guacarí', 'El Cerrito', 'Ginebra'] },
-  { day: 'Jueves', towns: ['Tuluá', 'Zarzal', 'Roldanillo', 'Cartago'] },
-  { day: 'Viernes', note: 'Envíos a municipios cercanos' },
+export const deliveryZones: { zone: string; towns: string[] }[] = [
+  {
+    zone: 'Norte del Valle',
+    towns: ['Ansermanuevo', 'Caicedonia', 'Cartago', 'La Unión', 'Obando', 'Roldanillo', 'Zarzal'],
+  },
+  {
+    zone: 'Centro del Valle',
+    towns: ['Buga', 'Andalucía', 'Bugalagrande', 'Darién', 'Restrepo', 'San Pedro', 'Tuluá', 'Yotoco'],
+  },
+  { zone: 'Sur del Valle', towns: ['Dagua', 'Guacarí', 'La Cumbre'] },
 ];
 
-export const municipalities = routeDays.flatMap((d) => d.towns ?? []);
+export const municipalities = deliveryZones.flatMap((z) => z.towns);
 
 /** Orders above this value ship without freight charge (COP). */
 export const freeFreightFrom = '$600.000';
@@ -70,7 +73,7 @@ export const freeFreightFrom = '$600.000';
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
   general: 'Hola, CIC Diagnóstica. Quisiera recibir más información sobre sus productos.',
-  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
+  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos médicos y de laboratorio.',
   urgent: 'Hola, CIC Diagnóstica. Necesito hacer un pedido urgente porque nos estamos quedando sin insumos.',
   contract: 'Hola, CIC Diagnóstica. Quisiera información sobre un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
@@ -82,11 +85,11 @@ export type WhatsAppIntent = keyof typeof whatsappMessages;
 export const stats = [
   { icon: 'calendar', value: 'Desde 2021', label: 'en el sector salud' },
   { icon: 'user', value: '40+', label: 'clientes activos' },
-  { icon: 'map', value: String(municipalities.length), label: 'municipios con ruta fija' },
+  { icon: 'map', value: String(municipalities.length), label: 'municipios con entrega directa' },
   { icon: 'clock', value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
 ];
 
-/** Delivery time for in-stock products; shown as a badge in the hero and in the FAQ. */
+/** Delivery time; shown as a badge in the hero and in the FAQ. */
 export const deliveryTime = '1 a 3 días hábiles';
 
 export const clientPlans: { icon: string; title: string; benefits: string[] }[] = [
@@ -112,31 +115,88 @@ export const clientPlans: { icon: string; title: string; benefits: string[] }[] 
   },
 ];
 
-/** Product categories. Add, remove or reorder freely; the layout adapts. */
+/**
+ * "Lo más pedido": the warehouse's top 5, in rank order. Update monthly (items and `period`).
+ * Only list real best sellers; the label must stay true. `image` is a file in public/products/
+ * (4:3, 640×480 WebP, ≤ 60 KB; originals stay local); without it the card shows the category icon.
+ */
+export const bestSellers: {
+  period: string;
+  items: { name: string; presentation?: string; category: string; icon: string; image?: string }[];
+} = {
+  period: 'octubre de 2026',
+  items: [
+    {
+      name: 'Tubo tapa amarilla 5 ml',
+      category: 'Toma de muestras',
+      icon: 'droplet',
+      image: '/products/tubo-tapa-amarilla-5ml.webp',
+    },
+    {
+      name: 'Prueba rápida de drogas en orina 2 en 1 (THC/COC)',
+      presentation: 'x 25 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+      image: '/products/prueba-rapida-drogas-thc-coc.webp',
+    },
+    {
+      name: 'Aguja múltiple 21 x 1½"',
+      presentation: 'Caja x 100',
+      category: 'Toma de muestras',
+      icon: 'droplet',
+      image: '/products/aguja-multiple-21x1-5.webp',
+    },
+    {
+      name: 'Prueba rápida Hepatitis B (HBsAg)',
+      presentation: 'x 30 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+      image: '/products/prueba-rapida-hbsag.webp',
+    },
+    {
+      name: 'Prueba rápida VIH, casete 3 líneas (suero/plasma)',
+      presentation: 'x 40 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+      image: '/products/prueba-rapida-vih.webp',
+    },
+  ],
+};
+
+/**
+ * Product categories. Add, remove or reorder freely; the layout adapts.
+ * `image` is a file prefix in public/products/lineas/: `<image>-360.webp` and `<image>-640.webp` (3:2).
+ * Without it the card shows the icon.
+ */
 export const productCategories = [
   {
     icon: 'flask',
     title: 'Reactivos de laboratorio',
+    image: '/products/lineas/reactivos',
     items: ['Química clínica', 'Hematología', 'Inmunología', 'Uroanálisis'],
   },
   {
     icon: 'droplet',
     title: 'Toma de muestras',
+    image: '/products/lineas/toma-de-muestras',
     items: ['Tubos al vacío', 'Agujas, jeringas y portatubos (holders)', 'Torniquetes', 'Recolectores de orina y coprológico'],
   },
   {
     icon: 'test',
     title: 'Pruebas rápidas',
+    image: '/products/lineas/pruebas-rapidas',
     items: ['Embarazo', 'VIH, sífilis y hepatitis', 'Antígeno respiratorio', 'Drogas de abuso'],
   },
   {
     icon: 'box',
     title: 'Consumibles',
+    image: '/products/lineas/consumibles',
     items: ['Puntas de micropipeta', 'Láminas y laminillas', 'Algodón y gasas', 'Alcohol y antisépticos'],
   },
   {
     icon: 'shield',
     title: 'Bioseguridad',
+    image: '/products/lineas/bioseguridad',
     items: ['Guantes de nitrilo y látex', 'Tapabocas y respiradores', 'Batas desechables', 'Guardianes'],
   },
 ];
@@ -181,7 +241,7 @@ export const faqs = [
   },
   {
     q: '¿Manejan un pedido mínimo?',
-    a: `No, no manejamos pedido mínimo. El flete depende de la distancia y del valor del pedido, y en compras superiores a ${freeFreightFrom} no cobramos flete.`,
+    a: `No manejamos pedido mínimo. La entrega es gratis en nuestros ${municipalities.length} municipios de entrega directa; en otros municipios el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}.`,
   },
   {
     q: '¿Ofrecen crédito?',
@@ -189,11 +249,11 @@ export const faqs = [
   },
   {
     q: '¿Cuánto tarda la entrega?',
-    a: `Si el producto está disponible en inventario, lo entregamos en ${deliveryTime}, según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.`,
+    a: `Entregamos en ${deliveryTime}. Para volúmenes grandes coordinamos un despacho dedicado.`,
   },
   {
-    q: '¿Entregan fuera de sus rutas?',
-    a: 'Sí, también entregamos fuera del Valle del Cauca. Fuera de las rutas principales se cobra flete; consúltenos por WhatsApp para su municipio.',
+    q: '¿Entregan en otros municipios?',
+    a: `Sí, en el resto del Valle del Cauca y fuera de él. Allí el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}; consúltenos por WhatsApp para su municipio.`,
   },
   {
     q: '¿Participan en licitaciones?',
@@ -227,8 +287,8 @@ export const interestOptions = [
 ] as const;
 
 export const navLinks = [
-  { href: '#planes', label: 'Planes' },
   { href: '#productos', label: 'Productos' },
+  { href: '#planes', label: 'Planes' },
   { href: '#contratos', label: 'Contratos' },
   { href: '#cobertura', label: 'Cobertura' },
   { href: '#contacto', label: 'Contacto' },

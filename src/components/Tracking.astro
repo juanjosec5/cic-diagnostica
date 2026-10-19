@@ -57,7 +57,10 @@ import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
       track('catalog_view', { section, label: labelOf(a) });
     } else if (href.startsWith('https://wa.me/')) {
       const text = new URL(href).searchParams.get('text') ?? '';
-      track('whatsapp_click', { intent: intentByMessage.get(text) ?? 'unknown', section, label: labelOf(a) });
+      // Best-seller cards tag their message with "(web-topN)".
+      const rank = text.match(/\(web-top(\d+)\)/)?.[1];
+      if (rank) track('bestseller_click', { rank: Number(rank), product: a.closest('li')?.querySelector('h3')?.textContent ?? '' });
+      else track('whatsapp_click', { intent: intentByMessage.get(text) ?? 'unknown', section, label: labelOf(a) });
     } else if (href.startsWith('tel:')) {
       track('call_click', { section });
     } else if (href.startsWith('mailto:')) {

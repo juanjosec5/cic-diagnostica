@@ -13,7 +13,7 @@ One-page site for CIC Diagnostica, a medical and laboratory supplies distributor
 ├── .env.example            # RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
 ├── public/                 # favicon, apple-touch-icon, og-image.png (1200×630), brand/ (logo files)
 └── src/
-    ├── data/site.ts        # ← ALL editable content: contact, WhatsApp, stats, plans, products, route, FAQ
+    ├── data/site.ts        # ← ALL editable content: contact, WhatsApp, stats, plans, products, coverage, FAQ
     ├── lib/
     │   ├── whatsapp.ts     # waLink(intent) → https://wa.me/<number>?text=<message>
     │   └── contact.ts      # form validation shared by browser and API
@@ -49,15 +49,16 @@ Everything is in `src/data/site.ts`:
 | Email, address, hours, NIT, legal name, response time | `company` |
 | Proof row under the hero (years, clients, municipalities, response time) | `stats` |
 | Plan cards per client type, with their WhatsApp button | `clientPlans` |
+| "Lo más pedido" top 5 (update monthly: items, `period`, photos in `public/products/`) | `bestSellers` |
 | Product categories and example items | `productCategories` (icons: `flask droplet test box beaker shield`) |
-| Delivery route: municipalities grouped by weekday (a day without fixed towns takes a `note`) | `routeDays` |
+| Direct-delivery municipalities, grouped by subregion (from ciclaboratorios.com/sedes) | `deliveryZones` |
 | Free-freight threshold (coverage note and FAQ) | `freeFreightFrom` |
 | Supplier documents list | `supplierDocuments` |
 | Testimonials (section hidden while empty) | `testimonials` |
 | FAQ | `faqs` |
 | Client-type and "me interesa" options of the form | `clientTypeOptions`, `interestOptions` |
 
-**Numbers stay consistent by construction.** The municipality count shown in the proof row, coverage section and meta description is `municipalities.length`, which is derived from `routeDays`. The response time comes from `company.responseTime` in the proof row, contact section and success message. Change each value once in the data file and it updates everywhere. Only publish numbers and claims you can back up.
+**Numbers stay consistent by construction.** The municipality count shown in the proof row and the coverage section is `municipalities.length`, which is derived from `deliveryZones`. The response time comes from `company.responseTime` in the proof row, contact section and success message. Change each value once in the data file and it updates everywhere. Only publish numbers and claims you can back up.
 
 Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `paths` map.
 
@@ -138,6 +139,7 @@ Tracking is centralized, so components don't need per-element tags:
 | Event | When | Data |
 | --- | --- | --- |
 | `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, contract, outsideRoute, general…), `section`, `label` |
+| `bestseller_click` | A card in "Lo más pedido" | `rank` (1–5), `product` |
 | `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |

@@ -1,0 +1,277 @@
+---
+import Icon from './Icon.astro';
+import { bestSellers, company, municipalities } from '../data/site';
+import { waTextLink } from '../lib/whatsapp';
+
+// The "(web-topN)" tag lets the team (and Tracking.astro) tell which card a chat came from.
+const orderMessage = (rank: number, name: string, presentation?: string) =>
+  `Hola, CIC Diagnóstica. Quisiera cotizar: ${name}${presentation ? ` – ${presentation}` : ''}. ` +
+  `Cantidad: __. Ciudad: __. (web-top${rank})`;
+---
+
+<section id="mas-pedidos" class="section best">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Más vendidos</span>
+      <h2>Los {bestSellers.items.length} productos que más nos piden</h2>
+      <p class="lead">Según despachos de {bestSellers.period}.</p>
+    </div>
+
+    <!-- Phones and tablets: a swipe row (CSS scroll-snap) with the next card peeking in. Desktop: one static row. -->
+    <ol class="best__track" tabindex="0" aria-label="Productos más pedidos">
+      {bestSellers.items.map((item, i) => (
+        <li class="best__card" aria-label={`${i + 1} de ${bestSellers.items.length}`}>
+          <div class="best__media">
+            {item.image ? (
+              <img src={item.image} alt={item.name} width="320" height="240" loading={i === 0 ? 'eager' : 'lazy'} />
+            ) : (
+              <span class="best__placeholder" aria-hidden="true"><Icon name={item.icon} size={44} /></span>
+            )}
+            <span class="best__rank">#{i + 1}</span>
+          </div>
+          <p class="best__category">{item.category}</p>
+          <h3 class="best__name">{item.name}</h3>
+          {item.presentation && <p class="best__presentation">{item.presentation}</p>}
+          <!-- The link stretches over the whole card (::after), so the card is one tap target. -->
+          <a class="best__cta" href={waTextLink(orderMessage(i + 1, item.name, item.presentation))} target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            Cotizar
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <div class="best__controls" aria-hidden="true">
+      <button type="button" class="best__arrow" data-dir="-1" tabindex="-1" aria-label="Anterior">
+        <Icon name="arrow" size={20} />
+      </button>
+      <span class="best__count"><span data-best-current>1</span> / {bestSellers.items.length}</span>
+      <button type="button" class="best__arrow" data-dir="1" tabindex="-1" aria-label="Siguiente">
+        <Icon name="arrow" size={20} />
+      </button>
+    </div>
+
+    <!-- Each condition stays on one line with its separator, so a wrap never starts with "·". -->
+    <p class="best__terms">
+      <span>Sin pedido mínimo ·</span>
+      <span>Envío gratis en {municipalities.length} municipios ·</span>
+      <span>Respuesta en menos de {company.responseTime}</span>
+    </p>
+  </div>
+</section>
+
+<script>
+  // Arrows and the "n / 5" counter for the swipe row. Nothing moves on its own.
+  const track = document.querySelector<HTMLElement>('.best__track');
+  const current = document.querySelector<HTMLElement>('[data-best-current]');
+  if (track && current) {
+    const cards = [...track.children] as HTMLElement[];
+    const step = () => (cards[1]?.offsetLeft ?? 0) - (cards[0]?.offsetLeft ?? 0) || track.clientWidth;
+
+    document.querySelectorAll<HTMLButtonElement>('.best__arrow').forEach((button) =>
+      button.addEventListener('click', () => track.scrollBy({ left: Number(button.dataset.dir) * step(), behavior: 'smooth' })),
+    );
+
+    track.addEventListener(
+      'scroll',
+      () => {
+        const index = Math.round(track.scrollLeft / step());
+        current.textContent = String(Math.min(cards.length, index + 1));
+      },
+      { passive: true },
+    );
+  }
+</script>
+
+<style>
+  .best__track {
+    list-style: none;
+    margin: 0 -16px;
+    padding: 0.25rem 16px 0.75rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 80%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .best__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .best__track:focus-visible {
+    outline-offset: -3px;
+  }
+
+  @media (min-width: 640px) {
+    .best__track {
+      margin: 0;
+      padding-inline: 0;
+      grid-auto-columns: calc((100% - 2 * 0.75rem) / 3);
+      scroll-padding-inline: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .best__track {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      overflow: visible;
+    }
+  }
+
+  .best__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+    padding: 0.75rem 0.75rem 0.5rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .best__card:hover {
+    border-color: var(--wa-dark);
+  }
+
+  .best__card:focus-within {
+    outline: 3px solid var(--blue-600);
+    outline-offset: 2px;
+  }
+
+  .best__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 0.75rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--blue-50);
+  }
+
+  .best__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .best__placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: var(--blue-700);
+  }
+
+  .best__rank {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 8px;
+    background: var(--blue-900);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
+  .best__category {
+    margin: 0 0 0.2rem;
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .best__name {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .best__presentation {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .best__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    min-height: 44px;
+    font-weight: 700;
+    color: var(--wa-dark);
+    text-decoration: none;
+  }
+
+  .best__cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+
+  .best__cta:focus-visible {
+    outline: none;
+  }
+
+  .best__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .best__controls {
+      display: none;
+    }
+  }
+
+  .best__arrow {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--blue-900);
+    cursor: pointer;
+  }
+
+  .best__arrow[data-dir='-1'] :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .best__count {
+    min-width: 3.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .best__terms {
+    margin: 1rem 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .best__terms span {
+    white-space: nowrap;
+  }
+</style>

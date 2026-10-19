@@ -1,29 +1,28 @@
 ---
 import Icon from './Icon.astro';
-import { freeFreightFrom, municipalities, routeDays } from '../data/site';
+import { deliveryZones, freeFreightFrom, municipalities } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="cobertura" class="section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Cobertura y calendario de ruta</span>
+      <span class="eyebrow">Cobertura</span>
       <h2>Entregamos en el Valle del Cauca y fuera de él</h2>
-      <p class="lead">Ruta fija semanal en los {municipalities.length} municipios con sede de CIC laboratorios.</p>
+      <p class="lead">
+        Desde Buga, entregamos con vehículos propios en los {municipalities.length} municipios donde CIC Laboratorios
+        tiene sede.
+      </p>
     </div>
 
-    <ul class="days">
-      {routeDays.map((d) => (
-        <li class="day">
-          <h3 class="day__name">
-            <Icon name="calendar" size={18} />
-            {d.day}
+    <ul class="zones">
+      {deliveryZones.map((z) => (
+        <li class="zone">
+          <h3 class="zone__name">
+            <Icon name="map" size={18} />
+            {z.zone}
           </h3>
-          {d.towns ? (
-            <p class="towns">{d.towns.join(', ')}</p>
-          ) : (
-            <p class="day__note">{d.note}</p>
-          )}
+          <p class="towns">{z.towns.join(', ')}</p>
         </li>
       ))}
     </ul>
@@ -31,7 +30,8 @@ import { waLink } from '../lib/whatsapp';
     <p class="note">
       <Icon name="truck" size={20} />
       <span>
-        Fuera de ruta se cobra flete; gratis en compras superiores a {freeFreightFrom}. ¿Otro municipio?
+        Entrega sin costo en estos municipios. Fuera de ellos, el flete depende de la distancia y es gratis en compras
+        de más de {freeFreightFrom}. ¿No ve su municipio?
         <a href={waLink('outsideRoute')} target="_blank" rel="noopener">Consúltenos por WhatsApp</a>.
       </span>
     </p>
@@ -39,46 +39,38 @@ import { waLink } from '../lib/whatsapp';
 </section>
 
 <style>
-  /* One compact row per day: the day on the left, its towns as plain text. */
-  .days {
+  .zones {
     list-style: none;
     margin: 0;
     padding: 0;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: #fff;
-    overflow: hidden;
-  }
-
-  .day {
     display: grid;
-    grid-template-columns: 7.5rem minmax(0, 1fr);
-    align-items: center;
-    gap: 0.5rem 1rem;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--line);
+    gap: 0.75rem;
   }
 
-  .day:last-child {
-    border-bottom: 0;
-  }
-
-  @media (max-width: 479px) {
-    .day {
-      grid-template-columns: 1fr;
+  @media (min-width: 768px) {
+    .zones {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
     }
   }
 
-  .day__name {
+  .zone {
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+
+  .zone__name {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin: 0;
+    margin: 0 0 0.4rem;
     color: var(--blue-900);
     font-size: 1rem;
   }
 
-  .day__name :global(svg) {
+  .zone__name :global(svg) {
     color: var(--blue-700);
   }
 
@@ -86,12 +78,7 @@ import { waLink } from '../lib/whatsapp';
     margin: 0;
     color: var(--ink);
     font-weight: 600;
-  }
-
-  .day__note {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .note {

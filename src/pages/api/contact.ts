@@ -102,7 +102,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!RESEND_API_KEY) {
     if (import.meta.env.DEV) {
       // Local development without a key: log instead of sending.
-      console.info('[contact] RESEND_API_KEY not set, mock send:\n' + subject + '\n' + text);
+      console.info(`[contact] RESEND_API_KEY not set, mock send:\n${subject}\n${text}`);
       return json({ ok: true, mocked: true });
     }
     console.error('[contact] RESEND_API_KEY is not configured');

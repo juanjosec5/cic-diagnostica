@@ -34,7 +34,7 @@ import { waLink } from '../lib/whatsapp';
       ))}
     </ol>
 
-    <div class="contracts__cta">
+    <div class="actions contracts__cta">
       <a class="btn btn--wa" href={waLink('contract')} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={22} />
         Hablar con un asesor
@@ -50,7 +50,7 @@ import { waLink } from '../lib/whatsapp';
 <style>
   .contracts {
     background: linear-gradient(180deg, var(--blue-900), var(--blue-800));
-    color: #e6eef7;
+    color: var(--on-dark);
   }
 
   .contracts h2,
@@ -105,7 +105,7 @@ import { waLink } from '../lib/whatsapp';
 
   .benefit p {
     margin: 0;
-    color: #c9d8e8;
+    color: var(--on-dark-muted);
     font-size: 0.9rem;
     line-height: 1.45;
   }
@@ -164,18 +164,6 @@ import { waLink } from '../lib/whatsapp';
     font-weight: 800;
   }
 
-  .contracts__cta {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 1.25rem;
-  }
-
-  .contracts__cta .btn {
-    flex: 1 1 100%;
-  }
-
   .link-action--light {
     color: #fff;
   }
@@ -186,11 +174,5 @@ import { waLink } from '../lib/whatsapp';
 
   .contracts__cta :focus-visible {
     outline-color: var(--sky-light);
-  }
-
-  @media (min-width: 640px) {
-    .contracts__cta .btn {
-      flex: 0 0 auto;
-    }
   }
 </style>

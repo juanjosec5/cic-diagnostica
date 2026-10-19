@@ -14,7 +14,7 @@ import { waLink } from '../lib/whatsapp';
         Distribuidora independiente con sede en Buga. Proveedores del laboratorio clínico CIC y de la clínica Sane.
         Entregamos con personal y vehículos propios.
       </p>
-      <div class="hero__actions">
+      <div class="actions">
         <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
           <Icon name="whatsapp" size={22} />
           Cotizar por WhatsApp
@@ -29,7 +29,7 @@ import { waLink } from '../lib/whatsapp';
 
     <ul class="stats">
       {stats.map((s) => (
-        <li class="stat">
+        <li class="card stat">
           <span class="stat__icon"><Icon name={s.icon} size={20} /></span>
           <span class="stat__text">
             <strong>{s.value}</strong>
@@ -51,24 +51,6 @@ import { waLink } from '../lib/whatsapp';
 
   .hero__copy {
     max-width: 720px;
-  }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 1.25rem;
-    margin-top: 1.5rem;
-  }
-
-  .hero__actions .btn {
-    flex: 1 1 100%;
-  }
-
-  @media (min-width: 640px) {
-    .hero__actions .btn {
-      flex: 0 0 auto;
-    }
   }
 
   .badge {
@@ -111,10 +93,6 @@ import { waLink } from '../lib/whatsapp';
     align-items: center;
     gap: 0.6rem;
     padding: 0.75rem 0.8rem;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
   }
 
   .stat__icon {

@@ -5,7 +5,7 @@
 
 export const LIMITS = { short: 120, phone: 30, nit: 30, consumption: 1000, message: 3000 } as const;
 
-export const FIELDS = [
+const FIELDS = [
   'nombre',
   'institucion',
   'telefono',
@@ -21,7 +21,6 @@ export const FIELDS = [
 export type ContactField = (typeof FIELDS)[number];
 export type ContactData = Record<ContactField, string>;
 export type ContactErrors = Partial<Record<ContactField, string>>;
-
 
 /** Picks known fields from untrusted input, coerced to trimmed strings. */
 export function normalizeContact(input: Record<string, unknown>): ContactData {

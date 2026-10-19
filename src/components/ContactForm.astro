@@ -153,7 +153,7 @@ import { LIMITS } from '../lib/contact';
   interest?.addEventListener('change', syncContractFields);
   syncContractFields();
 
-  // Buttons with data-interest (contracts, catalog, supplier documents) preselect the "Me interesa" option.
+  // Buttons with data-interest (contracts, supplier documents) preselect the "Me interesa" option.
   document.querySelectorAll<HTMLElement>('[data-interest]').forEach((el) => {
     el.addEventListener('click', () => {
       if (!interest || !el.dataset.interest) return;
@@ -232,8 +232,8 @@ import { LIMITS } from '../lib/contact';
         }
       } catch {
         showStatus('failed');
-        track('form_failed', { ...formContext, reason: 'network' });
         status.focus();
+        track('form_failed', { ...formContext, reason: 'network' });
       } finally {
         submit.disabled = false;
         submitLabel.textContent = 'Enviar solicitud';
@@ -312,7 +312,6 @@ import { LIMITS } from '../lib/contact';
   }
 
   input[type='text'],
-  input[type='email'],
   input[type='tel'],
   select,
   textarea {
@@ -430,9 +429,9 @@ import { LIMITS } from '../lib/contact';
   }
 
   .status__box--error {
-    background: #fdf0ef;
-    border: 1px solid #f2c4bf;
-    color: #8a1c13;
+    background: var(--danger-50);
+    border: 1px solid var(--danger-line);
+    color: var(--danger-dark);
   }
 
   .status__box--error a {

@@ -63,7 +63,10 @@ import { waLink } from '../lib/whatsapp';
   if (float && primaries.length && 'IntersectionObserver' in window) {
     const visible = new Set<Element>();
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+      for (const e of entries) {
+        if (e.isIntersecting) visible.add(e.target);
+        else visible.delete(e.target);
+      }
       const hide = visible.size > 0;
       float.classList.toggle('is-hidden', hide);
       float.tabIndex = hide ? -1 : 0;

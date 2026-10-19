@@ -50,19 +50,22 @@ export const CONSENT_TEXT_VERSION = 'v1';
 export const isPlaceholder = (value: string): boolean => /\[.*\]/.test(value);
 
 /**
- * Fixed delivery routes: the municipalities with a CIC laboratorios site, by weekday.
- * A day without fixed towns shows its `note` instead.
- * The list of municipalities and their count are derived from this everywhere on the page.
+ * Municipalities with direct delivery: those with a CIC laboratorios site (ciclaboratorios.com/sedes),
+ * grouped by subregion. The list and its count are derived from this everywhere on the page.
  */
-export const routeDays: { day: string; towns?: string[]; note?: string }[] = [
-  { day: 'Lunes', towns: ['Cali', 'Yumbo', 'Vijes', 'Dagua', 'La Cumbre'] },
-  { day: 'Martes', towns: ['Palmira', 'Candelaria', 'Pradera', 'Florida'] },
-  { day: 'Miércoles', towns: ['Buga', 'Guacarí', 'El Cerrito', 'Ginebra'] },
-  { day: 'Jueves', towns: ['Tuluá', 'Zarzal', 'Roldanillo', 'Cartago'] },
-  { day: 'Viernes', note: 'Envíos a municipios cercanos' },
+export const deliveryZones: { zone: string; towns: string[] }[] = [
+  {
+    zone: 'Norte del Valle',
+    towns: ['Ansermanuevo', 'Caicedonia', 'Cartago', 'La Unión', 'Obando', 'Roldanillo', 'Zarzal'],
+  },
+  {
+    zone: 'Centro del Valle',
+    towns: ['Buga', 'Andalucía', 'Bugalagrande', 'Darién', 'Restrepo', 'San Pedro', 'Tuluá', 'Yotoco'],
+  },
+  { zone: 'Sur del Valle', towns: ['Dagua', 'Guacarí', 'La Cumbre'] },
 ];
 
-export const municipalities = routeDays.flatMap((d) => d.towns ?? []);
+export const municipalities = deliveryZones.flatMap((z) => z.towns);
 
 /** Orders above this value ship without freight charge (COP). */
 export const freeFreightFrom = '$600.000';
@@ -82,7 +85,7 @@ export type WhatsAppIntent = keyof typeof whatsappMessages;
 export const stats = [
   { icon: 'calendar', value: 'Desde 2021', label: 'en el sector salud' },
   { icon: 'user', value: '40+', label: 'clientes activos' },
-  { icon: 'map', value: String(municipalities.length), label: 'municipios con ruta fija' },
+  { icon: 'map', value: String(municipalities.length), label: 'municipios con entrega directa' },
   { icon: 'clock', value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
 ];
 
@@ -189,11 +192,11 @@ export const faqs = [
   },
   {
     q: '¿Cuánto tarda la entrega?',
-    a: `Si el producto está disponible en inventario, lo entregamos en ${deliveryTime}, según la ruta de la semana. Para volúmenes grandes coordinamos un despacho dedicado.`,
+    a: `Si el producto está disponible en inventario, lo entregamos en ${deliveryTime}. Para volúmenes grandes coordinamos un despacho dedicado.`,
   },
   {
-    q: '¿Entregan fuera de sus rutas?',
-    a: 'Sí, también entregamos fuera del Valle del Cauca. Fuera de las rutas principales se cobra flete; consúltenos por WhatsApp para su municipio.',
+    q: '¿Entregan en otros municipios?',
+    a: 'Sí, en el resto del Valle del Cauca y fuera de él. Fuera de nuestros municipios de entrega directa se cobra flete; consúltenos por WhatsApp para su municipio.',
   },
   {
     q: '¿Participan en licitaciones?',

@@ -23,7 +23,7 @@ const orderMessage = (rank: number, name: string, presentation?: string) =>
         <li class="best__card" aria-label={`${i + 1} de ${bestSellers.items.length}`}>
           <div class="best__media">
             {item.image ? (
-              <img src={item.image} alt={item.name} width="320" height="320" loading={i === 0 ? 'eager' : 'lazy'} />
+              <img src={item.image} alt={item.name} width="320" height="240" loading={i === 0 ? 'eager' : 'lazy'} />
             ) : (
               <span class="best__placeholder" aria-hidden="true"><Icon name={item.icon} size={44} /></span>
             )}
@@ -149,7 +149,7 @@ const orderMessage = (rank: number, name: string, presentation?: string) =>
 
   .best__media {
     position: relative;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
     margin-bottom: 0.75rem;
     border-radius: 10px;
     overflow: hidden;

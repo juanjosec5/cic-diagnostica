@@ -89,7 +89,7 @@ export const stats = [
   { icon: 'clock', value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
 ];
 
-/** Delivery time for in-stock products; shown as a badge in the hero and in the FAQ. */
+/** Delivery time; shown as a badge in the hero and in the FAQ. */
 export const deliveryTime = '1 a 3 días hábiles';
 
 export const clientPlans: { icon: string; title: string; benefits: string[] }[] = [
@@ -118,7 +118,7 @@ export const clientPlans: { icon: string; title: string; benefits: string[] }[] 
 /**
  * "Lo más pedido": the warehouse's top 5, in rank order. Update monthly (items and `period`).
  * Only list real best sellers; the label must stay true. `image` is a file in public/products/
- * (square, WebP/JPG ≤ 60 KB); without it the card shows the category icon.
+ * (4:3, 640×480 WebP, ≤ 60 KB; originals stay local); without it the card shows the category icon.
  */
 export const bestSellers: {
   period: string;
@@ -126,15 +126,38 @@ export const bestSellers: {
 } = {
   period: 'octubre de 2026',
   items: [
-    { name: 'Tubo tapa amarilla 5 ml', category: 'Toma de muestras', icon: 'droplet' },
-    { name: 'Tubo tapa lila 4 ml', category: 'Toma de muestras', icon: 'droplet' },
-    { name: 'Aguja múltiple 21 x 1½"', presentation: 'Caja x 100', category: 'Toma de muestras', icon: 'droplet' },
-    { name: 'Prueba rápida Hepatitis B (HBsAg)', presentation: 'x 30 pruebas', category: 'Pruebas rápidas', icon: 'test' },
+    {
+      name: 'Tubo tapa amarilla 5 ml',
+      category: 'Toma de muestras',
+      icon: 'droplet',
+      image: '/products/tubo-tapa-amarilla-5ml.webp',
+    },
+    {
+      name: 'Tubo tapa lila 4 ml',
+      category: 'Toma de muestras',
+      icon: 'droplet',
+      image: '/products/tubo-tapa-lila-4ml.webp',
+    },
+    {
+      name: 'Aguja múltiple 21 x 1½"',
+      presentation: 'Caja x 100',
+      category: 'Toma de muestras',
+      icon: 'droplet',
+      image: '/products/aguja-multiple-21x1-5.webp',
+    },
+    {
+      name: 'Prueba rápida Hepatitis B (HBsAg)',
+      presentation: 'x 30 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+      image: '/products/prueba-rapida-hbsag.webp',
+    },
     {
       name: 'Prueba rápida VIH, casete 3 líneas (suero/plasma)',
       presentation: 'x 40 pruebas',
       category: 'Pruebas rápidas',
       icon: 'test',
+      image: '/products/prueba-rapida-vih.webp',
     },
   ],
 };
@@ -216,7 +239,7 @@ export const faqs = [
   },
   {
     q: '¿Cuánto tarda la entrega?',
-    a: `Si el producto está disponible en inventario, lo entregamos en ${deliveryTime}. Para volúmenes grandes coordinamos un despacho dedicado.`,
+    a: `Entregamos en ${deliveryTime}. Para volúmenes grandes coordinamos un despacho dedicado.`,
   },
   {
     q: '¿Entregan en otros municipios?',

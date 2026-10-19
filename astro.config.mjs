@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel';
 // production domain, which is the *.vercel.app URL until a custom domain is added and then that
 // domain, with no code change.
 const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-const site = process.env.SITE_URL ?? (vercelDomain ? `https://${vercelDomain}` : 'http://localhost:4321');
+const site = process.env.SITE_URL ?? (vercelDomain ? `https://${vercelDomain}` : 'http://localhost:4322');
 
 // https://astro.build/config
 export default defineConfig({

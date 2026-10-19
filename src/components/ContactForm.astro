@@ -21,12 +21,6 @@ import { LIMITS } from '../lib/contact';
     </div>
 
     <div class="field">
-      <label for="f-correo">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
-      <input id="f-correo" name="correo" type="email" autocomplete="email" inputmode="email" required maxlength={LIMITS.short} aria-describedby="e-correo" />
-      <p class="error" id="e-correo"></p>
-    </div>
-
-    <div class="field">
       <label for="f-telefono">Teléfono o WhatsApp <span class="req" aria-hidden="true">*</span></label>
       <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required maxlength={LIMITS.phone} aria-describedby="e-telefono" />
       <p class="error" id="e-telefono"></p>
@@ -87,8 +81,9 @@ import { LIMITS } from '../lib/contact';
         rows="5"
         required
         maxlength={LIMITS.message}
-        aria-describedby="e-mensaje"
+        aria-describedby="h-mensaje e-mensaje"
         placeholder="Cuéntenos qué productos necesita, en qué cantidades al mes y con qué frecuencia de entrega."></textarea>
+      <p class="hint" id="h-mensaje">No incluya información de pacientes ni datos de salud.</p>
       <p class="error" id="e-mensaje"></p>
     </div>
 
@@ -103,7 +98,9 @@ import { LIMITS } from '../lib/contact';
         <input id="f-consentimiento" name="consentimiento" type="checkbox" value="si" required aria-describedby="e-consentimiento" />
         <label for="f-consentimiento">
           Autorizo a {company.name} para tratar mis datos personales con el fin de atender esta solicitud, conforme a la
-          Ley 1581 de 2012 y a su política de tratamiento de datos. <span class="req" aria-hidden="true">*</span>
+          Ley 1581 de 2012 y a su
+          <a href="/politica-de-datos" target="_blank" rel="noopener">política de tratamiento de datos</a>.
+          <span class="req" aria-hidden="true">*</span>
         </label>
       </div>
       <p class="error" id="e-consentimiento"></p>
@@ -119,7 +116,7 @@ import { LIMITS } from '../lib/contact';
   <template id="tpl-success">
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
-      <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por correo electrónico o WhatsApp.</p>
+      <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por teléfono o WhatsApp.</p>
     </div>
   </template>
   <template id="tpl-invalid">
@@ -356,6 +353,12 @@ import { LIMITS } from '../lib/contact';
 
   [aria-invalid='true'] {
     border-color: var(--danger) !important;
+  }
+
+  .hint {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   .error {

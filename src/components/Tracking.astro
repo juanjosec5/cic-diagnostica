@@ -1,13 +1,27 @@
 ---
 import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
-// Umami Cloud: cookieless analytics with custom events. See README > Tracking for the event list.
+// Analytics (Vercel Web Analytics + Umami Cloud) load only after the visitor accepts in the consent banner.
+// See README > Tracking for the event list and docs/privacy-plan.md for the consent rules.
 ---
 
-{
-  PUBLIC_UMAMI_WEBSITE_ID && (
-    <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={PUBLIC_UMAMI_WEBSITE_ID} />
-  )
-}
+<div id="analytics-config" data-umami-id={PUBLIC_UMAMI_WEBSITE_ID ?? ''} hidden></div>
+
+<script>
+  import { inject } from '@vercel/analytics';
+  import { whenConsentGranted } from '../lib/consent';
+
+  whenConsentGranted(() => {
+    inject({ framework: 'astro' });
+    const umamiId = document.getElementById('analytics-config')?.dataset.umamiId;
+    if (umamiId) {
+      const script = document.createElement('script');
+      script.defer = true;
+      script.src = 'https://cloud.umami.is/script.js';
+      script.dataset.websiteId = umamiId;
+      document.head.append(script);
+    }
+  });
+</script>
 
 <script>
   import { whatsappMessages } from '../data/site';

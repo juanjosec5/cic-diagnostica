@@ -1,8 +1,8 @@
 ---
-import Analytics from '@vercel/analytics/astro';
 import '../styles/global.css';
 import { company, isPlaceholder, municipalities } from '../data/site';
 import Tracking from '../components/Tracking.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -63,13 +63,11 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
-    <!-- Vercel Web Analytics: privacy-friendly page views, enabled in the Vercel dashboard. -->
-    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <slot />
     <Tracking />
+    <ConsentBanner />
   </body>
 </html>

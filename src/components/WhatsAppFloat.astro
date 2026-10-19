@@ -11,7 +11,8 @@ import { waLink } from '../lib/whatsapp';
   .wa-float {
     position: fixed;
     right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    /* --consent-h lifts the button above the consent banner while it's open. */
+    bottom: calc(16px + var(--consent-h, 0px) + env(safe-area-inset-bottom, 0px));
     z-index: 60;
     display: grid;
     place-items: center;

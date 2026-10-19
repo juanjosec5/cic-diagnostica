@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { RESEND_API_KEY, CONTACT_TO, CONTACT_FROM } from 'astro:env/server';
 import { Resend } from 'resend';
 import { normalizeContact, validateContact, type ContactData } from '../../lib/contact';
-import { interestOptions } from '../../data/site';
+import { CONSENT_TEXT_VERSION, interestOptions, privacy } from '../../data/site';
 
 // Runs on demand as a Vercel serverless function; the rest of the site is static.
 export const prerender = false;
@@ -35,32 +35,44 @@ function buildEmail(d: ContactData) {
   const rows: [string, string][] = [
     ['Nombre', d.nombre],
     ['Institución / empresa', d.institucion],
-    ['Correo', d.correo],
     ['Teléfono / WhatsApp', d.telefono],
     ['Tipo de cliente', d.tipo],
     ['Me interesa', interest],
     ...contractRows,
     ['Municipio', d.municipio],
     ['Mensaje', d.mensaje],
-    ['Autorización de datos (Ley 1581)', 'Sí'],
+  ];
+
+  // Proof of the data-processing authorization (Decreto 1377 de 2013, art. 8).
+  const consentRows: [string, string][] = [
+    ['Autorización tratamiento de datos (Ley 1581)', 'Sí'],
+    ['Texto de autorización', CONSENT_TEXT_VERSION],
+    ['Política vigente', `v${privacy.version} – ${new URL('/politica-de-datos', import.meta.env.SITE).href}`],
+    ['Fecha y hora (Bogotá)', new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })],
+    ['Origen', 'Formulario web'],
   ];
 
   const cell = 'padding:10px 12px;border:1px solid #dbe4ee;vertical-align:top;';
+  const table = (list: [string, string][]) =>
+    `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:640px;font-size:14px;">${list
+      .map(
+        ([label, value]) =>
+          `<tr><th align="left" style="${cell}background:#eef5fc;width:200px;">${escapeHtml(label)}</th>` +
+          `<td style="${cell}white-space:pre-wrap;">${value ? escapeHtml(value) : '<span style="color:#8a99aa;">—</span>'}</td></tr>`,
+      )
+      .join('')}</table>`;
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#16263a;">
 <h2 style="color:#0b4f8a;margin:0 0 12px;">Nueva solicitud desde la web</h2>
-<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:640px;font-size:14px;">
-${rows
-  .map(
-    ([label, value]) =>
-      `<tr><th align="left" style="${cell}background:#eef5fc;width:200px;">${escapeHtml(label)}</th>` +
-      `<td style="${cell}white-space:pre-wrap;">${value ? escapeHtml(value) : '<span style="color:#8a99aa;">—</span>'}</td></tr>`,
-  )
-  .join('\n')}
-</table>
-<p style="font-size:12px;color:#4d5f73;margin-top:16px;">Responda este correo para contestarle directamente al cliente.</p>
+${table(rows)}
+<h3 style="color:#0b4f8a;margin:20px 0 8px;font-size:15px;">Registro de autorización</h3>
+${table(consentRows)}
+<p style="font-size:12px;color:#4d5f73;margin-top:16px;">Contacte al cliente por teléfono o WhatsApp.
+Conserve este correo según la política de datos; no lo reenvíe fuera de la empresa.</p>
 </body></html>`;
 
-  const text = rows.map(([label, value]) => `${label}: ${value || '—'}`).join('\n');
+  const text = [...rows, ['Registro de autorización', ''], ...consentRows]
+    .map(([label, value]) => `${label}: ${value || '—'}`)
+    .join('\n');
   return { subject, html, text };
 }
 
@@ -106,7 +118,6 @@ export const POST: APIRoute = async ({ request }) => {
     const { error } = await resend.emails.send({
       from: CONTACT_FROM,
       to: CONTACT_TO.split(',').map((s) => s.trim()).filter(Boolean),
-      replyTo: data.correo,
       subject,
       html,
       text,

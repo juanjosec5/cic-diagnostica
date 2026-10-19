@@ -115,6 +115,30 @@ export const clientPlans: { icon: string; title: string; benefits: string[] }[] 
   },
 ];
 
+/**
+ * "Lo más pedido": the warehouse's top 5, in rank order. Update monthly (items and `period`).
+ * Only list real best sellers; the label must stay true. `image` is a file in public/products/
+ * (square, WebP/JPG ≤ 60 KB); without it the card shows the category icon.
+ */
+export const bestSellers: {
+  period: string;
+  items: { name: string; presentation?: string; category: string; icon: string; image?: string }[];
+} = {
+  period: 'octubre de 2026',
+  items: [
+    { name: 'Tubo tapa amarilla 5 ml', category: 'Toma de muestras', icon: 'droplet' },
+    { name: 'Tubo tapa lila 4 ml', category: 'Toma de muestras', icon: 'droplet' },
+    { name: 'Aguja múltiple 21 x 1½"', presentation: 'Caja x 100', category: 'Toma de muestras', icon: 'droplet' },
+    { name: 'Prueba rápida Hepatitis B (HBsAg)', presentation: 'x 30 pruebas', category: 'Pruebas rápidas', icon: 'test' },
+    {
+      name: 'Prueba rápida VIH, casete 3 líneas (suero/plasma)',
+      presentation: 'x 40 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+    },
+  ],
+};
+
 /** Product categories. Add, remove or reorder freely; the layout adapts. */
 export const productCategories = [
   {

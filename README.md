@@ -49,6 +49,7 @@ Everything is in `src/data/site.ts`:
 | Email, address, hours, NIT, legal name, response time | `company` |
 | Proof row under the hero (years, clients, municipalities, response time) | `stats` |
 | Plan cards per client type, with their WhatsApp button | `clientPlans` |
+| "Lo más pedido" top 5 (update monthly: items, `period`, photos in `public/products/`) | `bestSellers` |
 | Product categories and example items | `productCategories` (icons: `flask droplet test box beaker shield`) |
 | Direct-delivery municipalities, grouped by subregion (from ciclaboratorios.com/sedes) | `deliveryZones` |
 | Free-freight threshold (coverage note and FAQ) | `freeFreightFrom` |
@@ -138,6 +139,7 @@ Tracking is centralized, so components don't need per-element tags:
 | Event | When | Data |
 | --- | --- | --- |
 | `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, contract, outsideRoute, general…), `section`, `label` |
+| `bestseller_click` | A card in "Lo más pedido" | `rank` (1–5), `product` |
 | `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
 | `nav_click` | Header menu link | `target`, `label` |
 | `email_click` | Any `mailto:` link | `section` |

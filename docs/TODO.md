@@ -5,6 +5,7 @@ Updated 2026-10-18. Live site: https://cic-diagnostica.vercel.app. Owners: **CIC
 ## 1. Open pull requests
 
 - [ ] **#12 Privacy:** the policy page `/politica-de-datos`, the consent banner, analytics and map gated behind consent, the email field removed from the form, and a consent record in each notification email. Ready for review. *(CIC: merge)*
+- [ ] **#16 Code review:** simplification plus security hardening (CSP and security headers, API body cap, timeouts). Merge after #12 and #14. *(CIC: merge)*
 - [ ] **#14 Open answers:** coverage beyond Valle del Cauca, "Despachos diarios", the "Llamar" link, and coverage towns as plain text. *(CIC: merge)*
 
 ## 2. Pending values
@@ -33,6 +34,7 @@ Updated 2026-10-18. Live site: https://cic-diagnostica.vercel.app. Owners: **CIC
 ## 4. Accounts, infrastructure and legal
 
 - [ ] **Vercel environment variables** (Production): `RESEND_API_KEY`, `CONTACT_TO=supervisor@cicdiagnostica.com`, `CONTACT_FROM`. Then **send a real test from the production form.** *(CIC)*
+- [ ] **Rate limit for the contact form** in Vercel → Project → Firewall: a rule for `POST /api/contact` allowing 5 requests per 60 s per IP, then deny. Also set a Resend usage alert. *(CIC)*
 - [ ] **Upgrade Vercel to Pro.** The Hobby plan is for non-commercial use only, and the DPA covers only Pro and Enterprise. *(CIC)*
 - [ ] **Umami account** and `PUBLIC_UMAMI_WEBSITE_ID` (Production only). Skip this if switching to Vercel custom events. *(CIC)*
 - [ ] **Domain move** (DNS at VivaWebHost cPanel): *(CIC, with Dev support)*

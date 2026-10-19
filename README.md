@@ -87,7 +87,22 @@ These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'
 
 > **Testing before the domain is verified:** `onboarding@resend.dev` works as `CONTACT_FROM` without any DNS setup, but Resend only delivers it to the email address of your own Resend account. Set `CONTACT_TO` to that address until the domain is verified.
 
-## Tracking (Umami)
+## Privacy and consent
+
+The data-protection work follows `docs/privacy-plan.md` (Ley 1581 de 2012; not legal advice).
+
+- **`/politica-de-datos`** is the data-processing policy. Company facts come from `company` and `privacy` in `src/data/site.ts`. While any value is still a `[DATO: …]` placeholder, the page shows an "en revisión" notice. **A Colombian habeas-data lawyer must review it before launch.**
+- **Consent banner** (`ConsentBanner.astro`, logic in `src/lib/consent.ts`):
+  - "Aceptar" and "Rechazar" have the same weight.
+  - The choice is stored in `localStorage` as `cic-consent` `{ v, analytics, ts }`. Bump `CONSENT_VERSION` to ask everyone again.
+  - Any element with `data-consent-open` reopens the banner, e.g. the footer's "Preferencias de cookies".
+- **Before consent and after "Rechazar":** no Vercel Analytics, no Umami and no Google Maps. The map shows a "Ver mapa" button that loads it for that visit only.
+- **After "Aceptar":** Vercel Analytics (`inject()`), Umami and the map load automatically. Withdrawing consent reloads the page without them.
+- **Contact form:**
+  - The consent text links to the policy, and a hint asks people not to include patient data.
+  - Each notification email ends with a **Registro de autorización** (consent text version `CONSENT_TEXT_VERSION`, policy version, Bogotá date and time). That email is the proof of consent, so keep it.
+
+
 
 Clicks and form outcomes go to [Umami Cloud](https://cloud.umami.is), which is cookieless, so there's no consent banner. The script only loads when `PUBLIC_UMAMI_WEBSITE_ID` is set.
 

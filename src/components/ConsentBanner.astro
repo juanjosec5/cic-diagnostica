@@ -1,0 +1,104 @@
+---
+// Cookie/analytics consent. Shown until the visitor chooses; reopened from any [data-consent-open] link.
+// "Aceptar" and "Rechazar" have the same weight, and closing the page without choosing means no consent.
+---
+
+<div class="consent" id="consent-banner" role="region" aria-label="Preferencias de cookies" hidden>
+  <div class="container consent__inner">
+    <p class="consent__text">
+      Medimos las visitas con Vercel y Umami (servidores en EE. UU.) solo si usted acepta. Sin publicidad. El mapa
+      de Google también requiere su permiso.
+      <a href="/politica-de-datos#cookies">Más información</a>
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="btn consent__btn" data-consent="denied">Rechazar</button>
+      <button type="button" class="btn consent__btn" data-consent="granted">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { readConsent, saveConsent, type ConsentChoice } from '../lib/consent';
+
+  const banner = document.getElementById('consent-banner');
+  if (banner) {
+    const setOpen = (open: boolean) => {
+      banner.hidden = !open;
+      document.body.classList.toggle('has-consent-banner', open);
+      // Lets the floating WhatsApp button sit above the banner.
+      document.body.style.setProperty('--consent-h', open ? `${banner.offsetHeight}px` : '0px');
+    };
+
+    banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((button) =>
+      button.addEventListener('click', () => {
+        setOpen(false);
+        saveConsent(button.dataset.consent as ConsentChoice);
+      }),
+    );
+
+    document.querySelectorAll('[data-consent-open]').forEach((opener) =>
+      opener.addEventListener('click', (event) => {
+        event.preventDefault();
+        setOpen(true);
+        banner.querySelector<HTMLButtonElement>('[data-consent]')?.focus();
+      }),
+    );
+
+    if (readConsent() === null) setOpen(true);
+  }
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 70;
+    padding: 0.9rem 0 calc(0.9rem + env(safe-area-inset-bottom, 0px));
+    background: #fff;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 24px rgb(8 39 54 / 0.12);
+  }
+
+  .consent__inner {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .consent__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  .consent__text {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .consent__text a {
+    font-weight: 700;
+  }
+
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  /* Same style for both choices: rejecting must be as easy as accepting. */
+  .consent__btn {
+    min-height: 44px;
+    padding-inline: 1.25rem;
+    background: #fff;
+    color: var(--blue-900);
+    border-color: var(--blue-700);
+  }
+
+  .consent__btn:hover {
+    background: var(--blue-50);
+  }
+</style>

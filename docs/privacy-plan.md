@@ -23,7 +23,7 @@ Status: **planning draft** (2026-10-17). It is a regulatory research summary plu
 
 ## 1. Implementation plan for this repo
 
-### Phase A: can be built now, with placeholders for company facts
+### Phase A: can be built now, with placeholders for company facts — ✅ done (PR #12)
 
 1. **`/politica-de-datos` page** (`src/pages/politica-de-datos.astro`), following the outline in §6.
    - Company facts come from `src/data/site.ts`.

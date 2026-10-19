@@ -1,0 +1,330 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import { company, isPlaceholder, privacy } from '../data/site';
+
+// Draft until every company fact is filled in and a lawyer has reviewed it (see docs/privacy-plan.md).
+const pending = [company.legalName, company.nit, ...Object.values(privacy)].some(isPlaceholder);
+---
+
+<Layout
+  title={`Política de tratamiento de datos personales | ${company.name}`}
+  description={`Cómo ${company.name} recolecta, usa y protege sus datos personales, y cómo ejercer sus derechos según la Ley 1581 de 2012.`}>
+  <header class="page-header">
+    <div class="container page-header__inner">
+      <a href="/" aria-label={`${company.name}, ir al inicio`}>
+        <img src="/brand/logo-horizontal-color-sm.png" width="197" height="40" alt="" />
+      </a>
+      <a class="link-action" href="/">Volver al inicio</a>
+    </div>
+  </header>
+
+  <main id="main" class="container policy">
+    <h1>Política de tratamiento de datos personales</h1>
+    <p class="meta">Versión {privacy.version} · Vigente desde {privacy.effectiveDate}</p>
+
+    {pending && (
+      <p class="pending" role="note">
+        Documento en revisión: algunos datos de la empresa aún están pendientes y se completarán antes de su
+        publicación definitiva.
+      </p>
+    )}
+
+    <h2>1. Responsable del tratamiento</h2>
+    <ul>
+      <li><strong>Razón social:</strong> {company.legalName}</li>
+      <li><strong>NIT:</strong> {company.nit}</li>
+      <li><strong>Domicilio y dirección:</strong> {company.address}, Colombia</li>
+      <li><strong>Correo:</strong> <a href={`mailto:${company.email}`}>{company.email}</a></li>
+      <li><strong>Teléfono / WhatsApp:</strong> {company.whatsappDisplay}</li>
+    </ul>
+
+    <h2>2. Marco legal</h2>
+    <p>
+      Esta política se rige por la Ley Estatutaria 1581 de 2012, el Decreto 1377 de 2013 (compilado en el Decreto
+      1074 de 2015) y las instrucciones de la Superintendencia de Industria y Comercio (SIC).
+    </p>
+
+    <h2>3. Definiciones</h2>
+    <ul>
+      <li><strong>Titular:</strong> persona natural cuyos datos personales son objeto de tratamiento.</li>
+      <li><strong>Dato personal:</strong> información vinculada o que pueda asociarse a una persona natural.</li>
+      <li><strong>Autorización:</strong> consentimiento previo, expreso e informado del titular.</li>
+      <li><strong>Responsable:</strong> quien decide sobre la base de datos y su tratamiento.</li>
+      <li><strong>Encargado:</strong> quien trata datos por cuenta del responsable.</li>
+      <li>
+        <strong>Tratamiento:</strong> cualquier operación sobre datos personales, como recolección, almacenamiento,
+        uso, circulación o supresión.
+      </li>
+      <li>
+        <strong>Transmisión:</strong> envío de datos a un encargado, dentro o fuera de Colombia, para que los trate
+        por cuenta del responsable.
+      </li>
+    </ul>
+
+    <h2>4. Datos que recolectamos</h2>
+    <ul>
+      <li>
+        <strong>Formulario de contacto:</strong> nombre, institución o empresa, correo, teléfono o WhatsApp, tipo de
+        cliente, tema de interés, municipio y mensaje. En solicitudes de contrato de suministro, además, el NIT de la
+        institución y su consumo mensual aproximado.
+      </li>
+      <li>
+        <strong>Contacto directo:</strong> los datos que usted nos comparta por WhatsApp, correo electrónico o
+        teléfono.
+      </li>
+      <li>
+        <strong>Navegación:</strong> datos técnicos del servidor (dirección IP y tipo de navegador) necesarios para
+        mostrar el sitio y, solo si usted lo acepta, estadísticas de visitas (ver sección 8).
+      </li>
+    </ul>
+    <p>
+      No solicitamos datos sensibles. Le pedimos no incluir información de pacientes ni datos de salud en sus
+      mensajes.
+    </p>
+
+    <h2>5. Finalidades</h2>
+    <ul>
+      <li>Responder sus solicitudes, consultas y cotizaciones.</li>
+      <li>Contactarle por el medio que usted indicó (correo, teléfono o WhatsApp).</li>
+      <li>Evaluar y gestionar solicitudes de contratos de suministro.</li>
+      <li>Gestionar la relación comercial si usted se convierte en cliente.</li>
+      <li>Cumplir obligaciones legales, contables y tributarias.</li>
+      <li>Elaborar estadísticas de uso del sitio, solo con su aceptación.</li>
+    </ul>
+
+    <h2>6. Tratamiento</h2>
+    <p>
+      Recolectamos, almacenamos, consultamos y usamos sus datos para las finalidades anteriores, los transmitimos a
+      los encargados de la sección 7 y los suprimimos cuando dejan de ser necesarios (sección 14). Las solicitudes
+      del formulario llegan por correo electrónico a nuestro buzón corporativo ({privacy.emailProvider}); el sitio
+      no las guarda en una base de datos propia.
+    </p>
+
+    <h2>7. Encargados y transmisión internacional de datos</h2>
+    <p>Para operar el sitio usamos proveedores que tratan datos por nuestra cuenta:</p>
+    <ul>
+      <li><strong>Vercel Inc.</strong> (Estados Unidos): alojamiento del sitio y procesamiento del formulario.</li>
+      <li><strong>Resend</strong> (Estados Unidos): envío de los correos del formulario.</li>
+      <li><strong>Umami</strong> ({privacy.analyticsRegion}): estadísticas de visitas, solo con su aceptación.</li>
+      <li><strong>{privacy.emailProvider}</strong>: correo electrónico corporativo.</li>
+    </ul>
+    <p>
+      Estados Unidos figura en la lista de países con nivel adecuado de protección de la SIC (Circular Externa 005
+      de 2017). Estos proveedores están obligados a mantener la seguridad y confidencialidad de los datos. No vendemos
+      sus datos ni los transferimos a terceros, salvo por obligación legal.
+    </p>
+
+    <h2 id="cookies">8. Cookies y tecnologías similares</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Herramienta</th><th>Para qué</th><th>Cookies</th><th>Cuándo se carga</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Preferencia de cookies (almacenamiento local)</td>
+            <td>Recordar su elección</td>
+            <td>No; un registro en su navegador, sin identificarle</td>
+            <td>Siempre</td>
+          </tr>
+          <tr>
+            <td>Vercel Web Analytics</td>
+            <td>Contar visitas de forma agregada</td>
+            <td>No</td>
+            <td>Solo si usted acepta</td>
+          </tr>
+          <tr>
+            <td>Umami</td>
+            <td>Contar visitas y clics en botones, de forma anónima</td>
+            <td>No</td>
+            <td>Solo si usted acepta</td>
+          </tr>
+          <tr>
+            <td>Mapa de Google</td>
+            <td>Mostrar nuestra ubicación</td>
+            <td>Sí, de Google; Google también recibe su dirección IP</td>
+            <td>Si usted acepta, o al pulsar «Ver mapa»</td>
+          </tr>
+          <tr>
+            <td>Enlaces de WhatsApp</td>
+            <td>Abrir una conversación con nosotros</td>
+            <td>No en este sitio</td>
+            <td>Solo cuando usted pulsa el enlace</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Google y WhatsApp (Meta) tratan los datos según sus propias políticas. Puede cambiar su elección en cualquier
+      momento: <a href="#cookies" data-consent-open>Preferencias de cookies</a>.
+    </p>
+
+    <h2>9. Derechos del titular</h2>
+    <ul>
+      <li>Conocer, actualizar y rectificar sus datos personales.</li>
+      <li>Solicitar prueba de la autorización otorgada.</li>
+      <li>Ser informado sobre el uso que se ha dado a sus datos.</li>
+      <li>
+        Presentar quejas ante la SIC por infracciones a la ley, una vez agotado el trámite de consulta o reclamo ante
+        nosotros.
+      </li>
+      <li>Revocar la autorización y solicitar la supresión de sus datos, cuando no exista un deber legal de conservarlos.</li>
+      <li>Acceder de forma gratuita a sus datos personales.</li>
+    </ul>
+
+    <h2>10. Área responsable de consultas y reclamos</h2>
+    <ul>
+      <li><strong>Responsable:</strong> {privacy.responsibleArea}</li>
+      <li><strong>Correo:</strong> {privacy.requestEmail}</li>
+      <li><strong>Teléfono / WhatsApp:</strong> {company.whatsappDisplay}</li>
+      <li><strong>Dirección:</strong> {company.address}</li>
+      <li><strong>Horario:</strong> {company.hours.join(' · ')}</li>
+    </ul>
+
+    <h2>11. Procedimiento para consultas y reclamos</h2>
+    <p>
+      Pueden presentar solicitudes el titular, sus causahabientes, su representante o apoderado. La solicitud debe
+      incluir la identificación del titular, la descripción de los hechos, una dirección de respuesta y los
+      documentos que quiera hacer valer.
+    </p>
+    <ul>
+      <li>
+        <strong>Consultas:</strong> se responden en un máximo de 10 días hábiles desde su recibo, prorrogables hasta 5
+        días hábiles más, informando el motivo.
+      </li>
+      <li>
+        <strong>Reclamos</strong> (corrección, actualización, supresión o incumplimiento): se responden en un máximo
+        de 15 días hábiles desde el día siguiente a su recibo, prorrogables hasta 8 días hábiles más, informando el
+        motivo.
+      </li>
+      <li>
+        Si el reclamo está incompleto, le pediremos completarlo dentro de los 5 días siguientes; si pasan 2 meses sin
+        respuesta, se entenderá que desistió.
+      </li>
+      <li>Dentro de los 2 días hábiles siguientes a un reclamo completo, el registro se marca como «reclamo en trámite».</li>
+    </ul>
+
+    <h2>12. Autorización</h2>
+    <p>
+      Solicitamos su autorización mediante la casilla del formulario, que no viene marcada. Conservamos prueba de
+      ella (fecha, hora y versión del texto aceptado) en el correo de la solicitud. Solo tratamos datos sin
+      autorización en los casos del artículo 10 de la Ley 1581 de 2012.
+    </p>
+
+    <h2>13. Seguridad de la información</h2>
+    <p>
+      El sitio usa conexión cifrada (HTTPS), las solicitudes no se guardan en una base de datos del sitio, el acceso
+      al buzón corporativo es restringido y trabajamos con proveedores que asumen compromisos de seguridad y
+      confidencialidad.
+    </p>
+
+    <h2>14. Conservación y supresión</h2>
+    <p>
+      Conservamos los datos solo el tiempo necesario para las finalidades descritas: {privacy.leadRetention}. Si
+      usted se convierte en cliente, los documentos comerciales se conservan 10 años, como exige el artículo 28 de la
+      Ley 962 de 2005. Después, los datos se suprimen.
+    </p>
+
+    <h2>15. Datos de niñas, niños y adolescentes</h2>
+    <p>Este sitio está dirigido a profesionales e instituciones de salud; no recolectamos datos de menores de edad.</p>
+
+    <h2>16. Registro Nacional de Bases de Datos</h2>
+    <p>{privacy.rnbd}</p>
+
+    <h2>17. Cambios a esta política</h2>
+    <p>
+      Los cambios sustanciales se publicarán en esta página antes de entrar en vigor, indicando la nueva versión y su
+      fecha.
+    </p>
+
+    <h2>18. Vigencia</h2>
+    <p>
+      Esta política rige desde {privacy.effectiveDate} (versión {privacy.version}). Las bases de datos se mantienen
+      mientras se cumplan las finalidades descritas.
+    </p>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-header {
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+
+  .page-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: var(--header-h);
+  }
+
+  .page-header img {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+
+  .policy {
+    max-width: 820px;
+    padding-block: clamp(32px, 6vw, 64px);
+  }
+
+  .policy h1 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+  }
+
+  .policy h2 {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    scroll-margin-top: 1rem;
+  }
+
+  .policy ul {
+    padding-left: 1.2rem;
+  }
+
+  .policy li {
+    margin-bottom: 0.35rem;
+  }
+
+  .meta {
+    color: var(--muted);
+  }
+
+  .pending {
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #f2c4bf;
+    border-radius: var(--radius);
+    background: #fdf0ef;
+    color: #8a1c13;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--blue-50);
+    color: var(--blue-900);
+  }
+</style>

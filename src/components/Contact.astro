@@ -4,7 +4,8 @@ import ContactForm from './ContactForm.astro';
 import { company } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 
-// Google Maps without an API key: an embed (lazy-loaded near the viewport) and a directions link.
+// Google Maps without an API key: a directions link (no cookies) and an embed. The embed sets Google cookies,
+// so it loads automatically only after consent; before that, "Ver mapa" loads it for this visit.
 const mapsQuery = encodeURIComponent(`${company.address}, Colombia`);
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
 const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
@@ -45,13 +46,15 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
         </dl>
 
         <div class="map">
-          <div class="map__frame">
-            <iframe
-              src={embedUrl}
-              title="Mapa: ubicación de CIC Diagnóstica"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen></iframe>
+          <div class="map__frame" data-src={embedUrl}>
+            <button type="button" class="map__load">
+              <Icon name="map" size={28} />
+              <span>Ver mapa</span>
+            </button>
+            <p class="map__note">
+              Al cargar el mapa, Google puede usar cookies y recibir su dirección IP.
+              <a href="/politica-de-datos#cookies">Más información</a>
+            </p>
           </div>
           <a class="link-action" href={directionsUrl} target="_blank" rel="noopener">
             Cómo llegar <Icon name="arrow" size={18} />
@@ -135,11 +138,62 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
       var(--blue-50);
   }
 
-  .map__frame iframe {
+  .map__frame :global(iframe) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     border: 0;
   }
+
+  .map__load {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.9rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--blue-700);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+
+  .map__load:hover {
+    border-color: var(--blue-600);
+  }
+
+  .map__note {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    margin: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
 </style>
+
+<script>
+  import { whenConsentGranted } from '../lib/consent';
+
+  const frame = document.querySelector<HTMLElement>('.map__frame');
+  if (frame) {
+    const loadMap = () => {
+      if (frame.querySelector('iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = frame.dataset.src ?? '';
+      iframe.title = 'Mapa: ubicación de CIC Diagnóstica';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+    };
+    frame.querySelector('.map__load')?.addEventListener('click', loadMap);
+    whenConsentGranted(loadMap);
+  }
+</script>

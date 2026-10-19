@@ -25,6 +25,25 @@ export const company = {
   responseTime: '24 horas',
 };
 
+/**
+ * Data-protection policy facts (Ley 1581 de 2012). Used by /politica-de-datos and the contact email.
+ * [DATO] values must come from the company; the policy page shows a "en revisión" notice while any remain.
+ * Bump `version` (and CONSENT_TEXT_VERSION below if the checkbox text changes) on every substantial change.
+ */
+export const privacy = {
+  version: '1.0',
+  effectiveDate: '[DATO: fecha de vigencia]',
+  requestEmail: '[DATO: correo para solicitudes sobre datos personales]',
+  responsibleArea: '[DATO: área o persona responsable]',
+  emailProvider: '[DATO: proveedor del correo corporativo]',
+  analyticsRegion: '[DATO: país de alojamiento de Umami]',
+  leadRetention: '[DATO: plazo de conservación de solicitudes que no se convierten en clientes, p. ej. 24 meses]',
+  rnbd: '[DATO: inscrita en el RNBD / no obligada a inscribirse]',
+};
+
+/** Version of the consent checkbox text in the contact form; recorded in each notification email as proof. */
+export const CONSENT_TEXT_VERSION = 'v1';
+
 /** True while a value still holds a [bracketed] placeholder; such values are hidden on the page. */
 export const isPlaceholder = (value: string): boolean => /\[.*\]/.test(value);
 

@@ -50,7 +50,7 @@ export const CONSENT_TEXT_VERSION = 'v1';
 export const isPlaceholder = (value: string): boolean => /\[.*\]/.test(value);
 
 /**
- * Municipalities with direct delivery: those with a CIC laboratorios site (ciclaboratorios.com/sedes),
+ * Municipalities with direct delivery: those with a CIC Laboratorios site (ciclaboratorios.com/sedes),
  * grouped by subregion. The list and its count are derived from this everywhere on the page.
  */
 export const deliveryZones: { zone: string; towns: string[] }[] = [
@@ -73,7 +73,7 @@ export const freeFreightFrom = '$600.000';
 /** Prefilled WhatsApp messages, one per button intent. */
 export const whatsappMessages = {
   general: 'Hola, CIC Diagnóstica. Quisiera recibir más información sobre sus productos.',
-  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos de laboratorio.',
+  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos médicos y de laboratorio.',
   urgent: 'Hola, CIC Diagnóstica. Necesito hacer un pedido urgente porque nos estamos quedando sin insumos.',
   contract: 'Hola, CIC Diagnóstica. Quisiera información sobre un contrato de suministro para mi institución.',
   outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
@@ -208,7 +208,7 @@ export const faqs = [
   },
   {
     q: '¿Manejan un pedido mínimo?',
-    a: `No, no manejamos pedido mínimo. El flete depende de la distancia y del valor del pedido, y en compras superiores a ${freeFreightFrom} no cobramos flete.`,
+    a: `No manejamos pedido mínimo. La entrega es gratis en nuestros ${municipalities.length} municipios de entrega directa; en otros municipios el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}.`,
   },
   {
     q: '¿Ofrecen crédito?',
@@ -220,7 +220,7 @@ export const faqs = [
   },
   {
     q: '¿Entregan en otros municipios?',
-    a: 'Sí, en el resto del Valle del Cauca y fuera de él. Fuera de nuestros municipios de entrega directa se cobra flete; consúltenos por WhatsApp para su municipio.',
+    a: `Sí, en el resto del Valle del Cauca y fuera de él. Allí el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}; consúltenos por WhatsApp para su municipio.`,
   },
   {
     q: '¿Participan en licitaciones?',

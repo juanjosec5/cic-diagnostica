@@ -1,18 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import { bestSellers, company, freeFreightFrom } from '../data/site';
+import { bestSellers, company, municipalities } from '../data/site';
 import { waTextLink } from '../lib/whatsapp';
 
 // The "(web-topN)" tag lets the team (and Tracking.astro) tell which card a chat came from.
 const orderMessage = (rank: number, name: string, presentation?: string) =>
-  `Hola, CIC Diagnóstica. Quiero cotizar: ${name}${presentation ? ` – ${presentation}` : ''}. ` +
+  `Hola, CIC Diagnóstica. Quisiera cotizar: ${name}${presentation ? ` – ${presentation}` : ''}. ` +
   `Cantidad: __. Ciudad: __. (web-top${rank})`;
 ---
 
 <section id="mas-pedidos" class="section best">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Lo más pedido</span>
+      <span class="eyebrow">Más vendidos</span>
       <h2>Los {bestSellers.items.length} productos que más nos piden</h2>
       <p class="lead">Según despachos de {bestSellers.period}.</p>
     </div>
@@ -54,7 +54,7 @@ const orderMessage = (rank: number, name: string, presentation?: string) =>
     <!-- Each condition stays on one line with its separator, so a wrap never starts with "·". -->
     <p class="best__terms">
       <span>Sin pedido mínimo ·</span>
-      <span>Envío gratis desde {freeFreightFrom} ·</span>
+      <span>Envío gratis en {municipalities.length} municipios ·</span>
       <span>Respuesta en menos de {company.responseTime}</span>
     </p>
   </div>

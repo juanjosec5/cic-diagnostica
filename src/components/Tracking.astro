@@ -1,7 +1,7 @@
 ---
 import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
 // Analytics (Vercel Web Analytics + Umami Cloud) load only after the visitor accepts in the consent banner.
-// See README > Tracking for the event list and docs/privacy-plan.md for the consent rules.
+// See README > Tracking for the event list and README > Privacy and consent for the consent rules.
 ---
 
 <div id="analytics-config" data-umami-id={PUBLIC_UMAMI_WEBSITE_ID ?? ''} hidden></div>

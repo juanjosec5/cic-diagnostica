@@ -163,31 +163,40 @@ export const bestSellers: {
   ],
 };
 
-/** Product categories. Add, remove or reorder freely; the layout adapts. */
+/**
+ * Product categories. Add, remove or reorder freely; the layout adapts.
+ * `image` is a file prefix in public/products/lineas/: `<image>-360.webp` and `<image>-640.webp` (3:2).
+ * Without it the card shows the icon.
+ */
 export const productCategories = [
   {
     icon: 'flask',
     title: 'Reactivos de laboratorio',
+    image: '/products/lineas/reactivos',
     items: ['Química clínica', 'Hematología', 'Inmunología', 'Uroanálisis'],
   },
   {
     icon: 'droplet',
     title: 'Toma de muestras',
+    image: '/products/lineas/toma-de-muestras',
     items: ['Tubos al vacío', 'Agujas, jeringas y portatubos (holders)', 'Torniquetes', 'Recolectores de orina y coprológico'],
   },
   {
     icon: 'test',
     title: 'Pruebas rápidas',
+    image: '/products/lineas/pruebas-rapidas',
     items: ['Embarazo', 'VIH, sífilis y hepatitis', 'Antígeno respiratorio', 'Drogas de abuso'],
   },
   {
     icon: 'box',
     title: 'Consumibles',
+    image: '/products/lineas/consumibles',
     items: ['Puntas de micropipeta', 'Láminas y laminillas', 'Algodón y gasas', 'Alcohol y antisépticos'],
   },
   {
     icon: 'shield',
     title: 'Bioseguridad',
+    image: '/products/lineas/bioseguridad',
     items: ['Guantes de nitrilo y látex', 'Tapabocas y respiradores', 'Batas desechables', 'Guardianes'],
   },
 ];

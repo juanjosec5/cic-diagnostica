@@ -133,10 +133,11 @@ export const bestSellers: {
       image: '/products/tubo-tapa-amarilla-5ml.webp',
     },
     {
-      name: 'Tubo tapa lila 4 ml',
-      category: 'Toma de muestras',
-      icon: 'droplet',
-      image: '/products/tubo-tapa-lila-4ml.webp',
+      name: 'Prueba rápida de drogas en orina 2 en 1 (THC/COC)',
+      presentation: 'x 25 pruebas',
+      category: 'Pruebas rápidas',
+      icon: 'test',
+      image: '/products/prueba-rapida-drogas-thc-coc.webp',
     },
     {
       name: 'Aguja múltiple 21 x 1½"',

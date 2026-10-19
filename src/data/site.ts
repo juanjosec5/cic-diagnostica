@@ -227,8 +227,8 @@ export const interestOptions = [
 ] as const;
 
 export const navLinks = [
-  { href: '#planes', label: 'Planes' },
   { href: '#productos', label: 'Productos' },
+  { href: '#planes', label: 'Planes' },
   { href: '#contratos', label: 'Contratos' },
   { href: '#cobertura', label: 'Cobertura' },
   { href: '#contacto', label: 'Contacto' },

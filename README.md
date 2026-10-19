@@ -89,7 +89,7 @@ These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'
 
 ## Privacy and consent
 
-The data-protection work follows `docs/privacy-plan.md` (Ley 1581 de 2012; not legal advice).
+Data protection follows Ley 1581 de 2012 (this is not legal advice).
 
 - **`/politica-de-datos`** is the data-processing policy. Company facts come from `company` and `privacy` in `src/data/site.ts`. While any value is still a `[DATO: …]` placeholder, the page shows an "en revisión" notice. **A Colombian habeas-data lawyer must review it before launch.**
 - **Consent banner** (`ConsentBanner.astro`, logic in `src/lib/consent.ts`):

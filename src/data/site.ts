@@ -32,7 +32,7 @@ export const company = {
  */
 export const privacy = {
   version: '1.0',
-  effectiveDate: '[DATO: fecha de vigencia]',
+  effectiveDate: '18 de octubre de 2026',
   requestEmail: company.email,
   responsibleArea: 'Gerencia',
   // Mail for cicdiagnostica.com is hosted on the domain's cPanel server (MX → 174.136.57.9, VivaWebHost).

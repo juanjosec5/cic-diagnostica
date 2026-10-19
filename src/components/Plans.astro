@@ -13,7 +13,7 @@ import { waLink } from '../lib/whatsapp';
 
     <ul class="tiles">
       {clientPlans.map((plan) => (
-        <li class="tile">
+        <li class="card tile">
           <div class="tile__head">
             <span class="icon-badge"><Icon name={plan.icon} /></span>
             <h3>{plan.title}</h3>
@@ -31,7 +31,7 @@ import { waLink } from '../lib/whatsapp';
     </ul>
 
     <!-- One action for the whole section; the tiles are information, not buttons. -->
-    <div class="plans__cta">
+    <div class="actions plans__cta">
       <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
         <Icon name="whatsapp" size={22} />
         Cotizar por WhatsApp
@@ -66,10 +66,6 @@ import { waLink } from '../lib/whatsapp';
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
   }
 
   .tile__head {
@@ -112,17 +108,6 @@ import { waLink } from '../lib/whatsapp';
 
   .plans__cta {
     margin-top: 1.25rem;
-    display: flex;
     justify-content: center;
-  }
-
-  .plans__cta .btn {
-    flex: 1 1 100%;
-  }
-
-  @media (min-width: 640px) {
-    .plans__cta .btn {
-      flex: 0 0 auto;
-    }
   }
 </style>

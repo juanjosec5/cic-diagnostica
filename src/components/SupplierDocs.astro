@@ -5,7 +5,7 @@ import { supplierDocuments } from '../data/site';
 
 <section id="documentos" class="section docs-section">
   <div class="container">
-    <div class="docs">
+    <div class="card docs">
       <div>
         <span class="eyebrow">Documentos para proveedor</span>
         <h2>¿Necesita inscribirnos como proveedor?</h2>
@@ -39,23 +39,12 @@ import { supplierDocuments } from '../data/site';
     display: grid;
     gap: 1rem 2.5rem;
     padding: clamp(1.1rem, 4vw, 2rem);
-    border-radius: var(--radius);
-    background: #fff;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
   }
 
   /* Full width with tighter padding so the label stays on one line, even with enlarged phone text. */
   .docs__cta {
     width: 100%;
     padding-inline: 0.75rem;
-  }
-
-  @media (min-width: 900px) {
-    .docs__cta {
-      width: auto;
-      padding-inline: 1.25rem;
-    }
   }
 
   @media (min-width: 900px) {
@@ -66,6 +55,8 @@ import { supplierDocuments } from '../data/site';
     .docs__cta {
       grid-column: 1;
       justify-self: start;
+      width: auto;
+      padding-inline: 1.25rem;
     }
   }
 

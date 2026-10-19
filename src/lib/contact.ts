@@ -3,9 +3,11 @@
  * so both enforce the same rules and return the same Spanish messages.
  */
 
+import { clientTypeOptions, interestOptions } from '../data/site';
+
 export const LIMITS = { short: 120, phone: 30, nit: 30, consumption: 1000, message: 3000 } as const;
 
-export const FIELDS = [
+const FIELDS = [
   'nombre',
   'institucion',
   'telefono',
@@ -21,7 +23,6 @@ export const FIELDS = [
 export type ContactField = (typeof FIELDS)[number];
 export type ContactData = Record<ContactField, string>;
 export type ContactErrors = Partial<Record<ContactField, string>>;
-
 
 /** Picks known fields from untrusted input, coerced to trimmed strings. */
 export function normalizeContact(input: Record<string, unknown>): ContactData {
@@ -48,9 +49,12 @@ export function validateContact(input: Record<string, unknown>): ContactErrors {
 
   if (!d.consentimiento) errors.consentimiento = 'Para enviar el formulario, autorice el tratamiento de sus datos.';
 
-  for (const f of ['institucion', 'tipo', 'interes', 'municipio'] as const) {
+  for (const f of ['institucion', 'municipio'] as const) {
     if (d[f].length > LIMITS.short) errors[f] = 'El texto es demasiado largo.';
   }
+  // Select values must be one of the offered options (empty = not chosen).
+  if (d.tipo && !clientTypeOptions.includes(d.tipo)) errors.tipo = 'Seleccione una opción de la lista.';
+  if (d.interes && !interestOptions.some((o) => o.key === d.interes)) errors.interes = 'Seleccione una opción de la lista.';
   if (d.nit.length > LIMITS.nit) errors.nit = 'El NIT es demasiado largo.';
   if (d.consumo.length > LIMITS.consumption)
     errors.consumo = `El consumo no puede superar ${LIMITS.consumption} caracteres.`;

@@ -18,6 +18,8 @@ import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
       script.defer = true;
       script.src = 'https://cloud.umami.is/script.js';
       script.dataset.websiteId = umamiId;
+      // Only count visits on this host (not on copies of the site or other origins).
+      script.dataset.domains = location.hostname;
       document.head.append(script);
     }
   });
@@ -67,6 +69,8 @@ import { PUBLIC_UMAMI_WEBSITE_ID } from 'astro:env/client';
         label: labelOf(a),
         ...(a.dataset.interest && { interest: a.dataset.interest }),
       });
+    } else if (new URL(a.href).origin === location.origin) {
+      track('internal_click', { url: href, section });
     } else {
       track('outbound_click', { url: href, section });
     }

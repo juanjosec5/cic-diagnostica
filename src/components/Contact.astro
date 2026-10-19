@@ -191,7 +191,7 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
       iframe.src = frame.dataset.src ?? '';
       iframe.title = 'Mapa: ubicación de CIC Diagnóstica';
       iframe.loading = 'lazy';
-      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.allowFullscreen = true;
       frame.replaceChildren(iframe);
     };

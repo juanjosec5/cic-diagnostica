@@ -20,6 +20,12 @@
   --bg: #ffffff;
   --bg-soft: #f5f8fb;
   --danger: #b42318;
+  --danger-50: #fdf0ef;
+  --danger-line: #f2c4bf;
+  --danger-dark: #8a1c13;
+  /* Text on the navy sections (urgent bar, contracts, footer). */
+  --on-dark: #e6eef7;
+  --on-dark-muted: #c9d8e8;
   --radius: 14px;
   --shadow: 0 1px 2px rgb(8 39 54 / 0.06), 0 6px 20px rgb(8 39 54 / 0.07);
   --header-h: 64px;
@@ -186,14 +192,23 @@ main > section:not(:first-child) {
   background: var(--blue-900);
 }
 
-.btn--outline {
-  background: #fff;
-  color: var(--blue-700);
-  border-color: var(--blue-700);
+/* A section's button row: the button fills the width on phones and keeps its own width from 640px. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.5rem;
 }
 
-.btn--outline:hover {
-  background: var(--blue-50);
+.actions .btn {
+  flex: 1 1 100%;
+}
+
+@media (min-width: 640px) {
+  .actions .btn {
+    flex: 0 0 auto;
+  }
 }
 
 /* Secondary actions: a text link with a 44px tap target, so each section keeps one filled button. */

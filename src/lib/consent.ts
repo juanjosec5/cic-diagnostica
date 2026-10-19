@@ -4,9 +4,9 @@
  * change so every visitor is asked again. See docs/privacy-plan.md.
  */
 
-export const CONSENT_KEY = 'cic-consent';
-export const CONSENT_VERSION = 1;
-export const CONSENT_EVENT = 'cic:consent';
+const CONSENT_KEY = 'cic-consent';
+const CONSENT_VERSION = 1;
+const CONSENT_EVENT = 'cic:consent';
 
 export type ConsentChoice = 'granted' | 'denied';
 

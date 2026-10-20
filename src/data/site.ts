@@ -166,6 +166,7 @@ export const bestSellers: {
   items: [
     {
       name: 'Tubo tapa amarilla 5 ml',
+      presentation: 'Caja x 100',
       category: 'Toma de muestras',
       icon: 'droplet',
       image: '/products/tubo-tapa-amarilla-5ml.webp',

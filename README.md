@@ -159,7 +159,7 @@ Originals in `public/brand/`, named by what they show:
 
 ## Placeholders to replace
 
-All in `src/data/site.ts` unless noted. `company.legalName` and `company.nit` are hidden (footer and JSON-LD) while they hold a `[bracketed]` placeholder; see `isPlaceholder`.
+All in `src/data/site.ts` unless noted. `company.legalName` (footer, JSON-LD) and `company.nit` (JSON-LD, data policy; never the footer) are hidden while they hold a `[bracketed]` placeholder; see `isPlaceholder`.
 
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] **SVG logo** (optional): the logos are PNG today. When SVGs arrive, swap the files listed under *Brand assets* and keep the same names.

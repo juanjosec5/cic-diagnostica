@@ -70,12 +70,14 @@ export const municipalities = deliveryZones.flatMap((z) => z.towns);
 export const freeFreightFrom = '$600.000';
 
 /** Prefilled WhatsApp messages, one per button intent. */
+// Prefilled WhatsApp messages. "(web)" tells the team the chat came from the site. Each ends with one short
+// field after a line break: WhatsApp puts the cursor at the end, so the visitor only types the answer.
 export const whatsappMessages = {
-  general: 'Hola, CIC Diagnóstica. Quisiera recibir más información sobre sus productos.',
-  quote: 'Hola, CIC Diagnóstica. Quisiera solicitar una cotización de insumos médicos y de laboratorio.',
-  urgent: 'Hola, CIC Diagnóstica. Necesito hacer un pedido urgente porque nos estamos quedando sin insumos.',
-  contract: 'Hola, CIC Diagnóstica. Quisiera información sobre un contrato de suministro para mi institución.',
-  outsideRoute: 'Hola, CIC Diagnóstica. Quisiera saber si pueden hacer entregas en mi municipio.',
+  general: 'Hola, quisiera información sobre sus productos. (web)\nMe interesa: ',
+  quote: 'Hola, quisiera una cotización. (web)\nProductos y cantidades: ',
+  urgent: 'Hola, necesito hacer un pedido urgente. (web)\nProductos y municipio: ',
+  contract: 'Hola, quisiera información sobre un contrato de suministro. (web)\nInstitución y municipio: ',
+  outsideRoute: 'Hola, ¿hacen entregas en mi municipio? (web)\nMunicipio: ',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;

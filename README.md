@@ -49,7 +49,7 @@ Everything is in `src/data/site.ts`:
 | Email, address, hours, NIT, legal name, response time | `company` |
 | Proof row under the hero (years, clients, municipalities, response time) | `stats` |
 | Plan cards per client type, with their WhatsApp button | `clientPlans` |
-| "Lo más pedido" top 5 (update monthly: items, `period`, photos in `public/products/`) | `bestSellers` |
+| "Lo más pedido" top 5 (review monthly: items and photos in `public/products/`) | `bestSellers` |
 | Product categories and example items | `productCategories` (icons: `flask droplet test box beaker shield`) |
 | Direct-delivery municipalities, grouped by subregion (from ciclaboratorios.com/sedes) | `deliveryZones` |
 | Free-freight threshold (coverage note and FAQ) | `freeFreightFrom` |

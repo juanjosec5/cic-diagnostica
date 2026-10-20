@@ -1,24 +1,23 @@
 ---
 import Icon from './Icon.astro';
-import { company, deliveryTime, stats } from '../data/site';
+import { deliveryTime, municipalities, stats } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="inicio" class="hero">
   <div class="container">
     <div class="hero__copy">
-      <!-- Phones show only the logo symbol, so the name goes here too. -->
-      <span class="eyebrow">{company.name} · Distribuidora de insumos médicos y de laboratorio</span>
       <h1>Todo lo que necesita, con un solo proveedor</h1>
       <p class="lead">
-        Reactivos, toma de muestras, pruebas rápidas, consumibles y bioseguridad, con despachos diarios desde Buga.
+        Reactivos, toma de muestras, pruebas rápidas, consumibles y bioseguridad. Sin pedido mínimo, con despachos
+        diarios y entrega gratis en {municipalities.length} municipios del Valle.
       </p>
       <div class="actions">
         <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
           <Icon name="whatsapp" size={22} />
           Cotizar por WhatsApp
         </a>
-        <a class="link-action" href="#contacto">Usar el formulario <Icon name="arrow" size={18} /></a>
+        <a class="link-action" href="#contacto">Prefiero el formulario <Icon name="arrow" size={18} /></a>
       </div>
       <p class="badge">
         <Icon name="truck" size={20} />

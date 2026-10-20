@@ -13,11 +13,11 @@ import Testimonials from '../components/Testimonials.astro';
 import Faq from '../components/Faq.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
-import { municipalities } from '../data/site';
+import { deliveryTime, municipalities } from '../data/site';
 
 // Worded like the searches buyers type (product line + Buga / Valle del Cauca). Title ≤ 60 chars, description ≤ 160.
-const title = 'CIC Diagnóstica | Insumos médicos y de laboratorio en Buga';
-const description = `Reactivos, toma de muestras, pruebas rápidas, consumibles y bioseguridad desde Buga. Entrega gratis en ${municipalities.length} municipios del Valle del Cauca. Sin pedido mínimo.`;
+const title = 'Insumos médicos y de laboratorio en Buga | CIC Diagnóstica';
+const description = `Insumos médicos y de laboratorio sin pedido mínimo. Entrega gratis en ${municipalities.length} municipios del Valle del Cauca, en ${deliveryTime}. Cotice por WhatsApp.`;
 ---
 
 <Layout title={title} description={description}>
@@ -26,13 +26,14 @@ const description = `Reactivos, toma de muestras, pruebas rápidas, consumibles 
     <Hero />
     <BestSellers />
     <Products />
+    <Coverage />
     <Plans />
     <Contracts />
-    <Coverage />
-    <Contact />
     <SupplierDocs />
     <Testimonials />
     <Faq />
+    <!-- Contact last: the page ends on the action. -->
+    <Contact />
   </main>
   <Footer />
   <WhatsAppFloat />

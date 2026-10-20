@@ -11,7 +11,7 @@ const year = new Date().getFullYear();
       <img class="footer__logo" src="/brand/logo-horizontal-on-dark-sm.png" width="177" height="36" alt={company.name} loading="lazy" />
       <!-- The legal name appears once it's a real value, not a [placeholder]. The NIT is only in the data policy. -->
       <p class="footer__name">{isPlaceholder(company.legalName) ? company.name : company.legalName}</p>
-      <p>Distribuidora de insumos médicos y de laboratorio · {company.region}, Colombia</p>
+      <p>Distribuidora de insumos médicos y de laboratorio · {company.city}, {company.region}</p>
     </div>
     <ul class="footer__contact">
       <li><a href={`mailto:${company.email}`}>{company.email}</a></li>

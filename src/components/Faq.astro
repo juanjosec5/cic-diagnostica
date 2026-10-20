@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { faqs } from '../data/site';
+import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="preguntas" class="section">
@@ -17,7 +18,19 @@ import { faqs } from '../data/site';
             <span>{item.q}</span>
             <Icon name="chevron" size={20} />
           </summary>
-          <p>{item.a}</p>
+          <p>
+            {item.a}
+            {item.link && (
+              <>
+                {' '}
+                {item.link.intent ? (
+                  <a href={waLink(item.link.intent)} target="_blank" rel="noopener">{item.link.text}</a>
+                ) : (
+                  <a href={item.link.href}>{item.link.text}</a>
+                )}
+              </>
+            )}
+          </p>
         </details>
       ))}
     </div>

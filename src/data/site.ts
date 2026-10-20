@@ -155,16 +155,14 @@ export const clientPlans: {
 ];
 
 /**
- * "Lo más pedido": the warehouse's top 5, in rank order. Update monthly (items and `period`).
+ * "Lo más pedido": the warehouse's top 5, in rank order. Review monthly.
  * Only list real best sellers; the label must stay true. `image` is a file in public/products/
  * (4:3, 640×480 WebP, ≤ 60 KB; originals stay local) with a 360 px copy next to it named `<name>-360.webp`;
  * without it the card shows the category icon.
  */
 export const bestSellers: {
-  period: string;
   items: { name: string; presentation?: string; category: string; icon: string; image?: string }[];
 } = {
-  period: 'octubre de 2026',
   items: [
     {
       name: 'Tubo tapa amarilla 5 ml',

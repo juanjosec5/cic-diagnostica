@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { clientPlans, municipalities } from '../data/site';
+import { waTextLink } from '../lib/whatsapp';
 ---
 
 <section id="clientes" class="section">
@@ -10,31 +11,25 @@ import { clientPlans, municipalities } from '../data/site';
       <h2>¿Qué tipo de cliente es usted?</h2>
     </div>
 
-    <ul class="tiles">
+    <ul class="tiles" data-wa-clear>
       {clientPlans.map((plan) => (
         <li class="card tile">
           <div class="tile__head">
             <span class="icon-badge"><Icon name={plan.icon} /></span>
             <h3>{plan.title}</h3>
           </div>
+          <p class="tile__desc">{plan.description}</p>
           <ul class="tile__list">
-            {plan.benefits.map((b) => (
-              <li>
-                <Icon name="check" size={16} />
-                <span>{b}</span>
-              </li>
-            ))}
+            {plan.benefits.map((b) => <li>{b}</li>)}
           </ul>
-          {plan.link && (
-            <a class="link-action tile__link" href={plan.link.href}>
-              {plan.link.text} <Icon name="arrow" size={18} />
-            </a>
-          )}
+          <a class="tile__cta" href={waTextLink(plan.cta.message)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            {plan.cta.label}
+          </a>
         </li>
       ))}
     </ul>
 
-    <!-- No WhatsApp button here: the hero, the cards above and the floating button already offer one. -->
     <p class="plans__all">
       <Icon name="check" size={18} />
       <span>Para todos: sin pedido mínimo y entrega gratis en {municipalities.length} municipios.</span>
@@ -86,31 +81,53 @@ import { clientPlans, municipalities } from '../data/site';
     font-size: 1.05rem;
   }
 
+  .tile__desc {
+    margin: 0.75rem 0 0;
+    color: var(--ink);
+  }
+
   .tile__list {
     list-style: none;
-    margin: 0.75rem 0 0;
+    margin: 0.6rem 0 0;
     padding: 0;
     display: grid;
-    gap: 0.3rem;
+    gap: 0.25rem;
     color: var(--muted);
     font-size: 0.95rem;
   }
 
+  /* Same dot bullets as the product lines. */
   .tile__list li {
-    display: flex;
+    position: relative;
+    padding-left: 0.9rem;
+  }
+
+  .tile__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--blue-600);
+  }
+
+  /* A text link, not a button: four green buttons side by side would compete. */
+  .tile__cta {
+    display: inline-flex;
+    align-items: center;
     gap: 0.4rem;
-    align-items: flex-start;
-  }
-
-  .tile__list :global(svg) {
-    flex: none;
-    margin-top: 0.25rem;
-    color: var(--green-700);
-  }
-
-  .tile__link {
     margin-top: auto;
     padding-top: 0.75rem;
+    min-height: 44px;
+    font-weight: 700;
+    color: var(--wa-dark);
+    text-decoration: none;
+  }
+
+  .tile__cta:hover {
+    text-decoration: underline;
   }
 
   .plans__all {

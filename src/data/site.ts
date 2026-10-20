@@ -104,27 +104,53 @@ export const stats = [
 export const deliveryTime = '1 a 3 días hábiles';
 
 // What applies to every client type ("sin pedido mínimo", free delivery) is stated once, under the tiles.
-export const clientPlans: { icon: string; title: string; benefits: string[]; link?: { href: string; text: string } }[] = [
+// Each tile has its own WhatsApp CTA; "(web-<tipo>)" tells the team which tile the chat came from.
+export const clientPlans: {
+  icon: string;
+  title: string;
+  description: string;
+  benefits: string[];
+  cta: { label: string; message: string };
+}[] = [
   {
     icon: 'hospital',
     title: 'Hospitales e IPS',
-    benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días', 'Entregas en fechas acordadas'],
-    link: { href: '#contratos', text: 'Ver condiciones de contrato' },
+    description: 'Reactivos, toma de muestras y consumibles para el trabajo diario de su institución.',
+    benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días'],
+    cta: {
+      label: 'Consultar insumos',
+      message: 'Hola, quisiera consultar insumos para hospital o IPS. (web-hospital)\nInstitución y productos: ',
+    },
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
-    benefits: ['Reactivos, toma de muestras y consumibles', 'Despachos diarios'],
+    description: 'Reactivos, tubos, agujas y consumibles para su laboratorio, con despacho diario.',
+    benefits: ['Despacho especial para pedidos urgentes o grandes'],
+    cta: {
+      label: 'Cotizar reactivos',
+      message: 'Hola, quisiera cotizar insumos para laboratorio clínico. (web-laboratorio)\nProductos y cantidades: ',
+    },
   },
   {
     icon: 'pill',
     title: 'Droguerías',
-    benefits: ['Pruebas rápidas y bioseguridad', 'Compra sin contrato'],
+    description: 'Pruebas rápidas y productos de bioseguridad para su negocio.',
+    benefits: ['Compra sin contrato', 'Factura electrónica por pedido'],
+    cta: {
+      label: 'Consultar productos',
+      message: 'Hola, quisiera información de pruebas rápidas y bioseguridad para droguería. (web-drogueria)\nProductos de interés: ',
+    },
   },
   {
     icon: 'user',
     title: 'Consultorios y otros establecimientos',
-    benefits: ['Veterinarias, odontología, fisioterapia y más', 'Compra directa por WhatsApp'],
+    description: 'Insumos para su consulta: veterinarias, odontología, fisioterapia y más.',
+    benefits: ['Compra directa por WhatsApp', 'Factura electrónica por pedido'],
+    cta: {
+      label: 'Hacer un pedido',
+      message: 'Hola, quisiera hacer un pedido para mi consultorio o establecimiento. (web-consultorio)\nTipo de establecimiento y productos: ',
+    },
   },
 ];
 
@@ -225,15 +251,15 @@ export const contractBenefits = [
 export const contractSteps = [
   {
     title: 'Solicite una propuesta',
-    text: 'Cuéntenos qué necesita y, en máximo 48 horas, recibirá una propuesta con precios y condiciones para su institución.',
+    text: 'Cuéntenos qué necesita y en máximo 48 horas recibirá precios y condiciones.',
   },
   {
     title: 'Acordamos las condiciones',
-    text: 'De forma digital o con visita del asesor a su sede.',
+    text: 'Por medios digitales o con visita del asesor a su sede.',
   },
   {
     title: 'Comenzamos las entregas',
-    text: 'El contrato rige hasta agotar el cupo o llegar a la fecha acordada. Si necesita más antes, lo ampliamos con un otrosí o un contrato nuevo.',
+    text: 'Despachamos en las fechas acordadas. Si necesita más antes de terminar el cupo, lo ampliamos con un otrosí o un contrato nuevo.',
   },
 ];
 

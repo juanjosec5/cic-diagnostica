@@ -1,14 +1,12 @@
 ---
 import Icon from './Icon.astro';
-import { company, deliveryTime, municipalities, stats } from '../data/site';
+import { deliveryTime, municipalities, stats } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 ---
 
 <section id="inicio" class="hero">
   <div class="container">
     <div class="hero__copy">
-      <!-- Phones show only the logo symbol, so the name goes here too. -->
-      <span class="eyebrow">{company.name} · Insumos médicos y de laboratorio en {company.city}</span>
       <h1>Todo lo que necesita, con un solo proveedor</h1>
       <p class="lead">
         Reactivos, toma de muestras, pruebas rápidas, consumibles y bioseguridad. Sin pedido mínimo, con despachos

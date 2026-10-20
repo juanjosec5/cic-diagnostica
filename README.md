@@ -161,6 +161,5 @@ Originals in `public/brand/`, named by what they show:
 
 All in `src/data/site.ts` unless noted. `company.legalName` and `company.nit` are hidden (footer and JSON-LD) while they hold a `[bracketed]` placeholder; see `isPlaceholder`.
 
-- [ ] `company.nit`: `[NIT 000.000.000-0]`
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] **SVG logo** (optional): the logos are PNG today. When SVGs arrive, swap the files listed under *Brand assets* and keep the same names.

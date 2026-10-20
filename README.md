@@ -191,7 +191,6 @@ Originals in `public/brand/`, named by what they show:
 All in `src/data/site.ts` unless noted. `company.legalName` and `company.nit` are hidden (footer and JSON-LD) while they hold a `[bracketed]` placeholder; see `isPlaceholder`.
 
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
-- [ ] `company.legalName`: `CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]`
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
 - [ ] Consent text in `src/components/ContactForm.astro` mentions a "política de tratamiento de datos". Publish that policy (required by Ley 1581) and link it there.
 - [ ] `public/og-image.png`: social preview image; replace with a branded one if you have a logo. It's a static image, so keep any numbers out of it.

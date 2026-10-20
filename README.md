@@ -148,8 +148,8 @@ Originals in `public/brand/`, named by what they show:
 | File | Shows | Used in |
 | --- | --- | --- |
 | `logo-horizontal-color.png` | Horizontal: blue drops + navy wordmark | Source for the header logo |
-| `logo-horizontal-color-sm.png` | Same, 96 px tall, without the "~ CIC" text | Header, from 640 px up |
-| `logo-symbol.png` | Drops only, cropped from the horizontal logo | Header on phones |
+| `logo-horizontal-color-sm.png` | Same, 96 px tall, without the "~ CIC" text | Source of the `.webp` copy used in the header (from 640 px up) and on the policy page |
+| `logo-symbol.png` | Drops only, cropped from the horizontal logo | Source of the `.webp` copy used in the header on phones |
 | `logo-horizontal-on-dark.png` / `-sm.png` | Horizontal: blue drops + white wordmark (`-sm` without "~ CIC") | Footer (navy background) |
 | `logo-stacked-color.png` / `-sm.png` | Stacked: drops over navy wordmark (`-sm`: 480 px tall, without "~ CIC") | JSON-LD `logo`, OG image |
 | `logo-stacked-on-dark.png` | Stacked: blue drops + white wordmark | Not used yet (dark backgrounds) |

@@ -22,7 +22,15 @@ const orderMessage = (rank: number, name: string, presentation?: string) =>
         <li class="best__card" aria-label={`${i + 1} de ${bestSellers.items.length}`}>
           <div class="best__media">
             {item.image ? (
-              <img src={item.image} alt={item.name} width="320" height="240" loading={i === 0 ? 'eager' : 'lazy'} />
+              <img
+                src={item.image}
+                srcset={`${item.image.replace(/\.webp$/, '-360.webp')} 360w, ${item.image} 640w`}
+                sizes="(min-width: 1024px) 200px, (min-width: 640px) 31vw, 80vw"
+                alt={item.name}
+                width="320"
+                height="240"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
             ) : (
               <span class="best__placeholder" aria-hidden="true"><Icon name={item.icon} size={44} /></span>
             )}

@@ -7,7 +7,7 @@
 
 export const company = {
   name: 'CIC Diagnóstica',
-  legalName: 'CIC Diagnóstica S.A.S. [RAZÓN SOCIAL]',
+  legalName: 'CIC Diagnóstica S.A.S.',
   nit: '[NIT 000.000.000-0]',
   // Digits only, with country code, no "+" or spaces (e.g. 573001234567).
   whatsapp: '573174020722',

@@ -3,10 +3,9 @@ import Icon from './Icon.astro';
 import { bestSellers, company, municipalities } from '../data/site';
 import { waTextLink } from '../lib/whatsapp';
 
-// The "(web-topN)" tag lets the team (and Tracking.astro) tell which card a chat came from.
+// "(web-N)" tells the team, in WhatsApp, which card (rank N) a chat came from. Same shape as whatsappMessages.
 const orderMessage = (rank: number, name: string, presentation?: string) =>
-  `Hola, CIC Diagnóstica. Quisiera cotizar: ${name}${presentation ? ` – ${presentation}` : ''}. ` +
-  `Cantidad: __. Ciudad: __. (web-top${rank})`;
+  `Hola, quisiera cotizar ${name}${presentation ? ` – ${presentation}` : ''}. (web-${rank})\nCantidad y municipio: `;
 ---
 
 <section id="mas-pedidos" class="section best">

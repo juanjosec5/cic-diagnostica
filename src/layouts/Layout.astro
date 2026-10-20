@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { company, isPlaceholder, municipalities } from '../data/site';
-import Tracking from '../components/Tracking.astro';
+import Analytics from '../components/Analytics.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
@@ -68,7 +68,7 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <slot />
-    <Tracking />
+    <Analytics />
     <ConsentBanner />
   </body>
 </html>

@@ -163,5 +163,4 @@ All in `src/data/site.ts` unless noted. `company.legalName` and `company.nit` ar
 
 - [ ] `company.nit`: `[NIT 000.000.000-0]`
 - [ ] `testimonials`: add 2–3 approved quotes to show the section
-- [ ] Consent text in `src/components/ContactForm.astro` mentions a "política de tratamiento de datos". Publish that policy (required by Ley 1581) and link it there.
 - [ ] **SVG logo** (optional): the logos are PNG today. When SVGs arrive, swap the files listed under *Brand assets* and keep the same names.

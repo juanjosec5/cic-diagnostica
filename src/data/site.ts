@@ -39,7 +39,9 @@ export const privacy = {
   emailProvider: 'VivaWebHost (alojamiento del dominio)',
   leadRetention:
     'las solicitudes se conservan en el correo de la gerencia mientras sean necesarias para la relación comercial, y usted puede pedir su supresión en cualquier momento',
-  rnbd: '[DATO: inscrita en el RNBD / no obligada a inscribirse]',
+  // Confirmed by the company (2026-10-19): total assets are below 100.000 UVT, so registration isn't required.
+  rnbd:
+    'No estamos obligados a inscribir nuestras bases de datos en el Registro Nacional de Bases de Datos de la SIC, porque nuestros activos totales no superan 100.000 UVT (Decreto 1074 de 2015, artículo 2.2.2.26.1.2). Esto no nos exime de cumplir las demás obligaciones de la Ley 1581 de 2012 descritas en esta política.',
 };
 
 /** Version of the consent checkbox text in the contact form; recorded in each notification email as proof. */

@@ -13,10 +13,11 @@ import Testimonials from '../components/Testimonials.astro';
 import Faq from '../components/Faq.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { municipalities } from '../data/site';
 
-const title = 'CIC Diagnóstica | Insumos de laboratorio en el suroccidente colombiano';
-const description =
-  'Reactivos e insumos de laboratorio en el suroccidente colombiano: entregas propias en el Valle del Cauca y contratos para hospitales e IPS a 30 a 45 días.';
+// Worded like the searches buyers type (product line + Buga / Valle del Cauca). Title ≤ 60 chars, description ≤ 160.
+const title = 'CIC Diagnóstica | Insumos médicos y de laboratorio en Buga';
+const description = `Reactivos, toma de muestras, pruebas rápidas, consumibles y bioseguridad desde Buga. Entrega gratis en ${municipalities.length} municipios del Valle del Cauca. Sin pedido mínimo.`;
 ---
 
 <Layout title={title} description={description}>

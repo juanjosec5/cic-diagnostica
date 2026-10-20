@@ -5,6 +5,8 @@
  * Only publish numbers and claims that are confirmed.
  */
 
+const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
 export const company = {
   name: 'CIC Diagnóstica',
   legalName: 'CIC Diagnóstica S.A.S.',
@@ -21,6 +23,12 @@ export const company = {
     return `${this.street}, ${this.city}, ${this.region}`;
   },
   hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.', 'Sábados: 7:30 a.m. – 11:00 a.m.'],
+  // The same hours for search engines (JSON-LD). Keep both in sync.
+  openingHours: [
+    { days: weekdays, opens: '07:00', closes: '12:00' },
+    { days: weekdays, opens: '14:00', closes: '17:00' },
+    { days: ['Saturday'], opens: '07:30', closes: '11:00' },
+  ],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
 };

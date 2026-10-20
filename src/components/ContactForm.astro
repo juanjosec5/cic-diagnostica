@@ -137,7 +137,6 @@ import { LIMITS } from '../lib/contact';
 
 <script>
   import { validateContact, type ContactErrors } from '../lib/contact';
-  import { track } from '../lib/analytics';
 
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
 
@@ -196,12 +195,8 @@ import { LIMITS } from '../lib/contact';
       showErrors(errors);
       if (Object.keys(errors).length) {
         showStatus('invalid');
-        track('form_invalid', { fields: Object.keys(errors).join(','), source: 'client' });
         return;
       }
-
-      // Sent with every outcome so submits can be broken down by what the visitor asked for.
-      const formContext = { interest: data.interes || 'none', client_type: data.tipo || 'none' };
 
       submit.disabled = true;
       submitLabel.textContent = 'Enviando…';
@@ -222,20 +217,16 @@ import { LIMITS } from '../lib/contact';
           syncContractFields();
           showStatus('success');
           status.focus();
-          track('form_submit', formContext);
         } else if (res.status === 400 && body.errors) {
           showErrors(body.errors);
           showStatus('invalid');
-          track('form_invalid', { fields: Object.keys(body.errors).join(','), source: 'server' });
         } else {
           showStatus('failed');
           status.focus();
-          track('form_failed', { ...formContext, reason: String(res.status) });
         }
-      } catch (err) {
+      } catch {
         showStatus('failed');
         status.focus();
-        track('form_failed', { ...formContext, reason: (err as Error).name === 'TimeoutError' ? 'timeout' : 'network' });
       } finally {
         submit.disabled = false;
         submitLabel.textContent = 'Enviar solicitud';

@@ -1,0 +1,11 @@
+---
+// Vercel Web Analytics (aggregate page views) loads only after the visitor accepts in the consent banner.
+// See README > Privacy and consent.
+---
+
+<script>
+  import { inject } from '@vercel/analytics';
+  import { whenConsentGranted } from '../lib/consent';
+
+  whenConsentGranted(() => inject({ framework: 'astro' }));
+</script>

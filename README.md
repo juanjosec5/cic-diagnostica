@@ -82,7 +82,6 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 | `CONTACT_TO` | yes (production) | `ventas@cicdiagnostica.com` (comma-separate several) |
 | `CONTACT_FROM` | no | `CIC Diagnostica <web@cicdiagnostica.com>`. Default: `CIC Diagnostica <onboarding@resend.dev>` |
 | `SITE_URL` | no | Canonical base URL, e.g. `https://www.cicdiagnostica.com`. Defaults to Vercel's production domain. |
-| `PUBLIC_UMAMI_WEBSITE_ID` | no (Production only) | Umami website ID, see [Tracking](#tracking-umami) |
 
 These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'`, so Astro refuses to import them into client code.
 
@@ -97,8 +96,8 @@ Data protection follows Ley 1581 de 2012 (this is not legal advice).
   - "Aceptar" and "Rechazar" have the same weight.
   - The choice is stored in `localStorage` as `cic-consent` `{ v, analytics, ts }`. Bump `CONSENT_VERSION` to ask everyone again.
   - Any element with `data-consent-open` reopens the banner, e.g. the footer's "Preferencias de cookies".
-- **Before consent and after "Rechazar":** no Vercel Analytics, no Umami and no Google Maps. The map shows a "Ver mapa" button that loads it for that visit only.
-- **After "Aceptar":** Vercel Analytics (`inject()`), Umami and the map load automatically. Withdrawing consent reloads the page without them.
+- **Before consent and after "Rechazar":** no Vercel Analytics and no Google Maps. The map shows a "Ver mapa" button that loads it for that visit only.
+- **After "Aceptar":** Vercel Analytics (`inject()`) and the map load automatically. Withdrawing consent reloads the page without them.
 - **Contact form:**
   - The consent text links to the policy, and a hint asks people not to include patient data.
   - Each notification email ends with a **Registro de autorización** (consent text version `CONSENT_TEXT_VERSION`, policy version, Bogotá date and time). That email is the proof of consent, so keep it.
@@ -108,7 +107,7 @@ Data protection follows Ley 1581 de 2012 (this is not legal advice).
 ## Security
 
 - **Headers** (`vercel.json`, applied by Vercel to every response): `Content-Security-Policy`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy` and `Permissions-Policy`. Vercel adds HSTS itself.
-  - The CSP allows `'self'`, Umami (`cloud.umami.is`, `gateway.umami.is`) and the Google Maps iframe (`www.google.com`).
+  - The CSP allows `'self'` and the Google Maps iframe (`www.google.com`).
   - It allows `'unsafe-inline'` scripts and styles, because Astro inlines small component scripts and styles. The site renders no user content.
   - **When you add a new third-party script or iframe, add its origin to the CSP**, otherwise the browser blocks it.
 - **Contact API** (`src/pages/api/contact.ts`):
@@ -124,34 +123,6 @@ Data protection follows Ley 1581 de 2012 (this is not legal advice).
   - That code runs only during `astro build` on our own route patterns. It is not in the deployed function, so it is **not exploitable**.
   - **Don't run `npm audit fix --force`**: it downgrades the adapter to 8.x, which is incompatible with Astro 7.
   - Update `@astrojs/vercel` when a fixed version ships.
-
-## Tracking (Umami)
-
-Clicks and form outcomes go to [Umami Cloud](https://cloud.umami.is), which is cookieless. The script loads only when `PUBLIC_UMAMI_WEBSITE_ID` is set **and** the visitor tapped "Aceptar" in the consent banner (see *Privacy and consent*).
-
-**Setup:** sign up at <https://cloud.umami.is>, go to **Websites → Add website** (domain `cicdiagnostica.com`), and copy the *Website ID*. In Vercel, add `PUBLIC_UMAMI_WEBSITE_ID` for **Production only**, so preview and dev visits aren't counted, then redeploy. It's a public value: it ends up in the page source by design.
-
-Tracking is centralized, so components don't need per-element tags:
-
-- `src/components/Tracking.astro` loads the script and runs one delegated click listener that classifies every link.
-- `src/lib/analytics.ts` exposes `track()`, which does nothing when Umami isn't loaded. The contact form uses it.
-
-| Event | When | Data |
-| --- | --- | --- |
-| `whatsapp_click` | Any WhatsApp link | `intent` (key from `whatsappMessages`: quote, urgent, contract, outsideRoute, general…), `section`, `label` |
-| `bestseller_click` | A card in "Lo más pedido" | `rank` (1–5), `product` |
-| `cta_click` | In-page button/link outside the nav (e.g. "Enviar una solicitud", contract, catalog, documents) | `target`, `section`, `label`, `interest` (preselected form option) |
-| `nav_click` | Header menu link | `target`, `label` |
-| `email_click` | Any `mailto:` link | `section` |
-| `call_click` | Any `tel:` link ("Llamar" in Contacto) | `section` |
-| `internal_click` | Link to another page of the site (e.g. `/politica-de-datos`) | `url`, `section` |
-| `outbound_click` | Any other external link | `url`, `section` |
-| `faq_open` | FAQ question expanded | `question` |
-| `form_submit` | Form sent successfully | `interest`, `client_type` |
-| `form_invalid` | Validation errors | `fields`, `source` (client/server) |
-| `form_failed` | Send failed | `interest`, `client_type`, `reason` (HTTP status or `network`) |
-
-`section` is the id of the page section (`inicio`, `planes`, `productos`, `contratos`, `cobertura`, `contacto`…), or `header`, `footer` or `floating` for the floating button. In Umami, open **Events** and filter by these properties. For example, `whatsapp_click` by `intent` shows which offers start conversations. A WhatsApp click means the chat was opened, not that a message was sent.
 
 ## Deploy (step by step)
 

@@ -31,13 +31,12 @@ export const company = {
  * Bump `version` (and CONSENT_TEXT_VERSION below if the checkbox text changes) on every substantial change.
  */
 export const privacy = {
-  version: '1.0',
-  effectiveDate: '18 de octubre de 2026',
+  version: '1.1',
+  effectiveDate: '19 de octubre de 2026',
   requestEmail: company.email,
   responsibleArea: 'Gerencia',
   // Mail for cicdiagnostica.com is hosted on the domain's cPanel server (MX → 174.136.57.9, VivaWebHost).
   emailProvider: 'VivaWebHost (alojamiento del dominio)',
-  analyticsRegion: '[DATO: país de alojamiento de Umami]',
   leadRetention:
     'las solicitudes se conservan en el correo de la gerencia mientras sean necesarias para la relación comercial, y usted puede pedir su supresión en cualquier momento',
   rnbd: '[DATO: inscrita en el RNBD / no obligada a inscribirse]',

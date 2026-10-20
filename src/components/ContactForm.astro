@@ -82,7 +82,7 @@ import { LIMITS } from '../lib/contact';
         required
         maxlength={LIMITS.message}
         aria-describedby="h-mensaje e-mensaje"
-        placeholder="Cuéntenos qué productos necesita, en qué cantidades al mes y con qué frecuencia de entrega."></textarea>
+        placeholder="Ej.: 2 cajas de guantes de nitrilo y 1 caja de tubos tapa lila. Si compra cada mes, indíquenos la frecuencia."></textarea>
       <p class="hint" id="h-mensaje">No incluya información de pacientes ni datos de salud.</p>
       <p class="error" id="e-mensaje"></p>
     </div>
@@ -117,6 +117,7 @@ import { LIMITS } from '../lib/contact';
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
       <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por teléfono o WhatsApp.</p>
+      <p>¿Es urgente? <a href={waLink('urgent')} target="_blank" rel="noopener">Escríbanos por WhatsApp</a>.</p>
     </div>
   </template>
   <template id="tpl-invalid">
@@ -129,7 +130,7 @@ import { LIMITS } from '../lib/contact';
       <strong>No fue posible enviar su mensaje.</strong>
       <p>
         Por favor, escríbanos por <a href={waLink('general')} target="_blank" rel="noopener">WhatsApp</a> o al correo
-        <a href={`mailto:${company.email}`}>{company.email}</a> y le atenderemos de inmediato.
+        <a href={`mailto:${company.email}`}>{company.email}</a>.
       </p>
     </div>
   </template>

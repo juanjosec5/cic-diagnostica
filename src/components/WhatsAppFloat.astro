@@ -57,10 +57,11 @@ import { waLink } from '../lib/whatsapp';
 
 <script>
   // Hide the floating button while a section's own WhatsApp button ([data-wa-primary]) is visible,
-  // so two green WhatsApp buttons never compete on the same screen.
+  // so two green WhatsApp buttons never compete on the same screen, and over [data-wa-clear] areas it would cover
+  // (the best-seller cards, the form).
   const float = document.querySelector<HTMLAnchorElement>('.wa-float');
-  const primaries = document.querySelectorAll('[data-wa-primary]');
-  if (float && primaries.length && 'IntersectionObserver' in window) {
+  const targets = document.querySelectorAll('[data-wa-primary], [data-wa-clear]');
+  if (float && targets.length && 'IntersectionObserver' in window) {
     const visible = new Set<Element>();
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
@@ -71,6 +72,6 @@ import { waLink } from '../lib/whatsapp';
       float.classList.toggle('is-hidden', hide);
       float.tabIndex = hide ? -1 : 0;
     });
-    primaries.forEach((el) => io.observe(el));
+    targets.forEach((el) => io.observe(el));
   }
 </script>

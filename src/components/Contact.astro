@@ -21,7 +21,7 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
     <div class="contact">
       <aside class="info">
-        <a class="btn btn--wa info__wa" href={waLink('general')} target="_blank" rel="noopener" data-wa-primary>
+        <a class="btn btn--wa info__wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
           <Icon name="whatsapp" size={22} />
           Escribir por WhatsApp
         </a>
@@ -64,7 +64,7 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
         </div>
       </aside>
 
-      <div class="card form-card">
+      <div class="card form-card" data-wa-clear>
         <ContactForm />
       </div>
     </div>

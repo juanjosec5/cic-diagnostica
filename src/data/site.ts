@@ -84,10 +84,10 @@ export const freeFreightFrom = '$600.000';
 // field after a line break: WhatsApp puts the cursor at the end, so the visitor only types the answer.
 export const whatsappMessages = {
   general: 'Hola, quisiera información sobre sus productos. (web)\nMe interesa: ',
-  quote: 'Hola, quisiera una cotización. (web)\nProductos y cantidades: ',
-  urgent: 'Hola, necesito hacer un pedido urgente. (web)\nProductos y municipio: ',
-  contract: 'Hola, quisiera información sobre un contrato de suministro. (web)\nInstitución y municipio: ',
-  outsideRoute: 'Hola, ¿hacen entregas en mi municipio? (web)\nMunicipio: ',
+  quote: 'Hola, quisiera una cotización. (web)\nProductos, cantidades y municipio: ',
+  urgent: 'Hola, necesito hacer un pedido urgente. (web)\nProductos, cantidades y municipio: ',
+  contract: 'Hola, quisiera información sobre un contrato de suministro para hospital o IPS. (web)\nInstitución y municipio: ',
+  outsideRoute: 'Hola, ¿hacen entregas en mi municipio? (web)\nMunicipio y productos: ',
 } as const;
 
 export type WhatsAppIntent = keyof typeof whatsappMessages;
@@ -96,33 +96,35 @@ export type WhatsAppIntent = keyof typeof whatsappMessages;
 export const stats = [
   { icon: 'calendar', value: 'Desde 2021', label: 'en el sector salud' },
   { icon: 'user', value: '40+', label: 'clientes activos' },
-  { icon: 'map', value: String(municipalities.length), label: 'municipios con entrega directa' },
-  { icon: 'clock', value: `< ${company.responseTime}`, label: 'tiempo de respuesta' },
+  { icon: 'map', value: String(municipalities.length), label: 'municipios con entrega gratis' },
+  { icon: 'clock', value: 'Menos de 24 h', label: 'para responderle' },
 ];
 
 /** Delivery time; shown as a badge in the hero and in the FAQ. */
 export const deliveryTime = '1 a 3 días hábiles';
 
-export const clientPlans: { icon: string; title: string; benefits: string[] }[] = [
+// What applies to every client type ("sin pedido mínimo", free delivery) is stated once, under the tiles.
+export const clientPlans: { icon: string; title: string; benefits: string[]; link?: { href: string; text: string } }[] = [
   {
     icon: 'hospital',
     title: 'Hospitales e IPS',
-    benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días', 'Facturación centralizada'],
+    benefits: ['Contrato u orden de compra', 'Crédito a 30–45 días', 'Entregas en fechas acordadas'],
+    link: { href: '#contratos', text: 'Ver condiciones de contrato' },
   },
   {
     icon: 'flask',
     title: 'Laboratorios clínicos',
-    benefits: ['Reactivos, toma de muestras y consumibles', 'Despachos diarios', 'Sin pedido mínimo'],
+    benefits: ['Reactivos, toma de muestras y consumibles', 'Despachos diarios'],
   },
   {
     icon: 'pill',
     title: 'Droguerías',
-    benefits: ['Pruebas rápidas y bioseguridad', 'Sin pedido mínimo'],
+    benefits: ['Pruebas rápidas y bioseguridad', 'Compra sin contrato'],
   },
   {
     icon: 'user',
     title: 'Consultorios y otros establecimientos',
-    benefits: ['Veterinarias, odontología, fisioterapia y más', 'Sin pedido mínimo ni contrato'],
+    benefits: ['Veterinarias, odontología, fisioterapia y más', 'Compra directa por WhatsApp'],
   },
 ];
 
@@ -191,7 +193,7 @@ export const productCategories = [
     icon: 'droplet',
     title: 'Toma de muestras',
     image: '/products/lineas/toma-de-muestras',
-    items: ['Tubos al vacío', 'Agujas, jeringas y portatubos (holders)', 'Torniquetes', 'Recolectores de orina y coprológico'],
+    items: ['Tubos al vacío', 'Agujas, jeringas y portatubos', 'Torniquetes', 'Recolectores de orina y coprológico'],
   },
   {
     icon: 'test',
@@ -215,19 +217,23 @@ export const productCategories = [
 
 export const contractBenefits = [
   { icon: 'lock', title: 'Precio estable', text: 'Solo algunos importados varían con el dólar.' },
-  { icon: 'calendar', title: 'Entregas programadas', text: 'En fechas acordadas, en nuestras rutas semanales.' },
+  { icon: 'calendar', title: 'Entregas programadas', text: 'En las fechas acordadas, con nuestros despachos diarios.' },
   { icon: 'card', title: 'Pago a 30–45 días', text: 'Cupo de crédito acordado con gerencia.' },
-  { icon: 'check', title: 'Sin consumo mínimo', text: 'Al completar el cupo, renovamos por otrosí.' },
+  { icon: 'check', title: 'Sin consumo mínimo', text: 'Pida solo lo que necesita.' },
 ];
 
 export const contractSteps = [
   {
-    title: 'Solicite una cotización',
+    title: 'Solicite una propuesta',
     text: 'Cuéntenos qué necesita y, en máximo 48 horas, recibirá una propuesta con precios y condiciones para su institución.',
   },
   {
     title: 'Acordamos las condiciones',
     text: 'De forma digital o con visita del asesor a su sede.',
+  },
+  {
+    title: 'Comenzamos las entregas',
+    text: 'El contrato rige hasta agotar el cupo o llegar a la fecha acordada. Si necesita más antes, lo ampliamos con un otrosí o un contrato nuevo.',
   },
 ];
 
@@ -246,14 +252,15 @@ export const supplierDocuments = [
  */
 export const testimonials: { quote: string; name: string; role?: string; org?: string; logo?: string }[] = [];
 
-export const faqs = [
+/** `link` is shown after the answer: an in-page anchor (`href`) or a WhatsApp intent. */
+export const faqs: { q: string; a: string; link?: { text: string; href?: string; intent?: WhatsAppIntent } }[] = [
   {
-    q: '¿Puedo comprar en línea?',
-    a: 'Por ahora no contamos con tienda en línea. Puede consultar nuestro catálogo en WhatsApp y solicitarnos una cotización por ese medio o a través del formulario.',
+    q: '¿Cómo hago un pedido?',
+    a: 'Por WhatsApp: revise nuestro catálogo, envíenos su lista y le respondemos con la cotización. También puede usar el formulario. Por ahora no tenemos tienda en línea.',
   },
   {
     q: '¿Manejan un pedido mínimo?',
-    a: `No manejamos pedido mínimo. La entrega es gratis en nuestros ${municipalities.length} municipios de entrega directa; en otros municipios el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}.`,
+    a: `No manejamos pedido mínimo. La entrega es gratis en ${municipalities.length} municipios del Valle del Cauca.`,
   },
   {
     q: '¿Ofrecen crédito?',
@@ -261,15 +268,17 @@ export const faqs = [
   },
   {
     q: '¿Cuánto tarda la entrega?',
-    a: `Entregamos en ${deliveryTime}. Para volúmenes grandes coordinamos un despacho dedicado.`,
+    a: `Despachamos todos los días y entregamos en ${deliveryTime}. Los pedidos urgentes o grandes los priorizamos con un despacho especial.`,
   },
   {
     q: '¿Entregan en otros municipios?',
-    a: `Sí, en el resto del Valle del Cauca y fuera de él. Allí el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}; consúltenos por WhatsApp para su municipio.`,
+    a: `Sí, en el resto del Valle del Cauca y fuera de él. Allí el flete depende de la distancia y es gratis en compras de más de ${freeFreightFrom}.`,
+    link: { text: 'Consultar mi municipio por WhatsApp', intent: 'outsideRoute' },
   },
   {
     q: '¿Participan en licitaciones?',
-    a: 'Sí, participamos en licitaciones públicas. Vea los documentos que enviamos en la sección «Documentos para proveedor».',
+    a: 'Sí, participamos en licitaciones públicas y le enviamos los documentos de proveedor en 48 horas hábiles.',
+    link: { text: 'Ver documentos para proveedor', href: '#documentos' },
   },
   {
     q: '¿Emiten factura electrónica?',
@@ -291,18 +300,17 @@ export const clientTypeOptions = [
 ];
 
 export const interestOptions = [
-  { key: 'cotizacion', label: 'Cotización' },
+  { key: 'cotizacion', label: 'Cotización o precios' },
   { key: 'contrato', label: 'Contrato de suministro' },
-  { key: 'catalogo', label: 'Precios del catálogo' },
   { key: 'documentos', label: 'Documentos para proveedor' },
   { key: 'otra', label: 'Otra' },
 ] as const;
 
 export const navLinks = [
   { href: '#productos', label: 'Productos' },
-  { href: '#planes', label: 'Planes' },
-  { href: '#contratos', label: 'Contratos' },
   { href: '#cobertura', label: 'Cobertura' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '#clientes', label: 'Clientes' },
+  { href: '#contratos', label: 'Contratos' },
   { href: '#preguntas', label: 'Preguntas' },
+  { href: '#contacto', label: 'Contacto' },
 ];

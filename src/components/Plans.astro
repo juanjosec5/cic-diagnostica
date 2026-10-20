@@ -1,13 +1,12 @@
 ---
 import Icon from './Icon.astro';
-import { clientPlans } from '../data/site';
-import { waLink } from '../lib/whatsapp';
+import { clientPlans, municipalities } from '../data/site';
 ---
 
-<section id="planes" class="section">
+<section id="clientes" class="section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Planes por tipo de cliente</span>
+      <span class="eyebrow">Condiciones por tipo de cliente</span>
       <h2>¿Qué tipo de cliente es usted?</h2>
     </div>
 
@@ -26,17 +25,20 @@ import { waLink } from '../lib/whatsapp';
               </li>
             ))}
           </ul>
+          {plan.link && (
+            <a class="link-action tile__link" href={plan.link.href}>
+              {plan.link.text} <Icon name="arrow" size={18} />
+            </a>
+          )}
         </li>
       ))}
     </ul>
 
-    <!-- One action for the whole section; the tiles are information, not buttons. -->
-    <div class="actions plans__cta">
-      <a class="btn btn--wa" href={waLink('quote')} target="_blank" rel="noopener" data-wa-primary>
-        <Icon name="whatsapp" size={22} />
-        Cotizar por WhatsApp
-      </a>
-    </div>
+    <!-- No WhatsApp button here: the hero, the cards above and the floating button already offer one. -->
+    <p class="plans__all">
+      <Icon name="check" size={18} />
+      <span>Para todos: sin pedido mínimo y entrega gratis en {municipalities.length} municipios.</span>
+    </p>
   </div>
 </section>
 
@@ -106,8 +108,23 @@ import { waLink } from '../lib/whatsapp';
     color: var(--green-700);
   }
 
-  .plans__cta {
-    margin-top: 1.25rem;
+  .tile__link {
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  .plans__all {
+    display: flex;
     justify-content: center;
+    gap: 0.4rem;
+    margin: 1.25rem 0 0;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .plans__all :global(svg) {
+    flex: none;
+    margin-top: 0.2rem;
+    color: var(--green-700);
   }
 </style>

@@ -33,6 +33,12 @@ const jsonLd = {
     addressRegion: company.region,
     addressCountry: 'CO',
   },
+  openingHoursSpecification: company.openingHours.map(({ days, opens, closes }) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: days,
+    opens,
+    closes,
+  })),
   areaServed: municipalities.map((name) => ({ '@type': 'City', name })),
   knowsLanguage: 'es',
 };
@@ -50,6 +56,8 @@ const jsonLd = {
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#082736" />
+    <!-- Google Search Console ownership (URL-prefix property). Remove only if the property is deleted. -->
+    <meta name="google-site-verification" content="f2veb7zl0e3efjh2nYlxGrPRxWCX8uBqfP9shiRpEWE" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CO" />
@@ -60,6 +68,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`Logo de ${company.name}`} />
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Escape "<" so no value can close the script element early. -->

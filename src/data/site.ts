@@ -5,10 +5,12 @@
  * Only publish numbers and claims that are confirmed.
  */
 
+const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
 export const company = {
   name: 'CIC Diagnóstica',
   legalName: 'CIC Diagnóstica S.A.S.',
-  nit: '[NIT 000.000.000-0]',
+  nit: '901.456.745-4',
   // Digits only, with country code, no "+" or spaces (e.g. 573001234567).
   whatsapp: '573174020722',
   // Human-readable version shown on the page.
@@ -21,6 +23,12 @@ export const company = {
     return `${this.street}, ${this.city}, ${this.region}`;
   },
   hours: ['Lunes a viernes: 7:00 a.m. – 12:00 m. y 2:00 p.m. – 5:00 p.m.', 'Sábados: 7:30 a.m. – 11:00 a.m.'],
+  // The same hours for search engines (JSON-LD). Keep both in sync.
+  openingHours: [
+    { days: weekdays, opens: '07:00', closes: '12:00' },
+    { days: weekdays, opens: '14:00', closes: '17:00' },
+    { days: ['Saturday'], opens: '07:30', closes: '11:00' },
+  ],
   // Shown in the proof row, the contact section and the form's success message.
   responseTime: '24 horas',
 };
@@ -39,7 +47,9 @@ export const privacy = {
   emailProvider: 'VivaWebHost (alojamiento del dominio)',
   leadRetention:
     'las solicitudes se conservan en el correo de la gerencia mientras sean necesarias para la relación comercial, y usted puede pedir su supresión en cualquier momento',
-  rnbd: '[DATO: inscrita en el RNBD / no obligada a inscribirse]',
+  // Confirmed by the company (2026-10-19): total assets are below 100.000 UVT, so registration isn't required.
+  rnbd:
+    'No estamos obligados a inscribir nuestras bases de datos en el Registro Nacional de Bases de Datos de la SIC, porque nuestros activos totales no superan 100.000 UVT (Decreto 1074 de 2015, artículo 2.2.2.26.1.2). Esto no nos exime de cumplir las demás obligaciones de la Ley 1581 de 2012 descritas en esta política.',
 };
 
 /** Version of the consent checkbox text in the contact form; recorded in each notification email as proof. */

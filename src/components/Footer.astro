@@ -9,9 +9,8 @@ const year = new Date().getFullYear();
   <div class="container footer__inner">
     <div>
       <img class="footer__logo" src="/brand/logo-horizontal-on-dark-sm.png" width="177" height="36" alt={company.name} loading="lazy" />
-      <!-- Legal name and NIT appear once they're real values, not [placeholders]. -->
+      <!-- The legal name appears once it's a real value, not a [placeholder]. The NIT is only in the data policy. -->
       <p class="footer__name">{isPlaceholder(company.legalName) ? company.name : company.legalName}</p>
-      {!isPlaceholder(company.nit) && <p>NIT {company.nit}</p>}
       <p>Distribuidora de insumos médicos y de laboratorio · {company.region}, Colombia</p>
     </div>
     <ul class="footer__contact">

@@ -70,6 +70,8 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 2. Run `npm run catalog`. It rewrites the JSON and prints what changed: products added, removed, reclassified, or whose stock status changed. Add `-- --sample` to also write `data/raw/revision-clasificacion.csv`, a spread sample for the sales team to check the classification.
 3. Open a PR with the JSON, check the Vercel preview, then merge.
 
+The pages are `/catalogo/` (search, filters, quote list) and one static page per categoría (`/catalogo/<slug>/`, also in the sitemap). Code: `src/components/Catalog.astro` (UI), `src/lib/catalog-search.ts` (search, synonyms, WhatsApp message; tested in `scripts/catalog/search.test.mjs`), `src/lib/catalog.ts` (build-time data). The browser downloads `/catalogo/productos.json`, which is generated from the same data. If a product is written with an abbreviation people don't search for, add it to `EXPANSIONS` in `catalog-search.ts`.
+
 What gets published: code, name, categoría, segmento, and an "out of stock" flag (`bajoPedido`). Price (`Bv`), supplier (`Familia`) and stock quantities never leave the script. The import stops without writing anything if a code is duplicated, a required field is empty, or a categoría/segmento isn't in `scripts/catalog/taxonomy.mjs`. That list is the guard against typos creating new filters. To add a real new category, add it there. Tests: `npm test`.
 
 ## Contact form

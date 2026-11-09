@@ -9,7 +9,7 @@
  * Every page URL, with the trailing slash: trailingSlash 'always' in astro.config.mjs 308-redirects the other form,
  * and Google indexes this one. Links, the contact email and the sitemap all read from here, so they can't drift.
  */
-export const routes = { home: '/', privacy: '/politica-de-datos/' } as const;
+export const routes = { home: '/', catalog: '/catalogo/', privacy: '/politica-de-datos/' } as const;
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
@@ -337,11 +337,12 @@ export const interestOptions = [
   { key: 'otra', label: 'Otra' },
 ] as const;
 
+// Home sections as "/#…" so the menu also works from /catalogo/ (on the home page it still just scrolls).
 export const navLinks = [
-  { href: '#productos', label: 'Productos' },
-  { href: '#cobertura', label: 'Cobertura' },
-  { href: '#clientes', label: 'Clientes' },
-  { href: '#contratos', label: 'Contratos' },
-  { href: '#preguntas', label: 'Preguntas' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: routes.catalog, label: 'Catálogo' },
+  { href: '/#productos', label: 'Productos' },
+  { href: '/#cobertura', label: 'Cobertura' },
+  { href: '/#clientes', label: 'Clientes' },
+  { href: '/#contratos', label: 'Contratos' },
+  { href: '/#contacto', label: 'Contacto' },
 ];

@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Catalog from '../../components/Catalog.astro';
+import Footer from '../../components/Footer.astro';
+import { company } from '../../data/site';
+import { categorias, productos } from '../../lib/catalog';
+
+export function getStaticPaths() {
+  return categorias.map((c) => ({ params: { categoria: c.slug }, props: { slug: c.slug, label: c.label } }));
+}
+
+const { slug, label } = Astro.props;
+// Every product of the category is in the HTML (largest: ~600 rows), so each one is crawlable and works without JS.
+const initial = productos.filter((p) => p.categoria === slug);
+---
+
+<Layout
+  title={`${label}: ${initial.length} referencias | ${company.name}`}
+  description={`${label}: ${initial.length} referencias de insumos médicos en ${company.name}. Arme su lista y pida la cotización por WhatsApp.`}>
+  <Header />
+  <main id="main">
+    <Catalog
+      title={label}
+      intro={`${initial.length} referencias. Busque por nombre, marca o código, o combine con otras categorías.`}
+      initial={initial}
+      categoria={slug}
+    />
+  </main>
+  <Footer />
+</Layout>

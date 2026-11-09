@@ -39,6 +39,12 @@
   box-sizing: border-box;
 }
 
+/* `hidden` must win over any class that sets display (a component's `display: flex` otherwise shows a hidden
+   element). One rule here instead of a `.x[hidden]` override in every component. */
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + var(--urgent-h) + 12px);
@@ -221,6 +227,16 @@ main > section:not(:first-child) {
   color: var(--blue-700);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* The same look on a <button> (e.g. "Quitar", "Vaciar lista"). */
+button.link-action {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .link-action:hover {

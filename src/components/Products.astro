@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { productCategories } from '../data/site';
+import { routes } from '../data/site';
 import { waCatalogLink } from '../lib/whatsapp';
 ---
 
@@ -41,11 +42,11 @@ import { waCatalogLink } from '../lib/whatsapp';
     <p class="swipe-hint" aria-hidden="true">Deslice para ver más <Icon name="arrow" size={16} /></p>
 
     <div class="catalog">
-      <p>Todas las referencias están en nuestro catálogo de WhatsApp. Elija y pídanos la cotización en el mismo chat.</p>
-      <a class="btn btn--wa" href={waCatalogLink()} target="_blank" rel="noopener">
-        <Icon name="whatsapp" size={22} />
-        Ver catálogo en WhatsApp
+      <p>Busque entre todas nuestras referencias, arme su lista y pídanos la cotización por WhatsApp.</p>
+      <a class="btn btn--primary" href={routes.catalog}>
+        Ver catálogo completo <Icon name="arrow" size={20} />
       </a>
+      <a class="link-action" href={waCatalogLink()} target="_blank" rel="noopener">Ver catálogo en WhatsApp</a>
     </div>
   </div>
 </section>

@@ -5,6 +5,12 @@
  * Only publish numbers and claims that are confirmed.
  */
 
+/**
+ * Every page URL, with the trailing slash: trailingSlash 'always' in astro.config.mjs 308-redirects the other form,
+ * and Google indexes this one. Links, the contact email and the sitemap all read from here, so they can't drift.
+ */
+export const routes = { home: '/', privacy: '/politica-de-datos/' } as const;
+
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export const company = {

@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
 
-// Two pages don't justify @astrojs/sitemap. Add new pages here, with the trailing slash: pages are built as
-// folders, so that's the form their canonical URL uses (see Layout.astro).
-const paths = ['/', '/politica-de-datos/'];
+import { routes } from '../data/site';
+
+// Two pages don't justify @astrojs/sitemap. New pages go in `routes` (src/data/site.ts), which the links use too.
+const paths = Object.values(routes);
 
 export const GET: APIRoute = ({ site }) =>
   new Response(

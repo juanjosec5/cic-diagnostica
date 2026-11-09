@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import ContactForm from './ContactForm.astro';
-import { company } from '../data/site';
+import { company, routes } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 
 // Google Maps without an API key: a directions link (no cookies) and an embed. The embed sets Google cookies,
@@ -55,7 +55,7 @@ const embedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
             </button>
             <p class="map__note">
               Al cargar el mapa, Google puede usar cookies y recibir su dirección IP.
-              <a href="/politica-de-datos#cookies">Más información</a>
+              <a href={`${routes.privacy}#cookies`}>Más información</a>
             </p>
           </div>
           <a class="link-action" href={directionsUrl} target="_blank" rel="noopener">

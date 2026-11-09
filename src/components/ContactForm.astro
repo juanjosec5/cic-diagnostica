@@ -1,10 +1,10 @@
 ---
-import { clientTypeOptions, interestOptions, municipalities, company } from '../data/site';
+import { clientTypeOptions, interestOptions, municipalities, company, routes } from '../data/site';
 import { waLink } from '../lib/whatsapp';
 import { LIMITS } from '../lib/contact';
 ---
 
-<form id="contact-form" class="form" method="post" action="/api/contact" novalidate>
+<form id="contact-form" class="form" method="post" action="/api/contact/" novalidate>
   <h3 class="form__title">Envíenos su solicitud</h3>
   <p class="form__hint">Los campos marcados con <span aria-hidden="true">*</span><span class="visually-hidden">asterisco</span> son obligatorios.</p>
 
@@ -99,7 +99,7 @@ import { LIMITS } from '../lib/contact';
         <label for="f-consentimiento">
           Autorizo a {company.name} para tratar mis datos personales con el fin de atender esta solicitud, conforme a la
           Ley 1581 de 2012 y a su
-          <a href="/politica-de-datos" target="_blank" rel="noopener">política de tratamiento de datos</a>.
+          <a href={routes.privacy} target="_blank" rel="noopener">política de tratamiento de datos</a>.
           <span class="req" aria-hidden="true">*</span>
         </label>
       </div>
@@ -204,7 +204,7 @@ import { LIMITS } from '../lib/contact';
       status.replaceChildren();
 
       try {
-        const res = await fetch('/api/contact', {
+        const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(data),

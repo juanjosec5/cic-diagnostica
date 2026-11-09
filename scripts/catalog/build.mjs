@@ -3,6 +3,9 @@ import { CATEGORIAS, SEGMENTOS, slugify } from './taxonomy.mjs';
 
 export const SHEET = 'Listado por segmento';
 
+// Exports can put a title above the header (Numbers writes "Table 1"), so look for it in the first rows.
+const HEADER_SEARCH_ROWS = 5;
+
 // Source column → what we do with it. Only these columns are read; anything else in the sheet (Familia = supplier,
 // Bv = price) is ignored and never reaches the public JSON.
 const COLUMNS = { segmento: 'Segmento', categoria: 'Categoría', cod: 'Cod', nombre: 'Nombre', activo: 'Activo', stock: 'stock a hoy' };
@@ -15,7 +18,9 @@ const toTaxonomy = (labels) => labels.map((label) => ({ slug: slugify(label), la
  * @returns {{ catalog?: object, errors: string[], skipped: number }}
  */
 export function buildCatalog(rows, { updatedAt }) {
-  const [header = [], ...data] = rows;
+  const headerAt = Math.max(0, rows.slice(0, HEADER_SEARCH_ROWS).findIndex((r) => r.some((h) => String(h).trim() === COLUMNS.cod)));
+  const header = rows[headerAt] ?? [];
+  const data = rows.slice(headerAt + 1);
   const index = {};
   const errors = [];
   for (const [key, name] of Object.entries(COLUMNS)) {
@@ -34,7 +39,7 @@ export function buildCatalog(rows, { updatedAt }) {
   let skipped = 0;
 
   data.forEach((row, i) => {
-    const line = i + 2; // spreadsheet row number, header is row 1
+    const line = headerAt + i + 2; // row number as the spreadsheet shows it
     const get = (key) => String(row[index[key]] ?? '').trim();
     if (row.every((v) => String(v).trim() === '')) return;
     if (get('activo').toLowerCase() !== 'si') {
@@ -47,7 +52,8 @@ export function buildCatalog(rows, { updatedAt }) {
     const categoria = catSlug.get(get('categoria'));
     const segmento = segSlug.get(get('segmento'));
     const stockText = get('stock');
-    const stock = Number(stockText);
+    // A count, so "1.192" / "1,192" are thousands separators (CSV exports format numbers).
+    const stock = Number(stockText.replace(/[.,\s]/g, ''));
 
     if (!cod) errors.push(`Row ${line}: empty Cod`);
     if (!nombre) errors.push(`Row ${line}: empty Nombre (Cod ${cod})`);

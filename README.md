@@ -66,7 +66,7 @@ Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `p
 
 `src/data/catalog.json` is generated from the sales team's product export. Don't edit it by hand. Refresh it every 1–2 weeks:
 
-1. Save the export in `data/raw/`. That folder is gitignored because the export holds prices, suppliers and stock. Use the `.xlsx` (sheet `Listado por segmento`), or a "CSV UTF-8" export. Other CSV encodings garble accents and drop leading zeros from codes.
+1. Save the export in `data/raw/`. That folder is gitignored because the export holds prices, suppliers and stock. Prefer the `.xlsx` (sheet `Listado por segmento`). A CSV works if it's UTF-8, but exports can lose data: a Numbers export cut off a product name, and non-UTF-8 CSVs garble accents and drop leading zeros from codes. If you use a CSV, check the change report for unexpected "renamed" products.
 2. Run `npm run catalog`. It rewrites the JSON and prints what changed: products added, removed, reclassified, or whose stock status changed. Add `-- --sample` to also write `data/raw/revision-clasificacion.csv`, a spread sample for the sales team to check the classification.
 3. Open a PR with the JSON, check the Vercel preview, then merge.
 

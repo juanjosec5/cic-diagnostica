@@ -46,6 +46,17 @@ test('fails on a missing column, accepts reordered columns', () => {
   assert.deepEqual(errors, []);
 });
 
+test('finds the header below an export title and reports real row numbers', () => {
+  const { catalog, errors } = buildCatalog([['Table 1'], HEADER, row(), row()], { updatedAt: 'x' });
+  assert.equal(catalog, undefined);
+  assert.match(errors[0], /Row 4: duplicate Cod 0986 \(first at row 3\)/);
+});
+
+test('reads stock with thousands separators', () => {
+  const { catalog } = build(row({ Cod: '1', 'stock a hoy': '1.192' }), row({ Cod: '2', 'stock a hoy': '0' }));
+  assert.deepEqual(catalog.productos.map((p) => p.bajoPedido), [false, true]);
+});
+
 test('skips inactive and blank rows; drops empty categories', () => {
   const { catalog, skipped } = build(row(), row({ Cod: '2', Activo: 'No' }), ['', '', '', '', '', '', '', '']);
   assert.equal(catalog.total, 1);

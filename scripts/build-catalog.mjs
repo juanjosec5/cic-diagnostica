@@ -77,8 +77,9 @@ function newestSource() {
 function readCsv(path) {
   const text = readFileSync(path, 'utf8').replace(/^﻿/, '');
   if (text.includes('�')) fail(`${basename(path)} isn't UTF-8. In Excel use "Guardar como → CSV UTF-8", or use the .xlsx.`);
-  const firstLine = text.slice(0, text.indexOf('\n'));
-  const occurrences = (ch) => firstLine.split(ch).length - 1;
+  // Judge by the first lines, not just the first: exports may start with a title row ("Table 1").
+  const head = text.split('\n', 5).join('\n');
+  const occurrences = (ch) => head.split(ch).length - 1;
   const delimiter = occurrences(';') > occurrences(',') ? ';' : ',';
   const rows = [[]];
   let cell = '';

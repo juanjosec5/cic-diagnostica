@@ -62,6 +62,16 @@ Everything is in `src/data/site.ts`:
 
 Icons live in `src/components/Icon.astro`. To add one, add an SVG path to the `paths` map.
 
+## Product catalog data
+
+`src/data/catalog.json` is generated from the sales team's product export. Don't edit it by hand. Refresh it every 1–2 weeks:
+
+1. Save the export in `data/raw/`. That folder is gitignored because the export holds prices, suppliers and stock. Use the `.xlsx` (sheet `Listado por segmento`), or a "CSV UTF-8" export. Other CSV encodings garble accents and drop leading zeros from codes.
+2. Run `npm run catalog`. It rewrites the JSON and prints what changed: products added, removed, reclassified, or whose stock status changed. Add `-- --sample` to also write `data/raw/revision-clasificacion.csv`, a spread sample for the sales team to check the classification.
+3. Open a PR with the JSON, check the Vercel preview, then merge.
+
+What gets published: code, name, categoría, segmento, and an "out of stock" flag (`bajoPedido`). Price (`Bv`), supplier (`Familia`) and stock quantities never leave the script. The import stops without writing anything if a code is duplicated, a required field is empty, or a categoría/segmento isn't in `scripts/catalog/taxonomy.mjs`. That list is the guard against typos creating new filters. To add a real new category, add it there. Tests: `npm test`.
+
 ## Contact form
 
 `src/pages/api/contact.ts`:

@@ -13,6 +13,9 @@ export default defineConfig({
   site,
   // Every page is prerendered except routes that opt out (src/pages/api/contact.ts).
   output: 'static',
+  // One URL per page, always with a trailing slash (the form Google indexed). The Vercel adapter turns this into a
+  // 308 from the no-slash form, so internal links, the canonical (Layout.astro) and the sitemap must all use the slash.
+  trailingSlash: 'always',
   adapter: vercel(),
   // 4321 is used by the CIC laboratorios site (cic-web-2026); a fixed port avoids mixing up the two in the browser.
   server: { port: 4322 },

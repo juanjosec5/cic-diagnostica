@@ -1,13 +1,14 @@
 ---
 // Cookie/analytics consent. Shown until the visitor chooses; reopened from any [data-consent-open] link.
 // "Aceptar" and "Rechazar" have the same weight, and closing the page without choosing means no consent.
+import { routes } from '../data/site';
 ---
 
 <div class="consent" id="consent-banner" role="region" aria-label="Preferencias de cookies" hidden>
   <div class="container consent__inner">
     <p class="consent__text">
       Con su permiso, contamos las visitas (Vercel, EE. UU.) y cargamos el mapa de Google. Sin publicidad.
-      <a href="/politica-de-datos#cookies">Más información sobre cookies</a>
+      <a href={`${routes.privacy}#cookies`}>Más información sobre cookies</a>
     </p>
     <div class="consent__actions">
       <button type="button" class="btn consent__btn" data-consent="denied">Rechazar</button>

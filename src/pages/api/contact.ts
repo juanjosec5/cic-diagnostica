@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { RESEND_API_KEY, CONTACT_TO, CONTACT_FROM } from 'astro:env/server';
 import { Resend } from 'resend';
 import { normalizeContact, validateContact, type ContactData } from '../../lib/contact';
-import { CONSENT_TEXT_VERSION, interestOptions, privacy } from '../../data/site';
+import { CONSENT_TEXT_VERSION, interestOptions, privacy, routes } from '../../data/site';
 
 // Runs on demand as a Vercel serverless function; the rest of the site is static.
 export const prerender = false;
@@ -52,7 +52,7 @@ function buildEmail(d: ContactData) {
   const consentRows: [string, string][] = [
     ['Autorización tratamiento de datos (Ley 1581)', 'Sí'],
     ['Texto de autorización', CONSENT_TEXT_VERSION],
-    ['Política vigente', `v${privacy.version} – ${new URL('/politica-de-datos', import.meta.env.SITE).href}`],
+    ['Política vigente', `v${privacy.version} – ${new URL(routes.privacy, import.meta.env.SITE).href}`],
     ['Fecha y hora (Bogotá)', new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })],
     ['Origen', 'Formulario web'],
   ];

@@ -19,3 +19,6 @@ npm-debug.log*
 
 # agent worktrees
 .claude/worktrees/
+
+# catalog source files (internal: prices, suppliers, stock)
+data/raw/

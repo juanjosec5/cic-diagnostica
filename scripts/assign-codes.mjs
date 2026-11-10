@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// CIC codes for the inventory system (Quality Manager): one code per product, from the sales export (supplier
-// codes) plus CIC's own product lists. When a product is in both, the CIC list's values win (they come from CIC's
+// CIC codes: one per product, from the sales export (supplier codes) plus CIC's own product lists. The output is the
+// register of which code belongs to which product. Products go into Quality Manager one by one, by hand, the first
+// time a client asks for them, with the code from this register (the website shows it too). When a product is in both, the CIC list's values win (they come from CIC's
 // inventory); likely pairs are flagged for the team, since names alone can't prove a duplicate.
 //   npm run codes:assign [-- --export data/raw/portfolio_diag.xlsx --cic data/raw/cic/lista-julio.xlsx]
-// Writes data/raw/codigos-cic.csv (gitignored: it has suppliers) for the Quality Manager import. Re-running keeps
-// every code already in that file (a code never changes) and numbers only new products.
-import { existsSync, writeFileSync } from 'node:fs';
+// Writes data/raw/codigos-cic.csv (gitignored: it has suppliers). Re-running keeps every code already assigned (a code
+// never changes) and numbers only new products. Codes already published in src/data/catalog.json (cod + antes) count
+// as assigned too, so losing the CSV can't reassign them.
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { assignCodes, cicListName, classifyCicName, ivaFrom } from './catalog/assign.mjs';
 import { SHEET } from './catalog/build.mjs';
 import { parseCode } from './catalog/codes.mjs';
@@ -14,6 +16,7 @@ import { CATEGORIA_NUM } from './catalog/taxonomy.mjs';
 import { readSheet } from './catalog/xlsx.mjs';
 
 const OUT = 'data/raw/codigos-cic.csv';
+const PUBLISHED = 'src/data/catalog.json';
 const args = process.argv.slice(2);
 const opt = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const exportPath = opt('--export', 'data/raw/portfolio_diag.xlsx');
@@ -73,11 +76,20 @@ for (const c of cicList) {
   if (hits.length === 1) duplicateOf.set(c.key, hits[0].p);
 }
 
-// Keep what an earlier run assigned.
+// Keep what was already assigned: the register, and the codes published on the website (committed, so they survive
+// even if the register is lost). The two must agree.
 const previous = new Map();
 if (existsSync(OUT)) {
   for (const r of table(readCsv(OUT), ['Código CIC', 'Clave'], OUT)) previous.set(r.Clave, r['Código CIC']);
 }
+const conflicts = [];
+for (const p of existsSync(PUBLISHED) ? JSON.parse(readFileSync(PUBLISHED, 'utf8')).productos : []) {
+  if (!p.antes) continue;
+  const key = `P:${p.antes}`;
+  if (previous.has(key) && previous.get(key) !== p.cod) conflicts.push(`supplier ${p.antes}: ${previous.get(key)} in ${OUT}, ${p.cod} on the website`);
+  else previous.set(key, p.cod);
+}
+if (conflicts.length) fail(`The register and the website disagree, nothing written:\n  ${conflicts.slice(0, 20).join('\n  ')}`);
 const codes = assignCodes(products, previous);
 
 // Checker: every code valid and unique, new codes in their categoría's range.

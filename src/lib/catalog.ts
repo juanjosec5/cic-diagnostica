@@ -5,6 +5,8 @@ import type { CatalogPayload } from './catalog-search';
 
 export interface Producto {
   cod: string;
+  /** Supplier code the product had before CIC codes; still found by search and saved lists during the transition. */
+  antes?: string;
   nombre: string;
   categoria: string;
   segmento: string;
@@ -36,6 +38,6 @@ export function payload(): CatalogPayload {
     updatedAt,
     categorias: categorias.map(({ slug, label, comun }) => ({ slug, label, comun })),
     segmentos: segmentos.map(({ slug, label }) => ({ slug, label })),
-    productos: productos.map((p) => [p.cod, p.nombre, cat.get(p.categoria)!, seg.get(p.segmento)!, p.bajoPedido ? 1 : 0]),
+    productos: productos.map((p) => [p.cod, p.nombre, cat.get(p.categoria)!, seg.get(p.segmento)!, p.bajoPedido ? 1 : 0, p.antes ?? '']),
   };
 }

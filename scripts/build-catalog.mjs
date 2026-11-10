@@ -14,6 +14,8 @@ import { readSheet } from './catalog/xlsx.mjs';
 const RAW_DIR = 'data/raw';
 const OUT = 'src/data/catalog.json';
 const REVIEW_OUT = join(RAW_DIR, 'revision-clasificacion.csv');
+// Supplier code → CIC code, from npm run codes:assign. Gitignored like the export.
+const CODES = join(RAW_DIR, 'codigos-cic.csv');
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -30,7 +32,8 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) fail(`--date must be YYYY-MM-DD, 
 
 const source = args[0] ?? newestSource();
 const rows = extname(source).toLowerCase() === '.csv' ? readCsv(source) : readSheet(source, SHEET);
-const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date });
+const codes = existsSync(CODES) ? readCodes(CODES) : undefined;
+const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date, codes });
 if (errors.length) fail(`${errors.length} problem(s) in ${basename(source)}, nothing written:\n  ${errors.slice(0, 30).join('\n  ')}`);
 
 const prev = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : undefined;
@@ -49,7 +52,8 @@ if (prev) {
   show('removed', diff.removed);
   show('renamed/reclassified', diff.changed);
   show('stock status changed', diff.stock);
-  if (!diff.added.length && !diff.removed.length && !diff.changed.length && !diff.stock.length) console.log('  no product changes');
+  show('recoded (supplier → CIC code)', diff.recoded);
+  if (!diff.added.length && !diff.removed.length && !diff.changed.length && !diff.stock.length && !diff.recoded.length) console.log('  no product changes');
 }
 
 if (sampleFlag) {
@@ -68,10 +72,19 @@ if (sampleFlag) {
 
 function newestSource() {
   const files = existsSync(RAW_DIR)
-    ? readdirSync(RAW_DIR).filter((f) => /\.(xlsx|csv)$/i.test(f) && !f.startsWith('revision-')).map((f) => join(RAW_DIR, f))
+    ? readdirSync(RAW_DIR).filter((f) => /\.(xlsx|csv)$/i.test(f) && !/^(revision-|codigos-)/.test(f)).map((f) => join(RAW_DIR, f))
     : [];
   if (!files.length) fail(`No .xlsx or .csv in ${RAW_DIR}/. Put the export there or pass its path.`);
   return files.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)[0];
+}
+
+/** Supplier code → CIC code, for the export's products (the CIC list's own products have no supplier code). */
+function readCodes(path) {
+  const [header, ...rows] = readCsv(path);
+  const cic = header.indexOf('Código CIC');
+  const supplier = header.indexOf('Código proveedor');
+  if (cic < 0 || supplier < 0) fail(`${basename(path)}: needs the columns "Código CIC" and "Código proveedor"`);
+  return new Map(rows.filter((r) => r[supplier]).map((r) => [r[supplier].trim(), r[cic].trim()]));
 }
 
 function readCsv(path) {

@@ -67,7 +67,23 @@ test('skips inactive and blank rows; drops empty categories', () => {
 test('diff reports added, removed, reclassified and stock changes', () => {
   const prev = build(row({ Cod: '1' }), row({ Cod: '2' }), row({ Cod: '3' })).catalog;
   const next = build(row({ Cod: '1', Categoría: 'Agujas' }), row({ Cod: '3', 'stock a hoy': '0' }), row({ Cod: '4' })).catalog;
-  assert.deepEqual(diffCatalogs(prev, next), { added: ['4'], removed: ['2'], changed: ['1'], stock: ['3'] });
+  assert.deepEqual(diffCatalogs(prev, next), { added: ['4'], removed: ['2'], changed: ['1'], stock: ['3'], recoded: [] });
+});
+
+test('with CIC codes: publishes them as cod, keeps the supplier code as antes, diff shows recoded', () => {
+  const codes = new Map([['0986', 'CD22000012']]);
+  const prev = build(row()).catalog;
+  const { catalog, errors } = buildCatalog([HEADER, row()], { updatedAt: 'x', codes });
+  assert.deepEqual(errors, []);
+  assert.deepEqual(catalog.productos[0], { cod: 'CD22000012', antes: '0986', nombre: 'GUANTE NITRILO TALLA M', categoria: 'guantes', segmento: 'medicina-general', bajoPedido: false });
+  assert.deepEqual(diffCatalogs(prev, catalog), { added: [], removed: [], changed: [], stock: [], recoded: ['CD22000012'] });
+});
+
+test('with CIC codes: a product without one, or an invalid one, stops the import', () => {
+  const { catalog, errors } = buildCatalog([HEADER, row({ Cod: '1' }), row({ Cod: '2' })], { updatedAt: 'x', codes: new Map([['2', 'CD22000013']]) });
+  assert.equal(catalog, undefined);
+  assert.match(errors.join('\n'), /no CIC code for Cod 1/);
+  assert.match(errors.join('\n'), /invalid CIC code CD22000013/);
 });
 
 test('review sample covers every category and is deterministic', () => {

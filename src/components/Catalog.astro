@@ -131,27 +131,30 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   </div>
 
   <dialog class="quote" aria-labelledby="quote-title" data-dialog>
-    <div class="quote__head">
-      <h2 id="quote-title">Su lista para cotizar</h2>
-      <button class="quote__close" type="button" aria-label="Cerrar" data-close><Icon name="close" /></button>
-    </div>
-    <p class="quote__hint">
-      Al final del mensaje escriba cantidades y municipio, o envíelo así y lo completamos en el chat. Le respondemos en
-      menos de {company.responseTime}.
-    </p>
-    <ul class="quote__items" data-list></ul>
-    <p class="quote__limit" hidden data-limit>Llegó a {MAX_LIST_ITEMS} productos, el máximo por mensaje. Envíe esta lista y luego arme otra.</p>
-    <div class="quote__actions">
-      <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-send>
-        <Icon name="whatsapp" size={20} /> Enviar lista por WhatsApp
-      </a>
-      <button class="link-action" type="button" data-clear>Vaciar lista</button>
+    <!-- The padding is on this wrapper, so a click on the dialog element itself is always the backdrop. -->
+    <div class="quote__inner">
+      <div class="quote__head">
+        <h2 id="quote-title">Su lista para cotizar</h2>
+        <button class="quote__close" type="button" aria-label="Cerrar" data-close><Icon name="close" /></button>
+      </div>
+      <p class="quote__hint">
+        Al final del mensaje escriba cantidades y municipio, o envíelo así y lo completamos en el chat. Le respondemos en
+        menos de {company.responseTime}.
+      </p>
+      <ul class="quote__items" data-list></ul>
+      <p class="quote__limit" hidden data-limit>Llegó a {MAX_LIST_ITEMS} productos, el máximo por mensaje. Envíe esta lista y luego arme otra.</p>
+      <div class="quote__actions">
+        <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-send>
+          <Icon name="whatsapp" size={20} /> Enviar lista por WhatsApp
+        </a>
+        <button class="link-action" type="button" data-clear>Vaciar lista</button>
+      </div>
     </div>
   </dialog>
 </section>
 
 <script>
-  import { MAX_LIST_ITEMS, matcher, normalize, quoteMessage, toItems, type CatalogPayload, type Item } from '../lib/catalog-search';
+  import { MAX_LIST_ITEMS, matcher, quoteMessage, startsWithQuery, toItems, type CatalogPayload, type Item } from '../lib/catalog-search';
   import { track } from '../lib/track';
 
   const PAGE = 50;
@@ -272,9 +275,9 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     const base = items.filter((p) => inSeg(p) && match(p.key));
     updatePillCounts(base);
     filtered = selectedCats.size ? base.filter((p) => selectedCats.has(p.cat)) : base;
-    // Names that start with the first word typed go first ("guante" before "caja para guantes").
-    const first = normalize(q.value).split(' ')[0];
-    if (first) filtered = moveToFront(filtered, (p) => normalize(p.nombre).startsWith(first));
+    // Names that start with the first word typed go first ("guantes" → "GUANTE…" before "CAJA PARA GUANTES").
+    const startsWith = startsWithQuery(q.value);
+    if (startsWith) filtered = moveToFront(filtered, (p) => startsWith(p.name));
     // With a specialty picked, its own products before the shared supplies (gloves, gauze…) added to every one.
     // Applied last, so it wins over the name match above.
     if (seg >= 0) filtered = moveToFront(filtered, (p) => p.seg === seg);
@@ -350,14 +353,20 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   }
 
   // Filters live in the URL so a filtered view can be shared (e.g. pasted in WhatsApp).
+  // Other parameters (utm_*, gclid…) are kept, so campaign attribution survives.
   function syncUrl() {
-    const params = new URLSearchParams();
-    if (q.value.trim()) params.set('q', q.value.trim());
-    if (selectedCats.size) params.set('cat', [...selectedCats].map((i) => data.categorias[i].slug).join(','));
-    if (segSelect.value) params.set('seg', segSelect.value);
-    const only = selectedCats.size === 1 && !q.value.trim() && !segSelect.value ? data.categorias[[...selectedCats][0]].slug : '';
+    const params = new URLSearchParams(location.search);
+    ['q', 'cat', 'seg'].forEach((k) => params.delete(k));
+    const term = q.value.trim();
     // One category and nothing else is exactly a category page: keep that clean URL.
-    const path = only ? `/catalogo/${only}/` : `/catalogo/${params.size ? `?${params}` : ''}`;
+    const only = selectedCats.size === 1 && !term && !segSelect.value ? data.categorias[[...selectedCats][0]].slug : '';
+    if (!only) {
+      if (term) params.set('q', term);
+      if (selectedCats.size) params.set('cat', [...selectedCats].map((i) => data.categorias[i].slug).join(','));
+      if (segSelect.value) params.set('seg', segSelect.value);
+    }
+    const qs = params.toString(); // not params.size: missing before Safari 17
+    const path = `/catalogo/${only ? `${only}/` : ''}${qs ? `?${qs}` : ''}`;
     if (path !== location.pathname + location.search) history.replaceState(null, '', path);
   }
 
@@ -444,8 +453,9 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   $('[data-empty-all]').addEventListener('click', () => clearFilters());
 
   // The header's "Cotizar" sends a generic message; with a list started, open the list instead so it isn't lost.
+  // listItems() is empty until the catalog loads, so a failed or slow load leaves the normal link working.
   document.querySelector('.header__wa')?.addEventListener('click', (e) => {
-    if (!list.length) return;
+    if (!listItems().length) return;
     e.preventDefault();
     dialog.showModal();
   });
@@ -887,10 +897,14 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   .quote {
     width: min(560px, calc(100% - 32px));
     max-height: min(80vh, 720px);
-    padding: 1.25rem;
+    padding: 0;
     border: 0;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+  }
+
+  .quote__inner {
+    padding: 1.25rem;
   }
 
   .quote::backdrop {

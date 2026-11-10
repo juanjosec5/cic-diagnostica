@@ -16,6 +16,8 @@ export interface Item {
   cat: number;
   seg: number;
   bajoPedido: boolean;
+  /** Normalized name, for ranking (computed once, not per keystroke). */
+  name: string;
   key: string;
 }
 
@@ -46,13 +48,20 @@ const EXPANSIONS: Record<string, string> = {
   morada: 'lila',
 };
 
-/** Lowercase, no accents, punctuation as spaces: "TENSIOM. W.A." → "tensiom w a". */
+/**
+ * Lowercase, no accents, punctuation as spaces, numbers kept whole and apart from units:
+ * "TENSIOM. W.A." → "tensiom w a", "JERINGA 5ML 21G X 1,5" → "jeringa 5 ml 21 g x 1.5".
+ */
 export const normalize = (text: string) =>
   text
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .toLowerCase()
-    .replace(/[^a-z0-9ñ]+/g, ' ')
+    .replace(/(\d),(?=\d)/g, '$1.') // decimal comma → dot, so "1,5" and "1.5" are the same number
+    .replace(/[^a-z0-9ñ.]+/g, ' ')
+    .replace(/(?<!\d)\.|\.(?!\d)/g, ' ') // a dot that isn't a decimal point is punctuation
+    .replace(/(\d)(?=[a-zñ])|([a-zñ])(?=\d)/g, '$1$2 ') // "5ml" → "5 ml", "x100" → "x 100"
+    .replace(/\s+/g, ' ')
     .trim();
 
 export function searchKey(cod: string, nombre: string, categoria: string) {
@@ -63,18 +72,36 @@ export function searchKey(cod: string, nombre: string, categoria: string) {
   return `${base}${extra.join(' ')} `;
 }
 
+const isNumber = (token: string) => /^\d+(\.\d+)?$/.test(token);
+/** Product codes are 4–5 digits: from this length a number may match the start of a code while it's being typed. */
+const CODE_PREFIX_MIN_DIGITS = 4;
+
 // "guantes" → "guante", "cateteres" → "cateter": names are mostly singular, people type plurals.
 const stems = (token: string) => {
+  if (isNumber(token)) return [token];
   if (token.length > 5 && token.endsWith('es')) return [token, token.slice(0, -2), token.slice(0, -1)];
   if (token.length > 3 && token.endsWith('s')) return [token, token.slice(0, -1)];
   return [token];
 };
 
+// Words match as a substring (so typing "fonendo" already finds them). Numbers must match a whole number: "5" is not
+// in "1.5", "50" or code 3915. Long ones (codes) may match as the start of one.
+const tokenMatches = (key: string, token: string) =>
+  isNumber(token) ? key.includes(` ${token} `) || (token.length >= CODE_PREFIX_MIN_DIGITS && key.includes(` ${token}`)) : key.includes(token);
+
 /** Every word of the query must appear somewhere in the product (name, code, category or an expansion). */
 export function matcher(query: string) {
   const tokens = normalize(query).split(' ').filter(Boolean).map(stems);
   if (!tokens.length) return () => true;
-  return (key: string) => tokens.every((variants) => variants.some((v) => key.includes(v)));
+  return (key: string) => tokens.every((variants) => variants.some((v) => tokenMatches(key, v)));
+}
+
+/** Whether a normalized name starts with the query's first word (or its singular), for ranking. Null: no query. */
+export function startsWithQuery(query: string) {
+  const first = normalize(query).split(' ')[0];
+  if (!first) return null;
+  const variants = stems(first);
+  return (name: string) => variants.some((v) => name.startsWith(v));
 }
 
 export function toItems(payload: CatalogPayload): Item[] {
@@ -84,6 +111,7 @@ export function toItems(payload: CatalogPayload): Item[] {
     cat,
     seg,
     bajoPedido: bajoPedido === 1,
+    name: normalize(nombre),
     key: searchKey(cod, nombre, payload.categorias[cat].label),
   }));
 }

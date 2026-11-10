@@ -1,11 +1,12 @@
 ---
 import Icon from './Icon.astro';
-import { productCategories } from '../data/site';
-import { routes } from '../data/site';
+import { productCategories, routes } from '../data/site';
 import { total } from '../lib/catalog';
 
-// "más de 5.000": rounded down, so the claim stays true as the catalog changes.
-const roundedTotal = (Math.floor(total / 1000) * 1000).toLocaleString('es-CO');
+// "más de 5.000": rounded down so the claim stays true as the catalog changes; the exact number when rounding
+// would say "más de 0" (under 1,000) or isn't "more" (exactly 5,000).
+const rounded = Math.floor(total / 1000) * 1000;
+const totalText = total > rounded && rounded > 0 ? `más de ${rounded.toLocaleString('es-CO')}` : total.toLocaleString('es-CO');
 ---
 
 <section id="productos" class="section section--soft">
@@ -45,7 +46,7 @@ const roundedTotal = (Math.floor(total / 1000) * 1000).toLocaleString('es-CO');
     <p class="swipe-hint" aria-hidden="true">Deslice para ver más <Icon name="arrow" size={16} /></p>
 
     <div class="catalog">
-      <p>Busque entre más de {roundedTotal} referencias, arme su lista y pídanos la cotización por WhatsApp.</p>
+      <p>Busque entre {totalText} referencias, arme su lista y pídanos la cotización por WhatsApp.</p>
       <a class="btn btn--primary" href={routes.catalog}>
         Buscar en el catálogo <Icon name="arrow" size={20} />
       </a>

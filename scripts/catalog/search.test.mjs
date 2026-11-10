@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { matcher, normalize, quoteMessage, searchKey } from '../../src/lib/catalog-search.ts';
+import { matcher, normalize, quoteMessage, searchKey, startsWithQuery } from '../../src/lib/catalog-search.ts';
 
 const finds = (query, nombre, cod = '1', categoria = 'Diagnóstico y monitoreo') => matcher(query)(searchKey(cod, nombre, categoria));
 
@@ -34,6 +34,27 @@ test('tube colours match in either gender, and lila matches morado', () => {
   assert.ok(finds('tubo amarillo', 'TUBO DE RECOLECCION DE SANGRE TAPA AMARILLA 5ML'));
   assert.ok(finds('tubo morado', 'TUBO DE RECOLECCION DE SANGRE TAPA LILA 4ML'));
   assert.ok(finds('tubo roja', 'TUBO VACUTAINER ROJO B.D x 100'));
+});
+
+test('numbers match whole numbers, not digits inside other numbers or codes', () => {
+  assert.equal(normalize('JERINGA 5ML 21G X 1,5'), 'jeringa 5 ml 21 g x 1.5');
+  assert.ok(finds('jeringa 5 ml', 'JERINGA 5ML 21G X 1 1/2'));
+  assert.ok(finds('jeringa 5ml', 'JERINGA 5 ML'));
+  assert.ok(!finds('jeringa 5 ml', 'JERINGA 3ML 21G X 1.5'), '"5" inside 1.5');
+  assert.ok(!finds('jeringa 5 ml', 'JERINGA 50 ML'), '"5" inside 50');
+  assert.ok(!finds('guante 9', 'GUANTE NITRILO TALLA 6.5', '3915'), '"9" inside the code');
+  assert.ok(finds('guante 8.5', 'GUANTE QUIRURGICO TALLA 8,5'));
+  // a product code: whole, or the start of it once 4+ digits are typed
+  assert.ok(finds('33429', 'AGUJA 32G', '33429'));
+  assert.ok(finds('3342', 'AGUJA 32G', '33429'));
+  assert.ok(!finds('342', 'AGUJA 32G', '33429'));
+});
+
+test('ranking: a plural query promotes names starting with the singular', () => {
+  const starts = startsWithQuery('guantes');
+  assert.ok(starts(normalize('GUANTE NITRILO TALLA M')));
+  assert.ok(!starts(normalize('CAJA PARA GUANTES')));
+  assert.equal(startsWithQuery('  '), null);
 });
 
 test('finds by code and by category', () => {

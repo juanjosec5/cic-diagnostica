@@ -5,6 +5,7 @@
 import Icon from './Icon.astro';
 import { categoriaPath, categorias, formatDate, segmentos, total, updatedAt, type Producto } from '../lib/catalog';
 import { MAX_LIST_ITEMS } from '../lib/catalog-search';
+import { company, municipalities } from '../data/site';
 import { waTextLink } from '../lib/whatsapp';
 
 interface Props {
@@ -23,6 +24,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   class="catalog container"
   data-categoria={categoria}
   data-wa-base={waTextLink('')}
+  data-response-time={company.responseTime}
   data-max-items={MAX_LIST_ITEMS}>
   <header class="catalog__head">
     <nav class="crumbs" aria-label="Ruta">
@@ -32,6 +34,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     </nav>
     <h1>{title}</h1>
     <p class="lead">{intro}</p>
+    <p class="facts">Sin pedido mínimo · Entrega gratis en {municipalities.length} municipios del Valle</p>
     <p class="updated">
       {!categoria && `${total.toLocaleString('es-CO')} referencias · `}Catálogo actualizado el {formatDate(updatedAt)}
     </p>
@@ -132,9 +135,12 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
       <h2 id="quote-title">Su lista para cotizar</h2>
       <button class="quote__close" type="button" aria-label="Cerrar" data-close><Icon name="close" /></button>
     </div>
-    <p class="quote__hint">Agregue cantidades y municipio al final del mensaje, o complételos en el chat.</p>
+    <p class="quote__hint">
+      Al final del mensaje escriba cantidades y municipio, o envíelo así y lo completamos en el chat. Le respondemos en
+      menos de {company.responseTime}.
+    </p>
     <ul class="quote__items" data-list></ul>
-    <p class="quote__limit" hidden data-limit>Máximo {MAX_LIST_ITEMS} productos por mensaje. Envíe esta lista y arme otra con el resto.</p>
+    <p class="quote__limit" hidden data-limit>Llegó a {MAX_LIST_ITEMS} productos, el máximo por mensaje. Envíe esta lista y luego arme otra.</p>
     <div class="quote__actions">
       <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-send>
         <Icon name="whatsapp" size={20} /> Enviar lista por WhatsApp
@@ -255,19 +261,23 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     return li;
   }
 
+  /** Stable partition: items matching `pred` first, each group keeping its order. */
+  const moveToFront = (list: Item[], pred: (p: Item) => boolean) => [...list.filter(pred), ...list.filter((p) => !pred(p))];
+
   function applyFilters() {
     const match = matcher(q.value);
     const seg = data.segmentos.findIndex((s) => s.slug === segSelect.value);
     // Search and specialty first; the category counts come from this set, so a pill never leads to 0 results.
-    const base = items.filter((p) => (seg < 0 || p.seg === seg) && match(p.key));
+    const inSeg = (p: Item) => seg < 0 || p.seg === seg || data.categorias[p.cat].comun;
+    const base = items.filter((p) => inSeg(p) && match(p.key));
     updatePillCounts(base);
     filtered = selectedCats.size ? base.filter((p) => selectedCats.has(p.cat)) : base;
     // Names that start with the first word typed go first ("guante" before "caja para guantes").
     const first = normalize(q.value).split(' ')[0];
-    if (first) {
-      const startsWithFirst = (p: Item) => normalize(p.nombre).startsWith(first);
-      filtered = [...filtered.filter(startsWithFirst), ...filtered.filter((p) => !startsWithFirst(p))];
-    }
+    if (first) filtered = moveToFront(filtered, (p) => normalize(p.nombre).startsWith(first));
+    // With a specialty picked, its own products before the shared supplies (gloves, gauze…) added to every one.
+    // Applied last, so it wins over the name match above.
+    if (seg >= 0) filtered = moveToFront(filtered, (p) => p.seg === seg);
     shown = PAGE;
     render();
     syncUrl();
@@ -294,7 +304,8 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     const text = $('[data-empty-text]');
     const all = $<HTMLButtonElement>('[data-empty-all]');
     const wa = $<HTMLAnchorElement>('[data-empty-wa]');
-    const elsewhere = term ? items.filter((p) => matcher(term)(p.key)).length : 0;
+    const match = matcher(term);
+    const elsewhere = term ? items.filter((p) => match(p.key)).length : 0;
     all.hidden = !!term && !elsewhere;
     wa.hidden = !term || elsewhere > 0;
     if (!term) {
@@ -305,7 +316,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
       all.textContent = elsewhere === 1 ? 'Ver el resultado en todo el catálogo' : `Ver los ${elsewhere} resultados en todo el catálogo`;
     } else {
       // A search with no results is still a lead: offer to ask for it by name.
-      text.textContent = `«${term}» no aparece en el catálogo, pero puede que lo tengamos.`;
+      text.textContent = `«${term}» no aparece en el catálogo, pero puede que lo tengamos. Pregúntenos por WhatsApp y le respondemos en menos de ${root.dataset.responseTime}.`;
       wa.href = waBase + encodeURIComponent(`Hola, ¿tienen ${term}? No lo encontré en el catálogo. (web-catalogo)\nCantidad y municipio: `);
     }
   }
@@ -382,6 +393,8 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     else selectedCats.add(i);
     syncPills();
     applyFilters();
+    // Phones move selected pills to the front of the swipe row: scroll there so the tapped one stays in view.
+    if (matchMedia('(max-width: 639px)').matches) pillsList.scrollTo({ left: 0, behavior: 'smooth' });
   });
 
   results.addEventListener('click', (e) => {
@@ -413,7 +426,13 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     pillsToggle.textContent = open ? 'Ver menos categorías' : `Ver todas las categorías (${visible})`;
     pillsToggle.hidden = !open && pillsList.scrollHeight <= pillsList.clientHeight + 1;
   }
+  // Phones: the pill row fades at the right edge to show it scrolls; no fade once at the end.
+  const syncPillsFade = () =>
+    pillsList.classList.toggle('at-end', pillsList.scrollLeft + pillsList.clientWidth >= pillsList.scrollWidth - 4);
+  pillsList.addEventListener('scroll', syncPillsFade, { passive: true });
+
   function initPillsToggle() {
+    syncPillsFade();
     updatePillsToggle();
     // Don't hide a selected category behind the toggle.
     const top = pillsList.getBoundingClientRect().bottom;
@@ -500,8 +519,14 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     max-width: 680px;
   }
 
-  .updated {
+  .facts {
     margin: 0.5rem 0 0;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .updated {
+    margin: 0.25rem 0 0;
     font-size: 0.9rem;
     color: var(--muted);
   }
@@ -574,6 +599,22 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
 
   .pills ul::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (max-width: 639px) {
+    .pills ul:not(.at-end) {
+      mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    }
+
+    /* Selected pills first, so they stay in view in the swipe row. */
+    .pills li:has(.pill[aria-pressed='true']) {
+      order: -1;
+    }
+
+    /* Shorter header so the search box shows sooner; the placeholder and the buttons explain the page. */
+    .catalog__head .lead {
+      display: none;
+    }
   }
 
   @media (min-width: 640px) {

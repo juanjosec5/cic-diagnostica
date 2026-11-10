@@ -33,6 +33,19 @@ export const CATEGORIAS = [
   'Vendas',
 ];
 
+// General supplies every specialty buys. The source file gives each product one segmento, so without this a dentist
+// filtering by Odontología would see no gloves. These show up under every segmento filter, after its own products.
+export const CATEGORIAS_COMUNES = [
+  'Guantes',
+  'Gasas, algodón y compresas',
+  'Apósitos y curación de heridas',
+  'Antisépticos, desinfectantes e higiene',
+  'Ropa y bioseguridad',
+  'Cintas y esparadrapos',
+  'Agujas',
+  'Jeringas',
+];
+
 export const SEGMENTOS = [
   'Cuidados intensivos',
   'Fisioterapia',

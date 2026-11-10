@@ -3,7 +3,8 @@
 /** Compact payload served at /catalogo/productos.json: categories and segments as indexes, so 5,000 rows stay small. */
 export interface CatalogPayload {
   updatedAt: string;
-  categorias: { slug: string; label: string }[];
+  /** `comun`: shared supplies, shown under every segmento (see CATEGORIAS_COMUNES in scripts/catalog/taxonomy.mjs). */
+  categorias: { slug: string; label: string; comun: boolean }[];
   segmentos: { slug: string; label: string }[];
   /** [cod, nombre, categoría index, segmento index, bajoPedido 0/1] */
   productos: [string, string, number, number, 0 | 1][];

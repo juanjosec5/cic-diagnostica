@@ -34,7 +34,7 @@ export function payload(): CatalogPayload {
   const seg = new Map(segmentos.map((s, i) => [s.slug, i]));
   return {
     updatedAt,
-    categorias: categorias.map(({ slug, label }) => ({ slug, label })),
+    categorias: categorias.map(({ slug, label, comun }) => ({ slug, label, comun })),
     segmentos: segmentos.map(({ slug, label }) => ({ slug, label })),
     productos: productos.map((p) => [p.cod, p.nombre, cat.get(p.categoria)!, seg.get(p.segmento)!, p.bajoPedido ? 1 : 0]),
   };

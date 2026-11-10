@@ -1,5 +1,5 @@
 // Turns the sales team's product sheet into the public catalog. Pure functions, so they can be tested without a file.
-import { CATEGORIAS, SEGMENTOS, slugify } from './taxonomy.mjs';
+import { CATEGORIAS, CATEGORIAS_COMUNES, SEGMENTOS, slugify } from './taxonomy.mjs';
 
 export const SHEET = 'Listado por segmento';
 
@@ -29,7 +29,9 @@ export function buildCatalog(rows, { updatedAt }) {
   }
   if (errors.length) return { errors, skipped: 0 };
 
-  const categorias = toTaxonomy(CATEGORIAS);
+  const unknownComunes = CATEGORIAS_COMUNES.filter((label) => !CATEGORIAS.includes(label));
+  if (unknownComunes.length) return { errors: [`CATEGORIAS_COMUNES not in CATEGORIAS: ${unknownComunes.join(', ')}`], skipped: 0 };
+  const categorias = toTaxonomy(CATEGORIAS).map((c) => ({ ...c, comun: CATEGORIAS_COMUNES.includes(c.label) }));
   const segmentos = toTaxonomy(SEGMENTOS);
   const catSlug = new Map(categorias.map((c) => [c.label, c.slug]));
   const segSlug = new Map(segmentos.map((s) => [s.label, s.slug]));

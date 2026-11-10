@@ -10,7 +10,8 @@
     "check": "astro check",
     "catalog": "node scripts/build-catalog.mjs",
     "test": "node --test \"scripts/**/*.test.mjs\"",
-    "ga:report": "node scripts/ga-report.mjs"
+    "ga:report": "node scripts/ga-report.mjs",
+    "codes:assign": "node scripts/assign-codes.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.15",

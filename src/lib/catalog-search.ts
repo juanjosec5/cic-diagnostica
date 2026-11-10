@@ -24,6 +24,34 @@ export interface Item {
 /** Most WhatsApp apps open long prefilled messages, but very long links fail on some phones. */
 export const MAX_LIST_ITEMS = 30;
 
+/** Per product in the quote list. 3 digits fit the stepper; a larger order is a conversation anyway. */
+export const MAX_QTY = 999;
+
+/** A product in the quote list, as saved in the browser. */
+export interface ListEntry {
+  cod: string;
+  qty: number;
+}
+
+export const clampQty = (n: number) => (Number.isFinite(n) ? Math.min(MAX_QTY, Math.max(1, Math.round(n))) : 1);
+
+/**
+ * The saved list from localStorage, whatever it holds: the old format (codes only, before quantities) loads with
+ * quantity 1, bad entries and duplicates are dropped, quantities are clamped.
+ */
+export function readSavedList(raw: unknown): ListEntry[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const out: ListEntry[] = [];
+  for (const entry of raw) {
+    const cod = typeof entry === 'string' ? entry : typeof entry?.cod === 'string' ? entry.cod : '';
+    if (!cod || seen.has(cod)) continue;
+    seen.add(cod);
+    out.push({ cod, qty: typeof entry === 'string' ? 1 : clampQty(Number(entry.qty)) });
+  }
+  return out;
+}
+
 /** A PDF export needs a filter and at most this many products (about 25 pages): "export all" would be 5,000+. */
 export const MAX_EXPORT_ITEMS = 600;
 
@@ -122,11 +150,12 @@ export function toItems(payload: CatalogPayload): Item[] {
 /**
  * Ends with a short field after a line break, like the site's other prefilled messages (see whatsappMessages).
  * "(web-catalogo)" tells the team the chat came from the catalog; the item count shows if a long message got cut.
+ * The quantity goes first, as on a purchase order: "× 2" after names ending in "X 100 UND" would read as a product.
  */
-export function quoteMessage(items: { cod: string; nombre: string }[]) {
-  const lines = items.map((p) => `• ${p.cod} · ${p.nombre}`);
+export function quoteMessage(items: { cod: string; nombre: string; qty: number }[]) {
+  const lines = items.map((p) => `• Cant. ${p.qty} · ${p.cod} · ${p.nombre}`);
   const what = items.length === 1 ? 'este producto' : `estos ${items.length} productos`;
-  return `Hola, quisiera cotizar ${what} del catálogo. (web-catalogo)\n\n${lines.join('\n')}\n\nCantidades y municipio: `;
+  return `Hola, quisiera cotizar ${what} del catálogo. (web-catalogo)\n\n${lines.join('\n')}\n\nMunicipio: `;
 }
 
 // --- Filters: shared by the catalog page and the PDF export, so the PDF is exactly what the screen shows ---

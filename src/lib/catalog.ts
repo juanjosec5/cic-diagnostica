@@ -5,7 +5,8 @@ import type { CatalogPayload } from './catalog-search';
 
 export interface Producto {
   cod: string;
-  /** Supplier code the product had before CIC codes; still found by search and saved lists during the transition. */
+  /** Supplier codes that lead to this product (its own first, then retired duplicates'), space-separated. Search and
+   * saved quote lists still find it by them. */
   antes?: string;
   nombre: string;
   categoria: string;

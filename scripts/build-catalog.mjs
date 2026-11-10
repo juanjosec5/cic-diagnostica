@@ -18,6 +18,8 @@ const REVIEW_OUT = join(RAW_DIR, 'revision-clasificacion.csv');
 const CODES = join(RAW_DIR, 'codigos-cic.csv');
 // Products not in the export yet (committed; public fields only, CIC codes from the register).
 const EXTRA = 'data/productos-adicionales.csv';
+// Duplicates and products not sold, as decided by the sales team (committed; supplier codes only).
+const RETIRED = 'data/productos-retirados.csv';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -36,7 +38,8 @@ const source = args[0] ?? newestSource();
 const rows = extname(source).toLowerCase() === '.csv' ? readCsv(source) : readSheet(source, SHEET);
 const codes = existsSync(CODES) ? readCodes(CODES) : undefined;
 const extra = existsSync(EXTRA) ? readCsv(EXTRA) : undefined;
-const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date, codes, extra });
+const retired = existsSync(RETIRED) ? readRetired(RETIRED) : undefined;
+const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date, codes, extra, retired });
 if (errors.length) fail(`${errors.length} problem(s) in ${basename(source)}${extra ? ` or ${basename(EXTRA)}` : ''}, nothing written:\n  ${errors.slice(0, 30).join('\n  ')}`);
 
 const prev = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : undefined;
@@ -44,7 +47,7 @@ const diff = diffCatalogs(prev, catalog);
 writeFileSync(OUT, serialize(catalog));
 
 console.log(`✓ ${OUT}: ${catalog.total} products, ${catalog.categorias.length} categorías, ${catalog.segmentos.length} segmentos` +
-  (skipped ? `, ${skipped} inactive skipped` : '') +
+  (skipped ? `, ${skipped} inactive or retired skipped` : '') +
   `, ${catalog.productos.filter((p) => p.bajoPedido).length} bajo pedido. Source: ${basename(source)}, date ${date}.`);
 if (prev) {
   const show = (label, cods) => {
@@ -79,6 +82,15 @@ function newestSource() {
     : [];
   if (!files.length) fail(`No .xlsx or .csv in ${RAW_DIR}/. Put the export there or pass its path.`);
   return files.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)[0];
+}
+
+/** Supplier code → the CIC code that replaces it ('' = removed, not sold). */
+function readRetired(path) {
+  const [header, ...rows] = readCsv(path);
+  const supplier = header.indexOf('Código proveedor');
+  const replacement = header.indexOf('Reemplazado por');
+  if (supplier < 0 || replacement < 0) fail(`${basename(path)}: needs the columns "Código proveedor" and "Reemplazado por"`);
+  return new Map(rows.filter((r) => r[supplier]).map((r) => [r[supplier].trim(), (r[replacement] ?? '').trim()]));
 }
 
 /** Supplier code → CIC code, for the export's products (the CIC list's own products have no supplier code). */

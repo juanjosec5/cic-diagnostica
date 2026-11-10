@@ -12,7 +12,7 @@ export interface CatalogPayload {
 
 export interface Item {
   cod: string;
-  /** Supplier code before CIC codes, '' if none. */
+  /** Supplier codes that lead to this product (its own, then those of duplicates it replaced), space-separated; '' if none. */
   antes: string;
   nombre: string;
   cat: number;

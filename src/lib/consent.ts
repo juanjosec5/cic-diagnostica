@@ -5,7 +5,8 @@
  */
 
 const CONSENT_KEY = 'cic-consent';
-const CONSENT_VERSION = 1;
+// 2: Google Analytics replaced Vercel Web Analytics, so everyone is asked again.
+const CONSENT_VERSION = 2;
 const CONSENT_EVENT = 'cic:consent';
 
 export type ConsentChoice = 'granted' | 'denied';

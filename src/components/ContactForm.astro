@@ -138,6 +138,7 @@ import { LIMITS } from '../lib/contact';
 
 <script>
   import { validateContact, type ContactErrors } from '../lib/contact';
+  import { track } from '../lib/track';
 
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
 
@@ -217,6 +218,7 @@ import { LIMITS } from '../lib/contact';
           form.reset();
           syncContractFields();
           showStatus('success');
+          track('generate_lead', { method: 'formulario', location: 'contacto', interest: data.interes });
           status.focus();
         } else if (res.status === 400 && body.errors) {
           showErrors(body.errors);

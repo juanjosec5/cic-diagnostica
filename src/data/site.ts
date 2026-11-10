@@ -17,6 +17,8 @@ export const routes = { home: '/', catalog: '/catalogo/', privacy: '/politica-de
  */
 export const analytics = {
   measurementId: 'G-ZJYS5ZZVXJ',
+  // For reading reports (scripts/ga-report.mjs); not used by the site.
+  propertyId: '563490283',
   host: 'www.cicdiagnostica.com',
   // The policy says "14 meses": the _ga cookies last this long, and the property's data retention is set to 14
   // months in GA4 (Admin → Data collection and modification → Data retention). Change both together.

@@ -455,13 +455,18 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     hintTimer = window.setTimeout(() => (exportHint.hidden = true), 3000);
   });
 
+  /** Products matching `term` in the whole catalog, ignoring the filters. */
+  const catalogMatches = (term: string) => {
+    const match = matcher(term);
+    return items.filter((p) => match(p.key)).length;
+  };
+
   function renderEmpty() {
     const term = q.value.trim();
     const text = $('[data-empty-text]');
     const all = $<HTMLButtonElement>('[data-empty-all]');
     const wa = $<HTMLAnchorElement>('[data-empty-wa]');
-    const match = matcher(term);
-    const elsewhere = term ? items.filter((p) => match(p.key)).length : 0;
+    const elsewhere = term ? catalogMatches(term) : 0;
     all.hidden = !!term && !elsewhere;
     wa.hidden = !term || elsewhere > 0;
     if (!term) {
@@ -527,7 +532,8 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     clearTimeout(trackTimer);
     trackTimer = window.setTimeout(() => {
       const term = q.value.trim();
-      if (term.length >= 3) track('search', { search_term: term, results: filtered.length });
+      // Whole catalog, not just the active filters: "0" should mean we don't have it (or call it something else).
+      if (term.length >= 3 && items.length) track('search', { search_term: term, results: catalogMatches(term) });
     }, 1500);
   });
   segSelect.addEventListener('change', applyFilters);
@@ -623,14 +629,19 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     saveList();
     renderList();
   });
-  root.querySelectorAll('[data-send]').forEach((a) =>
+  // The same list sent again (back from WhatsApp, or the bar's "Cotizar" then the dialog's) is one lead, not two.
+  let lastSent = '';
+  root.querySelectorAll<HTMLElement>('[data-send]').forEach((a) =>
     a.addEventListener('click', () => {
-      // `items` is GA4's product list (reserved name), so the product count goes in `products`.
       const sent = listItems();
+      const signature = sent.map((p) => `${p.cod}x${p.qty}`).join(',');
+      if (signature === lastSent) return;
+      lastSent = signature;
+      // `items` is GA4's product list (reserved name), so the product count goes in `products`.
       track('begin_checkout', { items: sent.map((p) => gaItem(p, p.qty)) });
       track('generate_lead', {
         method: 'whatsapp',
-        location: 'catalogo',
+        location: a.closest('dialog') ? 'catalogo-lista' : 'catalogo-barra',
         products: sent.length,
         units: sent.reduce((n, p) => n + p.qty, 0),
       });

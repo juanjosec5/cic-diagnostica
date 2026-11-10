@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
-import { company, isPlaceholder, privacy } from '../data/site';
+import { analytics, company, isPlaceholder, privacy } from '../data/site';
 
 // Draft until every company fact is filled in and a lawyer has reviewed it (see README > Privacy and consent).
 const pending = [company.legalName, company.nit, ...Object.values(privacy)].some(isPlaceholder);
@@ -134,7 +134,10 @@ const pending = [company.legalName, company.nit, ...Object.values(privacy)].some
           <tr>
             <td>Google Analytics</td>
             <td>Medir de forma agregada qué páginas, búsquedas y botones se usan, para mejorar el sitio</td>
-            <td>Sí, de Google (<code>_ga</code> y <code>_ga_…</code>); los datos se conservan 14 meses</td>
+            <td>
+              Sí, de Google (<code>_ga</code> y <code>_ga_…</code>), por {analytics.retentionMonths} meses; los datos
+              se conservan {analytics.retentionMonths} meses
+            </td>
             <td>Solo si usted acepta</td>
           </tr>
           <tr>

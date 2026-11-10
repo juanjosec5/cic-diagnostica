@@ -9,6 +9,8 @@
   import { whenConsentGranted } from '../lib/consent';
   import { track } from '../lib/track';
 
+  const SECONDS_PER_MONTH = 30 * 24 * 60 * 60;
+
   whenConsentGranted(() => {
     if (location.hostname !== analytics.host) return;
     window.dataLayer = window.dataLayer || [];
@@ -18,27 +20,31 @@
     };
     window.gtag('js', new Date());
     // No ads features: no Google signals, no ad personalization (they would need more consent).
-    window.gtag('config', analytics.measurementId, { allow_google_signals: false, allow_ad_personalization_signals: false });
+    window.gtag('config', analytics.measurementId, {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      cookie_expires: analytics.retentionMonths * SECONDS_PER_MONTH, // the policy states this period
+    });
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analytics.measurementId)}`;
     document.head.append(script);
   });
 
-  /** Which button produced the lead: its data-track, else the page section it's in. */
-  function leadLocation(link: HTMLElement) {
-    if (link.dataset.track) return link.dataset.track;
-    const section = link.closest<HTMLElement>('section[id]');
-    if (section) return section.id;
-    if (link.closest('header')) return 'header';
-    return link.closest('footer') ? 'footer' : 'otro';
-  }
+  /** Which button produced the lead: its data-track, else its page section, else footer (or 'otro', see README). */
+  const leadLocation = (link: HTMLElement) =>
+    link.dataset.track ?? link.closest<HTMLElement>('section[id]')?.id ?? (link.closest('footer') ? 'footer' : 'otro');
 
   // Every WhatsApp button on the site is a lead. The catalog's send buttons report themselves (with the products),
   // and a click another handler cancelled (e.g. "Cotizar" opening the list instead) didn't open WhatsApp.
-  document.addEventListener('click', (e) => {
+  const onLinkClick = (e: MouseEvent) => {
     const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="https://wa.me/"]');
     if (!link || e.defaultPrevented || link.matches('[data-send]')) return;
     track('generate_lead', { method: 'whatsapp', location: leadLocation(link) });
+  };
+  document.addEventListener('click', onLinkClick);
+  // Middle-click opens the link in a new tab without a `click` event.
+  document.addEventListener('auxclick', (e) => {
+    if (e.button === 1) onLinkClick(e);
   });
 </script>

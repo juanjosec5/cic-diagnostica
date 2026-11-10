@@ -28,12 +28,29 @@ export function saveConsent(choice: ConsentChoice): void {
   } catch {
     // Storage blocked (private mode): the choice still applies to this page view.
   }
-  // Scripts already running can't be unloaded, so withdrawing consent reloads the page without them.
+  // Scripts already running can't be unloaded, so withdrawing consent reloads the page without them, after
+  // deleting the cookies Google Analytics set (the policy says they're only used while the visitor accepts).
   if (previous === 'granted' && choice === 'denied') {
+    deleteAnalyticsCookies();
     location.reload();
     return;
   }
   window.dispatchEvent(new CustomEvent<ConsentChoice>(CONSENT_EVENT, { detail: choice }));
+}
+
+/** Expires _ga and _ga_<id>. GA sets them on the top domain (".cicdiagnostica.com"), so try each parent domain. */
+function deleteAnalyticsCookies() {
+  const names = document.cookie
+    .split(';')
+    .map((c) => c.split('=')[0].trim())
+    .filter((name) => name === '_ga' || name.startsWith('_ga_'));
+  const parts = location.hostname.split('.');
+  const domains = parts.map((_, i) => parts.slice(i).join('.')).filter((d) => d.includes('.'));
+  for (const name of names) {
+    for (const domain of ['', ...domains.map((d) => `; domain=.${d}`)]) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
+    }
+  }
 }
 
 /** Runs `callback` once: now if consent was already granted, or when the visitor accepts later. */

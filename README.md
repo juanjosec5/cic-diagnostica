@@ -102,15 +102,16 @@ These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'
 ## Analytics (Google Analytics 4)
 
 - **Property:** `analytics.measurementId` in `src/data/site.ts`. GA4 loads only after "Aceptar" and only on `analytics.host` (`www.cicdiagnostica.com`), so Vercel previews and local development send nothing.
-- **No ads features:** Google signals and ad personalization are off. The CSP in `vercel.json` allows only `googletagmanager.com` and `google-analytics.com`.
+- **No ads features:** Google signals and ad personalization are off. Cookies last `analytics.retentionMonths` (14), as the policy says; the property's data retention must match (GA4 Admin). Withdrawing consent deletes the `_ga` cookies.
+- **GA4 setting this site needs:** Admin → Data streams → web stream → Enhanced measurement → Page views → *Show advanced settings* → turn **off** "Page changes based on browser history events". The catalog updates its URL while filtering; with this on, every keystroke counts as a page view. The CSP in `vercel.json` allows only `googletagmanager.com` and `google-analytics.com`.
 - **Events** (`track()` in `src/lib/track.ts`; it does nothing until GA4 has loaded):
 
 | Event | When | Parameters |
 | --- | --- | --- |
-| `generate_lead` (key event) | Any WhatsApp button, a catalog list sent, or the contact form sent | `method` (`whatsapp` / `formulario`), `location` (`data-track` on the link, else the section id: `inicio`, `header-cotizar`, `boton-flotante`, `barra-urgente`, `catalogo`, `contacto`…), `products` and `units` for the catalog, `interest` for the form |
+| `generate_lead` (key event) | Any WhatsApp button, a catalog list sent, or the contact form sent | `method` (`whatsapp` / `formulario`), `location` (`data-track` on the link, else the section id, else `footer`; `otro` means a link outside all of these: `inicio`, `header-cotizar`, `boton-flotante`, `barra-urgente`, `catalogo-barra`, `catalogo-lista`, `catalogo-sin-resultados`, `formulario-urgente`, `formulario-error`, `contacto`…), `products` and `units` for the catalog (the same list sent twice counts once), `interest` for the form |
 | `begin_checkout` | A catalog list sent to WhatsApp | `items`: code, name, categoría and quantity of each product (feeds GA4's item reports: most requested products) |
 | `add_to_cart` | "Agregar" in the catalog | `items` (one product, quantity 1) |
-| `search` | A catalog search, 1.5 s after typing stops (3+ characters) | `search_term`, `results` (0 = something we don't carry, or name differently) |
+| `search` | A catalog search, 1.5 s after typing stops (3+ characters) | `search_term`, `results` across the whole catalog, ignoring filters (0 = something we don't carry, or name differently) |
 | `export_pdf` | The catalog's PDF download | `products` |
 
 To track a new WhatsApp button under its own name, add `data-track="nombre"` to the link.

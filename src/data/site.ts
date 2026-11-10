@@ -15,7 +15,13 @@ export const routes = { home: '/', catalog: '/catalogo/', privacy: '/politica-de
  * Google Analytics 4. The ID is public (it's in every page's source). It only runs on the production host, so Vercel
  * previews and local development don't add fake visits, and only after the visitor accepts (see Analytics.astro).
  */
-export const analytics = { measurementId: 'G-ZJYS5ZZVXJ', host: 'www.cicdiagnostica.com' } as const;
+export const analytics = {
+  measurementId: 'G-ZJYS5ZZVXJ',
+  host: 'www.cicdiagnostica.com',
+  // The policy says "14 meses": the _ga cookies last this long, and the property's data retention is set to 14
+  // months in GA4 (Admin → Data collection and modification → Data retention). Change both together.
+  retentionMonths: 14,
+} as const;
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 

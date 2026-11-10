@@ -408,7 +408,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
 
 <style>
   .catalog {
-    padding-block: 1.5rem 7rem; /* room for the quote bar */
+    padding-block: 1.5rem 8rem; /* room for the floating quote bar */
   }
 
   .crumbs {
@@ -676,27 +676,31 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     margin: 0 0 1rem;
   }
 
+  /* Floating card, as wide as the page content: the container's side padding (16px, 24px from 640px) on each
+     side and the same gap at the bottom, above the consent banner and the phone's home indicator. */
   .quote-bar {
+    --gap: 16px;
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: var(--consent-h, 0px);
+    left: var(--gap);
+    right: var(--gap);
+    bottom: calc(var(--gap) + var(--consent-h, 0px) + env(safe-area-inset-bottom, 0px));
     z-index: 60;
+    max-width: calc(1120px - 2 * var(--gap));
+    margin-inline: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.6rem 16px calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     background: #fff;
-    border-top: 1px solid var(--line);
-    box-shadow: 0 -6px 20px rgb(8 39 54 / 0.08);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgb(8 39 54 / 0.12);
   }
-
 
   @media (min-width: 640px) {
     .quote-bar {
-      justify-content: center;
-      gap: 1.5rem;
+      --gap: 24px;
     }
   }
 

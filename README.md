@@ -74,6 +74,10 @@ The pages are `/catalogo/` (search, filters, quote list) and one static page per
 
 What gets published: code, name, categoría, segmento, and an "out of stock" flag (`bajoPedido`). Price (`Bv`), supplier (`Familia`) and stock quantities never leave the script. The import stops without writing anything if a code is duplicated, a required field is empty, or a categoría/segmento isn't in `scripts/catalog/taxonomy.mjs`. That list is the guard against typos creating new filters. To add a real new category, add it there. Tests: `npm test`.
 
+**Products not in the export yet** go in `data/productos-adicionales.csv` (`;`-separated, UTF-8; columns `Cod`, `Nombre`, `Categoría`, `Segmento`, `Disponibilidad`). The import merges it with the export and runs the same checks. It's committed, so it holds only public fields, never prices or suppliers.
+- `Cod` is the product's CIC code from the register (`data/raw/codigos-cic.csv`). The import stops on an invalid or repeated code.
+- `Disponibilidad` is `En inventario` or `Bajo pedido`.
+
 ### CIC product codes
 
 The catalog uses CIC's own codes, assigned in the inventory system (Quality Manager). Format: `CD` + categoría number (3 digits) + product number (4 digits) + check digit. 10 characters, e.g. `CD10000016` (Agujas, product 1). Code: `scripts/catalog/codes.mjs`.

@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-11-10",
-  "total": 5105,
+  "total": 5173,
   "categorias": [
     {
       "slug": "agujas",
@@ -54,7 +54,7 @@
       "slug": "equipos-de-infusion-y-accesorios-iv",
       "label": "Equipos de infusión y accesorios IV",
       "comun": false,
-      "count": 129
+      "count": 130
     },
     {
       "slug": "espatulas-y-bajalenguas",
@@ -72,7 +72,7 @@
       "slug": "gasas-algodon-y-compresas",
       "label": "Gasas, algodón y compresas",
       "comun": true,
-      "count": 85
+      "count": 86
     },
     {
       "slug": "guantes",
@@ -138,13 +138,13 @@
       "slug": "otros",
       "label": "Otros",
       "comun": false,
-      "count": 23
+      "count": 24
     },
     {
       "slug": "pipetas",
       "label": "Pipetas",
       "comun": false,
-      "count": 2
+      "count": 8
     },
     {
       "slug": "respiratorio-y-oxigenoterapia",
@@ -156,13 +156,13 @@
       "slug": "ropa-y-bioseguridad",
       "label": "Ropa y bioseguridad",
       "comun": true,
-      "count": 106
+      "count": 108
     },
     {
       "slug": "soluciones-y-liquidos",
       "label": "Soluciones y líquidos",
       "comun": false,
-      "count": 98
+      "count": 100
     },
     {
       "slug": "suturas-y-mallas",
@@ -174,7 +174,7 @@
       "slug": "toma-de-muestras-y-laboratorio",
       "label": "Toma de muestras y laboratorio",
       "comun": false,
-      "count": 120
+      "count": 175
     },
     {
       "slug": "vendas",
@@ -187,7 +187,7 @@
     {
       "slug": "cuidados-intensivos",
       "label": "Cuidados intensivos",
-      "count": 1093
+      "count": 1094
     },
     {
       "slug": "fisioterapia",
@@ -202,7 +202,7 @@
     {
       "slug": "medicina-general",
       "label": "Medicina general",
-      "count": 2011
+      "count": 2015
     },
     {
       "slug": "medicina-pediatrica",
@@ -222,7 +222,7 @@
     {
       "slug": "toma-de-muestras-de-laboratorio",
       "label": "Toma de muestras de laboratorio",
-      "count": 182
+      "count": 245
     }
   ],
   "productos": [
@@ -1939,6 +1939,7 @@
     {"cod":"CD18000604","antes":"31323","nombre":"EQUIPO MACROGOTEO SIN AGUJA CON Y (ADMIN SOL PARENTERAL) REF.0100700 - GOTHAPLAST","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD18000612","antes":"10668","nombre":"EQUIPO MICRO S/A CON SITIO \"Y\" GHC 81-014 GLOBAL HEALTHCARE","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD18000620","antes":"20387","nombre":"EQUIPO MICRO S/A EN Y 60 (VENOCLISIS ADMIN SOLUCIONES) – PROTEX","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD18000638","nombre":"EQUIPO MICROGOTEO VENOCLISIS SIN AGUJA X UND","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD18000646","antes":"27687","nombre":"EQUIPO PARA IRRIGACIÓN EN Y (2,1 METROS) REF BK-IRR-002","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD18000653","antes":"28833","nombre":"EQUIPO PARA TAMIZAJE VISUAL SPOT VISION SCREENER REF.VS100 (DAT)","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD18000661","antes":"32864","nombre":"EQUIPO SANGUINEO PRIMARIO PLUM CON CLAVE 279CM/52ML REF 142113190 - ICU MEDICAL","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
@@ -2058,6 +2059,7 @@
     {"cod":"CD21000146","antes":"10688","nombre":"ALGODON LAMINADO 6\" x 5 yd MEDICAL SUPPLIES","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD21000153","antes":"19545","nombre":"ALGODON POMITOS x LIBRA HIGIETEX","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD21000161","antes":"19546","nombre":"ALGODON ROLLO HIGIETEX X 454 GRAMOS","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD21000179","nombre":"ALGODÓN TORUNDA ESTERIL SBX 3UND PAQ X 50","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD21000195","antes":"31321","nombre":"ALGODON ZIG ZAG PAQ X 100GR+25 GR - JGB","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD21000229","antes":"1080","nombre":"ALGODONERA EN ACERO (10 x 6.5) ACERQUIRURGICOS","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD21000237","antes":"4039","nombre":"ALGODONERA EN ACERO (10 x 9) ACERQUIRURGICOS","categoria":"gasas-algodon-y-compresas","segmento":"medicina-general","bajoPedido":true},
@@ -4508,6 +4510,7 @@
     {"cod":"CD32000044","antes":"15690","nombre":"BOLSA TRAVAD 1500 ML BRD0021 - USO INSTITUCIONAL","categoria":"otros","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD32000051","antes":"23098","nombre":"CAMISA AUTOMATICA PRONTO 368871-368872 CAJA X 20 UNDS","categoria":"otros","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD32000069","antes":"29796","nombre":"CAREX RING DE COXIS INFLABLE AZUL REF.20451150","categoria":"otros","segmento":"fisioterapia","bajoPedido":true},
+    {"cod":"CD32000077","nombre":"CONDONES LUBRICADOS 100% LATEX X UND","categoria":"otros","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD32000085","antes":"6253","nombre":"CUBRE BOMBILLO ACRILICO LS-100 (OLE)","categoria":"otros","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD32000093","antes":"4018","nombre":"DIAL A FLO / REGULAR LAT-11742","categoria":"otros","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD32000101","antes":"23807","nombre":"DISCOS REAFIRMANTES PARA GLUTEOS GLACIAL x PAR REF 3054 SALUTI","categoria":"otros","segmento":"medicina-estetica","bajoPedido":false},
@@ -4525,8 +4528,14 @@
     {"cod":"CD32000226","antes":"1068","nombre":"RESERVORIO JACKSON-PRATT 100 ml SU130-1305","categoria":"otros","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD32000234","antes":"22944","nombre":"THERMODOT TALLA M/L","categoria":"otros","segmento":"fisioterapia","bajoPedido":true},
     {"cod":"CD32000242","antes":"9866","nombre":"TORNILLO DE GIRO 5087-09 P/ANEROIDE MANULA","categoria":"otros","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD33000019","nombre":"PIPETA PASTEUR GRADUADA 3ML CAJA X 500","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD33000027","antes":"0707","nombre":"PIPETA SEROLOGICA 0.1 en 1/1000","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD33000035","antes":"2888","nombre":"PIPETA VOLUMETRICA 1.5 ml","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD33000043","nombre":"PIPETA WESTERGREN SIN TUBO VSG X 200 CAJA X 200","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD33000050","nombre":"PUNTA CON FILTRO 1.000UL CAJA X 100","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD33000068","nombre":"PUNTA CON FILTRO 100 UL CAJA X 96","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD33000076","nombre":"PUNTAS AMARILLAS PAQ X 1000 UND","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD33000084","nombre":"PUNTAS AZULES PAQ X 500 UND","categoria":"pipetas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD34000018","antes":"30032","nombre":"ASPIRADOR DE SECRECIONES ADS 100 REF. GMR-SM181 - GMR","categoria":"respiratorio-y-oxigenoterapia","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD34000026","antes":"4299","nombre":"ASPIRADOR NASAL RICHARD","categoria":"respiratorio-y-oxigenoterapia","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD34000034","antes":"2507","nombre":"ATROVENT 0.25MG/ML SOL. NEBULIZAR FCO x 20 ml Uso Institucional.(bromuro de Ipratropio)","categoria":"respiratorio-y-oxigenoterapia","segmento":"cuidados-intensivos","bajoPedido":true},
@@ -4751,6 +4760,8 @@
     {"cod":"CD35000991","antes":"31385","nombre":"PAQUETE HEMODINAMIA ESTERIL - ALLMED","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35001007","antes":"33199","nombre":"PETO O BABERO ODONTOLOGICO ADULTO PAQ X 15 UND - ALLMED","categoria":"ropa-y-bioseguridad","segmento":"odontologia","bajoPedido":true},
     {"cod":"CD35001015","antes":"29911","nombre":"PIJAMA CIRUJANO 35GR (BLUSA MANGA CORTA Y PANTALON) TALLA L MT5A NO ESTERIL AZUL X UND ALLMED","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD35001031","nombre":"ROLLO MULTIUSO TNT BIOFIT PRECORTE 50X100 MTS","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD35001049","nombre":"ROLLO MULTIUSOS TELA NO TEJIDA 70CM X 100M","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35001056","antes":"28211","nombre":"TAPABOCA AZUL (EMPAQUE INDIVIDUAL) CJA X 50 UND - MEDICAL SUPPLIES","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35001072","antes":"23309","nombre":"TAPABOCAS CON ELASTICOS CJA x 50 UND - MEDICAL SUPPLIES","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35001080","antes":"32932","nombre":"TAPABOCAS DESECHABLE 3 CAPAS (EMPAQUE INDIVIDUAL) NEGRO CAJA X 50 UND - CLIC MEDICAL","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
@@ -4768,6 +4779,8 @@
     {"cod":"CD35001221","antes":"31900","nombre":"TRANSDUCTOR DESECHABLE DE PRESION ARTERIAL INVASIVA REF. CR015-004 - CORERAY","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD35001239","antes":"29086","nombre":"TURBINA DESECHABLE PARA ESPIROMETRO REF.910004","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD36000016","antes":"29102","nombre":"ABRAZADERA PARA PUERTO DE SALIDA (AZUL) REF.HZC4527 - BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD36000024","nombre":"AGUA DESMINERALIZADA TIPO II 5 GALON IHR X UND","categoria":"soluciones-y-liquidos","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD36000032","nombre":"AGUA DESMINERALIZADA TIPO II GALON IHR X UND","categoria":"soluciones-y-liquidos","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD36000040","antes":"1463","nombre":"AGUA DESTILADA 5 ml x 40 AMP.ROPSOHN","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD36000057","antes":"3780","nombre":"AGUA ESTERIL (AGUA DESTILADA) AMPOULEPACK X 10 ML CJA X 40 UND - ROPSOHN","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD36000065","antes":"33189","nombre":"AGUA ESTERIL 5 ML (Agua destilada) CJA x 100 AMP USO INSTITUCIONAL - CORPAUL","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
@@ -5131,11 +5144,22 @@
     {"cod":"CD37002649","antes":"31391","nombre":"SUTURA ABSORBIBLE DE CATGUT CROMADO 3/0 AGUJA 1/2 CIRCULO REDONDA G37X75CMS REF.G3713-75 - ATRAMAT","categoria":"suturas-y-mallas","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD37002656","antes":"31393","nombre":"SUTURA ABSORBIBLE DE CATGUT CROMADO 3/0 AGUJA 1/2 CIRCULO REDONDA R26X75CMS REF.R2613-75 - ATRAMAT","categoria":"suturas-y-mallas","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD38000014","antes":"24895","nombre":"41482VF ATTEST SUPER RAPID 5 PAQUETE DESAFIO PARA VAPOR 1 HORA CJA X 24 PAQ","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD38000022","nombre":"AGAR CHOCOLATE CON SUPLEMENTO X 10 UND CAJA X 10","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000030","nombre":"AGAR CROMOGENICO UTI X 10 UND CAJA X 10","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000048","nombre":"AGAR MACCONKEY X 10 UND CAJA X 10","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000055","nombre":"AGAR SALMONELLA SHIGELLA X 10 UND CAJA X 10","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000063","nombre":"AGAR SANGRE PAQ X 10 UND CAJA X 10","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000071","nombre":"ASO LATEX CAJA X 50 PBAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000089","antes":"33115","nombre":"BBL CULTURE SWAB (SISTEMA RECOGIDA/TRANSPORTE) REF.220116 X UND - BD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000097","antes":"26996","nombre":"BOLSA DE SANGRE SIMPLE CPDA-1 450 ML CON AGUJA RETRACTIL PAQ x 8 UND Bolsa doble. REF. 501305","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000105","nombre":"CAJA COPROLOGICO PAQUETE X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000113","antes":"33113","nombre":"CAJA PETRI SENCILLA 90 x 15 mm X 10 UND - BIOLIFE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000121","nombre":"CANASTILLA EN ACERO INOXIDABLE HORIZONTAL 25 LAMINAS X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000139","nombre":"CARGA GLUCOSA EN POLVO SOBRES DE 25G CAJA X 50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000147","nombre":"CARGA GLUCOSA EN POLVO SOBRES DE 75G PAQ X 25","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000154","antes":"27885","nombre":"CINTA AUTOCLAVE 1355 3M CONTROL VAPOR (24 MM x 55 MTS) (ANTES 1322 REEMPLAZA COD 0184)","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000162","antes":"15577","nombre":"CINTA AUTOCLAVE CONTROL VAPOR (18mm x 50m)","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000170","nombre":"CINTA INDICADORA DE PH X 5 MTS X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000188","antes":"33024","nombre":"CINTA INDICADORA DE VAPOR LIBRE DE PLOMO 1355 ATTEST RLL 18MM - 3M","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD38000196","antes":"25057","nombre":"CINTA INDICADORA PARA ESTERILIZACION VAPOR COMPLY 1228 (PEROXIDO DE HIDROGENO)","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000204","antes":"18454","nombre":"CITO ESPATULA NUEVA PAQ x 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5146,7 +5170,9 @@
     {"cod":"CD38000279","antes":"4710","nombre":"CUBETA EN ACERO (30 x 20 x 04) ACERQUIRURGICOS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000287","antes":"1077","nombre":"CUBETA EN ACERO # 2 CON TAPA (31 x 15 x 4) ACERQUIRURGICOS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000295","antes":"6262","nombre":"CUBETA EN ACERO CON TAPA (24 x 12 x 04) ACERQUIRURGICOS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000303","nombre":"DENGUE COMBO NS1/IGG/IGM WB/S/P CASSETTE CAJA X 30","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000311","antes":"0992","nombre":"DIOXOGEN LIQUIDO x 120 ml","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000329","nombre":"EPPENDORF TUBO DE MICROCENTRÍFUGA, 0,5 ML CÓNICO PAQ X 500 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000337","antes":"0809","nombre":"ESCOBILLON # 3 BURETA 04401852","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000352","antes":"32071","nombre":"FIJADOR CITOLOGICO SPRAY FCO X 160 CC - BIOLIFE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000360","antes":"5479","nombre":"FLUOCARDENT TRIPLE ACCION TBO X 50 CC + CEPILLO ADULTO - JGB","categoria":"toma-de-muestras-y-laboratorio","segmento":"odontologia","bajoPedido":false},
@@ -5161,6 +5187,10 @@
     {"cod":"CD38000451","antes":"33101","nombre":"GLUCOQUICK DIAMOND CJA x 50 TIRAS + 50 LANCETAS GRATIS PROCAPS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000469","antes":"33102","nombre":"GLUCOQUICK DIAMOND CJA X 50 TIRAS + GLUCOMETRO GD50 + 50 LANCETAS GRATIS PROCAPS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000477","antes":"0658","nombre":"GRADILLA BAÑO SEROLOGICO 24 PERFORACIONES","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000485","nombre":"HEMOCLASIFICADOR ANTI A 10ML X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000493","nombre":"HEMOCLASIFICADOR ANTI B 10 ML X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000501","nombre":"HEMOCLASIFICADOR ANTI D 10 ML X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000519","nombre":"HISOPO NASOFARINGEO Y OROFARINGEO X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000527","antes":"23541","nombre":"INCUBADORA ATTEST 390 VAPOR 3M (Lectura Rapida 3 Horas)","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD38000535","antes":"4444","nombre":"INDICADOR BIOLOG. ATTEST 1292 VAPOR x 50 UND. LECTURA RAPIDA","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD38000543","antes":"8823","nombre":"INDICADOR BIOLOG. ATTEST 1294 GAS x 50 UND. LECTURA RAPIDA","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":true},
@@ -5181,11 +5211,37 @@
     {"cod":"CD38000709","antes":"33478","nombre":"KIT DE TIRILLAS LTD-B10 X 50 UND (1 GLUCOMETRO/50 LANCETAS/50 TIR) - LATIDOS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000717","antes":"33481","nombre":"KIT DE TIRILLAS X 50 UND (GLUCOMETRO CON BLUETOOTH GH30/50 LANCETAS/50 TIR)- GMD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000725","antes":"33480","nombre":"KIT DE TIRILLAS X 50 UND (GLUCOMETRO GLUCOSCAN CONNECT BLUETOOTH/50 LANCETAS/50 TIR) - GMD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000733","nombre":"LAMINA PORTA OBJETOS BANDA MATE VERDE CAJA X 50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000758","nombre":"LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000766","nombre":"LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 200","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000774","nombre":"LAMINILLAS CUBRE OBJETOS 24X60 CAJA X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000782","antes":"1050","nombre":"MARQUILLA IDENTIF. ADULTO x 100 UND.","categoria":"toma-de-muestras-y-laboratorio","segmento":"odontologia","bajoPedido":true},
     {"cod":"CD38000790","antes":"0963","nombre":"MARQUILLA PEDIATICO x 100 NIÑAS (ROSADO)","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000808","antes":"4164","nombre":"MARQUILLA PEDIATRICO x 100 NIÑOS (AZUL)","categoria":"toma-de-muestras-y-laboratorio","segmento":"medicina-pediatrica","bajoPedido":false},
+    {"cod":"CD38000816","nombre":"MEDIO DE TRANSPORTE AMIES CON CARBON ACTIVADO X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000824","nombre":"MEDIO DE TRANSPORTE CARY BLAIR + HISOPO X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000832","nombre":"MEDIO DE TRANSPORTE VIRAL+ HISOPO NASO X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000840","nombre":"MICROHEMATOCRITOS CON HEPARINA X 100 FCOX100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000857","nombre":"MICROHEMATOCRITOS SIN HEPARINA X 100 FCOX100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000865","antes":"26302","nombre":"OKMETER MATCH II COMBO GLUCOMETRIA(GLUCO+50TIRAS+50LANCETAS)SISTEMA MONITOREO GLUCOSA SANGRE x UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000873","nombre":"PCR LATEX CAJA X 100 PBAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000915","antes":"26303","nombre":"PRUEBA DE EMBARAZO DE UN PASO HCG CASSETTE 25mIU/ml OTC x UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD38000923","nombre":"PRUEBA RAPIDA DE EMBARAZO (HCG) EN TIRA CAJA X 50 TIRAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000931","nombre":"PRUEBA RAPIDA DENGUE IGG/IGM CAJA X 30 CASSETTE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000949","nombre":"PRUEBA RAPIDA DUO (COCAINA / MARIHUANA) X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000956","nombre":"PRUEBA RAPIDA HBSAG CAJA X 25 CASSETTE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000964","nombre":"PRUEBA RAPIDA HCV AB CAJA X 25","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000972","nombre":"PRUEBA RAPIDA HCV AB CAJA X 30 CASSETTE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000980","nombre":"PRUEBA RAPIDA HIV- 1/2 3,0 CAJA X 40 CASSETTE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000998","nombre":"PRUEBA RAPIDA HIV/SYPHILIS DUO SD CAJA X 25","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001004","nombre":"PRUEBA RAPIDA MULTIDROGAS X 5 (AMP-BAR-OPI-THC-COC) X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001012","nombre":"PRUEBA RAPIDA MULTIDROGAS X 6 (AMP-BZO-COC-MOR-OXY-THC) X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001020","nombre":"PRUEBA RAPIDA MULTIDROGAS X 10 (AMP-BAR-BZO-COC-MDMA-MET-MTD-OPI-OXY-THC) CAJA X 12","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001038","nombre":"PRUEBA RAPIDA MULTIDROGAS X 10 (AMP-BAR-BZO-COC-MDMA-MET-MTD-OPI-OXY-THC) X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001046","nombre":"PRUEBA RAPIDA SANGRE OCULTA CAJA X 25 CASSETTE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001053","nombre":"PRUEBA RAPIDA SANGRE OCULTA LIQUIDA CAJA X 25 PBAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001061","nombre":"PRUEBA RAPIDA SYPHILIS 3.0 ABBOTT 06FK10B CAJA X 30","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001079","nombre":"PRUEBA RAPIDA SYPHILIS CASSETTE CAJA X 40","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001087","antes":"32838","nombre":"RECOLECTOR (FRASCO) MATERIA FECAL TAPA ROSCA PAQ x 50 UND ALLMED","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001095","antes":"32839","nombre":"RECOLECTOR (FRASCO) MATERIA FECAL TAPA ROSCA X UND ALLMED","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001103","antes":"14429","nombre":"RECOLECTOR ALLMED 1.5 LT.","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5202,11 +5258,15 @@
     {"cod":"CD38001251","antes":"18426","nombre":"RECOLECTOR GUARDIAN X-GRANDE 22.7 LTS BD 300182","categoria":"toma-de-muestras-y-laboratorio","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD38001269","antes":"25751","nombre":"RECOLECTOR PARA BIOPSIA 45 ml x 100 UND. PLASTIONCE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001277","antes":"28671","nombre":"RECOLECTOR PARA RIESGO QUIMICO 3 LITROS - PLASTIONCE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD38001285","nombre":"RF LATEX CAJA X 50 PBAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001293","nombre":"RPR CARBON X 250 PBS CAJA X 250 PBAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001301","antes":"6517","nombre":"SOPORTE VACUTAINER S/AGUJA 364815 X UNID","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001319","nombre":"SUERO DE COOMBS 10 ML X UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001335","antes":"33001","nombre":"TAPA PARA TUBO DE POLIPROPILENO 13MM -H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001343","antes":"10899","nombre":"TARJETA DE CONTROL PARA SUCCIONADOR PORTATIL 7ED","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001350","antes":"10813","nombre":"TARJETA DE CONTROL SUNDARB","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001384","antes":"2964","nombre":"TIRAS DE MYLAR x 50 UND. PROQUIDENT","categoria":"toma-de-muestras-y-laboratorio","segmento":"odontologia","bajoPedido":false},
+    {"cod":"CD38001392","nombre":"TIRAS DE ORINA H10 CAJA 100 TIRAS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001400","antes":"23301","nombre":"TIRAS FREESTYLE OPTIUM NEO H x 50 REF. 71309-75 ABBOTT Uso Institucional","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001418","antes":"23302","nombre":"TIRAS FREESTYLE OPTIUM NEO H x 100 REF. 71312-75 ABBOTT Uso Institucional","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001426","antes":"18299","nombre":"TIRAS FREESTYLE OPTIUM x 25 REF 99648-70/75/80 ABBOTT","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5221,6 +5281,8 @@
     {"cod":"CD38001517","antes":"32870","nombre":"TIRAS REACTIVAS PARA GLUCOMETRO LTD-B10 - CJA X 50 UND - LATIDOS","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001525","antes":"30837","nombre":"TUBO CONECTOR CPAP Y BPAP REF.CPAPTUB6-90 - DRIVE","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001533","antes":"33002","nombre":"TUBO CONICO (POLIESTIRENO) 12ML BOL X 250 UND- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD38001558","nombre":"TUBO DE ENSAYO DE VIDRIO 13X100MM PAQ X 250 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001566","nombre":"TUBO DE ENSAYO VIDRIO 12X75MM PAQ X 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001574","antes":"33000","nombre":"TUBO DE PRUEBA (POLIPROPILENO) 13 X 75MM CJA X 500 UND -H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001582","antes":"32985","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA AMARILLA (13X75mm) 3.5ML PAQ X 100 UND (GEL+ACTIVADOR) - H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001590","antes":"30817","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA AMARILLA (13X100mm) 5ML PAQ X 100 UND (GEL+ACTIVADOR) - H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5235,6 +5297,10 @@
     {"cod":"CD38001681","antes":"32989","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA ROJA (13X100mm) 6ML PAQ X 100 UND (SIN ACTIVADOR)- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001699","antes":"32991","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA VERDE (13X100mm) 5ML PAQ X 100 UND (HEPARINA DE LITIO)- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001707","antes":"32990","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA VERDE (13X100mm) 5ML PAQ X 100 UND (HEPARINA DE SODIO)- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD38001715","nombre":"TUBO FALCON 15 ML PAQ X 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001723","nombre":"TUBO MICROTAINER PEDIATRICO 0.5 - 1 ML TAPA LILA 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001731","nombre":"TUBO MICROTAINER PEDIATRICO 0.5 - 1.0 ML AZUL 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001749","nombre":"TUBO MICROTAINER PEDIATRICO 0.5 - 1ML TAPA AMARILLA 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001756","antes":"33415","nombre":"TUBO MICROTAINER VERDE CON HEPARINA DE LITIO REF.365965 CJA X 50 UND - BD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001764","antes":"32995","nombre":"TUBO MINI DE RECOLECCION DE SANGRE TAPA AMARILLO 1ML PAQ X 100 UND (GEL+ACTIVADOR)-H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001772","antes":"32996","nombre":"TUBO MINI DE RECOLECCION DE SANGRE TAPA AZUL 1ML PAQ X 100 UND (3.2% Citrato de sodio)-H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
@@ -5250,6 +5316,8 @@
     {"cod":"CD38001939","antes":"16574","nombre":"TUBO VACUTAINER VERDE B.D x 100 UND. PLAST. (4.5 ml) 367962","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001954","antes":"27701","nombre":"TUBOS VACUTAINER ACTIVADOR DE COAGULACIÓN 5 ML TAPA ROJA REF TR15AC50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001962","antes":"27698","nombre":"TUBOS VACUTAINER GEL ACTIVADOR DE COAGULACIÓN 5 ML TAPA AMARILLA REF TA15GAC50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
+    {"cod":"CD38001970","nombre":"VDRL WIENER 4.5 ML CON CONTROLES CAJA X 200 DET","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001988","nombre":"VDRL WIENER 4.5 ML SIN CONTROLES CAJA X 250 DET","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD39000013","antes":"29290","nombre":"ACTIMOVE JUVENIL SOPORTE DE RODILLA PATELA ABIERTA TALLA UNICA REF.75585-11","categoria":"vendas","segmento":"fisioterapia","bajoPedido":true},
     {"cod":"CD39000021","antes":"29273","nombre":"ACTIMOVE KIDS ESTABILIZADOR DE MUÑECA CON SOPORTE DE METAL EXTRAIBLE REF.75729-30","categoria":"vendas","segmento":"medicina-pediatrica","bajoPedido":true},
     {"cod":"CD39000039","antes":"29272","nombre":"ACTIMOVE KIDS SOPORTE ABIERTO PARA TOBILLO TALLA PEDIATRICO REF.75606-10","categoria":"vendas","segmento":"medicina-pediatrica","bajoPedido":true},

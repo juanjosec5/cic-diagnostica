@@ -35,6 +35,44 @@ export const CATEGORIAS = [
 
 // General supplies every specialty buys. The source file gives each product one segmento, so without this a dentist
 // filtering by Odontología would see no gloves. These show up under every segmento filter, after its own products.
+/**
+ * CIC product code category numbers (see codes.mjs). FROZEN: a number never changes and is never reused, because
+ * it's part of every code created under it. A product keeps its code when it moves to another categoría.
+ * New categoría: add it here with the next free number (390 → 400…). Renaming a label keeps its number.
+ */
+export const CATEGORIA_NUM = {
+  'Agujas': 100,
+  'Antisépticos, desinfectantes e higiene': 110,
+  'Apósitos y curación de heridas': 120,
+  'Catéteres y cánulas': 130,
+  'Cintas y esparadrapos': 140,
+  'Cuidado oral': 150,
+  'Diagnóstico y monitoreo': 160,
+  'Emergencias y primeros auxilios': 170,
+  'Equipos de infusión y accesorios IV': 180,
+  'Espátulas y bajalenguas': 190,
+  'Espéculos': 200,
+  'Gasas, algodón y compresas': 210,
+  'Guantes': 220,
+  'Incontinencia y cuidado del paciente': 230,
+  'Instrumental quirúrgico': 240,
+  'Jeringas': 250,
+  'Medias de compresión': 260,
+  'Medicamentos': 270,
+  'Movilidad y descanso': 280,
+  'Nutrición y suplementos': 290,
+  'Ortopedia y soportes': 300,
+  'Ostomía': 310,
+  'Otros': 320,
+  'Pipetas': 330,
+  'Respiratorio y oxigenoterapia': 340,
+  'Ropa y bioseguridad': 350,
+  'Soluciones y líquidos': 360,
+  'Suturas y mallas': 370,
+  'Toma de muestras y laboratorio': 380,
+  'Vendas': 390,
+};
+
 export const CATEGORIAS_COMUNES = [
   'Guantes',
   'Gasas, algodón y compresas',

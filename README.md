@@ -74,6 +74,14 @@ The pages are `/catalogo/` (search, filters, quote list) and one static page per
 
 What gets published: code, name, categoría, segmento, and an "out of stock" flag (`bajoPedido`). Price (`Bv`), supplier (`Familia`) and stock quantities never leave the script. The import stops without writing anything if a code is duplicated, a required field is empty, or a categoría/segmento isn't in `scripts/catalog/taxonomy.mjs`. That list is the guard against typos creating new filters. To add a real new category, add it there. Tests: `npm test`.
 
+### CIC product codes (in progress)
+
+The catalog will move from supplier codes to CIC's own codes, assigned in the inventory system (Quality Manager). Format: `CD` + categoría number (3 digits) + product number (4 digits) + check digit. 10 characters, e.g. `CD10000016` (Agujas, product 1). Code: `scripts/catalog/codes.mjs`.
+- **Categoría numbers:** `CATEGORIA_NUM` in `scripts/catalog/taxonomy.mjs`. They're frozen: never change or reuse a number. A new categoría gets the next free number, and a test fails until it has one.
+- **Codes are permanent:** a product keeps its code when it's reclassified. The digits mean "categoría when created".
+- **IVA isn't in the code:** it's a field in the inventory system (`pendiente / excluido / exento / 5 / 19`), so a rate change never changes a code.
+- **Check digit:** Luhn (mod 10). It catches a mistyped digit and most swapped neighbours.
+
 ## Contact form
 
 `src/pages/api/contact.ts`:

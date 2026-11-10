@@ -147,3 +147,23 @@ test('export needs a filter; filters are described in words', () => {
   assert.equal(hasFilters({ query: '', cats: new Set(), seg: 0 }), true);
   assert.deepEqual(describeFilters({ query: 'x', cats: new Set([0, 2]), seg: 1 }, payload), ['Guantes, Vendas', 'Odontología', '«x»']);
 });
+
+test('CIC codes: found with or without CD from 5 digits; old supplier codes still found', async () => {
+  const { searchKey: key, matcher: m } = await import('../../src/lib/catalog-search.ts');
+  const k = key('CD10000016', 'AGUJA CORE 14G', 'Agujas', '32198');
+  assert.ok(m('CD10000016')(k));
+  assert.ok(m('cd1000')(k));
+  assert.ok(m('10000016')(k));
+  assert.ok(m('32198')(k));
+  // "1000" is a quantity ("1000 ML") as often as a code start: it must not match every Agujas code
+  assert.ok(!m('1000')(key('CD10000016', 'AGUJA CORE 14G', 'Agujas')));
+});
+
+test('saved lists swap supplier codes for CIC codes and drop the duplicates that creates', async () => {
+  const { upgradeList } = await import('../../src/lib/catalog-search.ts');
+  const aliases = new Map([['32198', 'CD10000016']]);
+  assert.deepEqual(
+    upgradeList([{ cod: '32198', qty: 2 }, { cod: 'CD10000016', qty: 1 }, { cod: '99999', qty: 3 }], aliases),
+    [{ cod: 'CD10000016', qty: 2 }, { cod: '99999', qty: 3 }],
+  );
+});

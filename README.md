@@ -74,9 +74,9 @@ The pages are `/catalogo/` (search, filters, quote list) and one static page per
 
 What gets published: code, name, categoría, segmento, and an "out of stock" flag (`bajoPedido`). Price (`Bv`), supplier (`Familia`) and stock quantities never leave the script. The import stops without writing anything if a code is duplicated, a required field is empty, or a categoría/segmento isn't in `scripts/catalog/taxonomy.mjs`. That list is the guard against typos creating new filters. To add a real new category, add it there. Tests: `npm test`.
 
-### CIC product codes (in progress)
+### CIC product codes
 
-The catalog will move from supplier codes to CIC's own codes, assigned in the inventory system (Quality Manager). Format: `CD` + categoría number (3 digits) + product number (4 digits) + check digit. 10 characters, e.g. `CD10000016` (Agujas, product 1). Code: `scripts/catalog/codes.mjs`.
+The catalog uses CIC's own codes, assigned in the inventory system (Quality Manager). Format: `CD` + categoría number (3 digits) + product number (4 digits) + check digit. 10 characters, e.g. `CD10000016` (Agujas, product 1). Code: `scripts/catalog/codes.mjs`.
 - **Categoría numbers:** `CATEGORIA_NUM` in `scripts/catalog/taxonomy.mjs`. They're frozen: never change or reuse a number. A new categoría gets the next free number, and a test fails until it has one.
 - **Codes are permanent:** a product keeps its code when it's reclassified. The digits mean "categoría when created".
 - **IVA isn't in the code:** it's a field in the inventory system (`pendiente / excluido / exento / 5 / 19`), so a rate change never changes a code.
@@ -85,6 +85,10 @@ The catalog will move from supplier codes to CIC's own codes, assigned in the in
   - When a product is in both sources, the CIC list wins. Likely pairs are flagged in "Posible duplicado (revisar)": confirm each one and drop the export row in Quality Manager. Names alone can't prove a duplicate, so the flag is only a hint.
   - CIC list products are classified by `CIC_LIST_RULES` in `scripts/catalog/assign.mjs`. A name no rule matches stops the script.
   - Re-running keeps every code already assigned and numbers only new products. Codes published in `src/data/catalog.json` count as assigned too, so losing the CSV can't reassign them. If the two disagree, the script stops. Back up the CSV anyway: it's the only place that holds the codes of CIC list products not yet on the website. A built-in checker verifies that each code is valid, unique and in its categoría's range.
+- **On the website:** when `data/raw/codigos-cic.csv` exists, `npm run catalog` publishes the CIC code as `cod`, and the supplier code as `antes`. The import stops if a product has no CIC code or an invalid one.
+  - `antes` is never shown, but it keeps old codes working during the transition: search finds a product by its old code, and quote lists saved in browsers before the switch swap to the new codes on load (`upgradeList`).
+  - Search finds a CIC code with or without `CD`, from 5 digits on ("1000" stays a quantity).
+  - GA4: `item_id` changed from supplier to CIC codes on the switch date, so compare product reports before and after it with that in mind.
 
 ## Contact form
 

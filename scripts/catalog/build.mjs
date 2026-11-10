@@ -1,4 +1,5 @@
 // Turns the sales team's product sheet into the public catalog. Pure functions, so they can be tested without a file.
+import { parseCode } from './codes.mjs';
 import { CATEGORIAS, CATEGORIAS_COMUNES, SEGMENTOS, slugify } from './taxonomy.mjs';
 
 export const SHEET = 'Listado por segmento';
@@ -14,10 +15,12 @@ const toTaxonomy = (labels) => labels.map((label) => ({ slug: slugify(label), la
 
 /**
  * @param {string[][]} rows sheet rows, header first
- * @param {{ updatedAt: string }} options refresh date (YYYY-MM-DD), shown on the page
+ * @param {{ updatedAt: string, codes?: Map<string, string> }} options refresh date (YYYY-MM-DD), shown on the page;
+ *   codes: supplier code → CIC code (data/raw/codigos-cic.csv). With it, the CIC code is published as `cod` and the
+ *   supplier code as `antes`, so old codes keep working in search and in saved quote lists during the transition.
  * @returns {{ catalog?: object, errors: string[], skipped: number }}
  */
-export function buildCatalog(rows, { updatedAt }) {
+export function buildCatalog(rows, { updatedAt, codes }) {
   const headerAt = Math.max(0, rows.slice(0, HEADER_SEARCH_ROWS).findIndex((r) => r.some((h) => String(h).trim() === COLUMNS.cod)));
   const header = rows[headerAt] ?? [];
   const data = rows.slice(headerAt + 1);
@@ -49,7 +52,8 @@ export function buildCatalog(rows, { updatedAt }) {
       return;
     }
 
-    const cod = get('cod');
+    const supplierCod = get('cod');
+    const cod = codes ? (codes.get(supplierCod) ?? '') : supplierCod;
     const nombre = get('nombre').replace(/\s+/g, ' ');
     const categoria = catSlug.get(get('categoria'));
     const segmento = segSlug.get(get('segmento'));
@@ -57,7 +61,9 @@ export function buildCatalog(rows, { updatedAt }) {
     // A count, so "1.192" / "1,192" are thousands separators (CSV exports format numbers).
     const stock = Number(stockText.replace(/[.,\s]/g, ''));
 
-    if (!cod) errors.push(`Row ${line}: empty Cod`);
+    if (!supplierCod) errors.push(`Row ${line}: empty Cod`);
+    else if (codes && !cod) errors.push(`Row ${line}: no CIC code for Cod ${supplierCod} (run npm run codes:assign)`);
+    else if (codes && !parseCode(cod)) errors.push(`Row ${line}: invalid CIC code ${cod} (Cod ${supplierCod})`);
     if (!nombre) errors.push(`Row ${line}: empty Nombre (Cod ${cod})`);
     if (!categoria) errors.push(`Row ${line}: unknown Categoría "${get('categoria')}" (add it to scripts/catalog/taxonomy.mjs if it's new)`);
     if (!segmento) errors.push(`Row ${line}: unknown Segmento "${get('segmento')}" (add it to scripts/catalog/taxonomy.mjs if it's new)`);
@@ -66,7 +72,7 @@ export function buildCatalog(rows, { updatedAt }) {
     if (!seen.has(cod)) seen.set(cod, line);
 
     // Publish only whether it's in stock, never the quantity.
-    productos.push({ cod, nombre, categoria, segmento, bajoPedido: !(stock > 0) });
+    productos.push({ cod, ...(codes && { antes: supplierCod }), nombre, categoria, segmento, bajoPedido: !(stock > 0) });
   });
 
   if (errors.length) return { errors, skipped };
@@ -88,19 +94,24 @@ export function buildCatalog(rows, { updatedAt }) {
   };
 }
 
-/** What changed between two catalogs, by Cod. Printed on every refresh so the PR is reviewable. */
+/**
+ * What changed between two catalogs. Products are matched by supplier code (`antes`, else `cod`), so the switch to CIC
+ * codes shows as "recoded" instead of every product removed and added. Printed on every refresh so the PR is reviewable.
+ */
 export function diffCatalogs(prev, next) {
-  const before = new Map((prev?.productos ?? []).map((p) => [p.cod, p]));
-  const after = new Map(next.productos.map((p) => [p.cod, p]));
-  const added = [...after.keys()].filter((c) => !before.has(c));
-  const removed = [...before.keys()].filter((c) => !after.has(c));
-  const changed = [...after.keys()].filter((c) => {
-    const a = before.get(c);
-    const b = after.get(c);
-    return a && (a.nombre !== b.nombre || a.categoria !== b.categoria || a.segmento !== b.segmento);
-  });
-  const stock = [...after.keys()].filter((c) => before.has(c) && before.get(c).bajoPedido !== after.get(c).bajoPedido);
-  return { added, removed, changed, stock };
+  const id = (p) => p.antes ?? p.cod;
+  const before = new Map((prev?.productos ?? []).map((p) => [id(p), p]));
+  const after = new Map(next.productos.map((p) => [id(p), p]));
+  const ids = [...after.keys()];
+  const both = ids.filter((k) => before.has(k));
+  const changedWhere = (test) => both.filter((k) => test(before.get(k), after.get(k))).map((k) => after.get(k).cod);
+  return {
+    added: ids.filter((k) => !before.has(k)).map((k) => after.get(k).cod),
+    removed: [...before.keys()].filter((k) => !after.has(k)).map((k) => before.get(k).cod),
+    changed: changedWhere((a, b) => a.nombre !== b.nombre || a.categoria !== b.categoria || a.segmento !== b.segmento),
+    stock: changedWhere((a, b) => a.bajoPedido !== b.bajoPedido),
+    recoded: changedWhere((a, b) => a.cod !== b.cod),
+  };
 }
 
 /**

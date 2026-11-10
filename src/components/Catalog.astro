@@ -185,6 +185,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     readFilters,
     readSavedList,
     toItems,
+    upgradeList,
     writeFilters,
     type CatalogPayload,
     type Filters,
@@ -658,6 +659,12 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     }
     items = toItems(data);
     byCod = new Map(items.map((p) => [p.cod, p]));
+    // Lists saved before the CIC codes hold supplier codes: swap them once, so they keep their products.
+    const upgraded = upgradeList(list, new Map(items.filter((p) => p.antes).map((p) => [p.antes, p.cod])));
+    if (JSON.stringify(upgraded) !== JSON.stringify(list)) {
+      list.splice(0, list.length, ...upgraded);
+      saveList();
+    }
 
     const initial = readFilters(new URLSearchParams(location.search), data, root.dataset.categoria);
     initial.cats.forEach((i) => selectedCats.add(i));

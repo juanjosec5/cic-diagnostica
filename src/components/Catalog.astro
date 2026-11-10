@@ -39,11 +39,12 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
 
   <!-- Hidden until the script runs: without JS there's nothing to search, the category links below still work. -->
   <div class="tools" hidden data-tools>
-    <div class="search">
+    <!-- Results update while typing; the keyboard's "Buscar" key submits, which closes it and shows the results. -->
+    <form class="search" role="search" data-search>
       <label class="visually-hidden" for="catalog-q">Buscar por nombre, marca o código</label>
       <Icon name="search" size={20} />
       <input id="catalog-q" type="search" placeholder="Buscar por nombre, marca o código" autocomplete="off" enterkeyhint="search" />
-    </div>
+    </form>
     <label class="seg">
       <span class="visually-hidden">Especialidad</span>
       <select id="catalog-seg">
@@ -314,6 +315,15 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   });
   segSelect.addEventListener('change', applyFilters);
 
+  // On phones the keyboard covers the results (and the "Preguntar por WhatsApp" button when nothing matches).
+  $<HTMLFormElement>('[data-search]').addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearTimeout(searchTimer);
+    applyFilters();
+    q.blur();
+    (filtered.length ? status : empty).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
   root.querySelector('.pills')!.addEventListener('click', (e) => {
     const pill = (e.target as HTMLElement).closest<HTMLAnchorElement>('.pill');
     if (!pill || !data) return;
@@ -547,6 +557,12 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     font-weight: 400;
     font-size: 0.8rem;
     opacity: 0.75;
+  }
+
+  /* scrollIntoView targets: land below the sticky header (urgent bar + header). */
+  .status,
+  .empty {
+    scroll-margin-top: calc(var(--urgent-h) + var(--header-h) + 0.75rem);
   }
 
   .status {

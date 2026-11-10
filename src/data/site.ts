@@ -283,11 +283,12 @@ export const supplierDocuments = [
  */
 export const testimonials: { quote: string; name: string; role?: string; org?: string; logo?: string }[] = [];
 
-/** `link` is shown after the answer: an in-page anchor (`href`) or a WhatsApp intent. */
+/** `link` is shown after the answer: a page or in-page anchor (`href`) or a WhatsApp intent. */
 export const faqs: { q: string; a: string; link?: { text: string; href?: string; intent?: WhatsAppIntent } }[] = [
   {
     q: '¿Cómo hago un pedido?',
     a: 'Por WhatsApp: revise nuestro catálogo, envíenos su lista y le respondemos con la cotización. También puede usar el formulario. Por ahora no tenemos tienda en línea.',
+    link: { text: 'Ver el catálogo', href: routes.catalog },
   },
   {
     q: '¿Manejan un pedido mínimo?',

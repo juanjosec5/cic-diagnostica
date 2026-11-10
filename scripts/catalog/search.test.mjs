@@ -29,6 +29,13 @@ test('full words find abbreviated names', () => {
   assert.ok(!finds('pediatrico', 'SILLA CON PEDAL'));
 });
 
+test('tube colours match in either gender, and lila matches morado', () => {
+  assert.ok(finds('tubo tapa amarilla', 'TUBO VACUTAINER AMARILLO B.D x 100 UND. TAPA ROSCA'));
+  assert.ok(finds('tubo amarillo', 'TUBO DE RECOLECCION DE SANGRE TAPA AMARILLA 5ML'));
+  assert.ok(finds('tubo morado', 'TUBO DE RECOLECCION DE SANGRE TAPA LILA 4ML'));
+  assert.ok(finds('tubo roja', 'TUBO VACUTAINER ROJO B.D x 100'));
+});
+
 test('finds by code and by category', () => {
   assert.ok(finds('0986', 'JABON DE CALENDULA', '0986'));
   assert.ok(finds('monitoreo', 'TERMOMETRO DIGITAL'));
@@ -40,7 +47,8 @@ test('empty query matches everything', () => {
 
 test('quote message lists code and name, and ends with the field to fill', () => {
   const text = quoteMessage([{ cod: '0986', nombre: 'JABON DE CALENDULA' }, { cod: '33429', nombre: 'AGUJA 32G' }]);
-  assert.match(text, /\(web\)/);
+  assert.match(text, /^Hola, quisiera cotizar estos 2 productos del catálogo\. \(web-catalogo\)/);
+  assert.match(quoteMessage([{ cod: '1', nombre: 'X' }]), /cotizar este producto/);
   assert.match(text, /• 0986 · JABON DE CALENDULA\n• 33429 · AGUJA 32G/);
   assert.ok(text.endsWith('Cantidades y municipio: '));
 });

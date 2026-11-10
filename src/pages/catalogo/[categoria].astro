@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Catalog from '../../components/Catalog.astro';
 import Footer from '../../components/Footer.astro';
-import { company } from '../../data/site';
+import { company, municipalities } from '../../data/site';
 import { categorias, productos } from '../../lib/catalog';
 
 export function getStaticPaths() {
@@ -13,16 +13,19 @@ export function getStaticPaths() {
 const { slug, label } = Astro.props;
 // Every product of the category is in the HTML (largest: ~600 rows), so each one is crawlable and works without JS.
 const initial = productos.filter((p) => p.categoria === slug);
+// ≤ 60 characters for search results; long category names drop "en Buga".
+const withCity = `${label} en Buga | ${company.name}`;
+const title = withCity.length <= 60 ? withCity : `${label} | ${company.name}`;
 ---
 
 <Layout
-  title={`${label}: ${initial.length} referencias | ${company.name}`}
-  description={`${label}: ${initial.length} referencias de insumos médicos en ${company.name}. Arme su lista y pida la cotización por WhatsApp.`}>
+  title={title}
+  description={`${label}: ${initial.length} referencias para cotizar por WhatsApp. Sin pedido mínimo, entrega gratis en ${municipalities.length} municipios del Valle del Cauca.`}>
   <Header />
   <main id="main">
     <Catalog
       title={label}
-      intro={`${initial.length} referencias. Busque por nombre, marca o código, o combine con otras categorías.`}
+      intro="Agregue lo que necesita y envíenos la lista por WhatsApp. Puede combinar varias categorías."
       initial={initial}
       categoria={slug}
     />

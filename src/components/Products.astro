@@ -2,7 +2,10 @@
 import Icon from './Icon.astro';
 import { productCategories } from '../data/site';
 import { routes } from '../data/site';
-import { waCatalogLink } from '../lib/whatsapp';
+import { total } from '../lib/catalog';
+
+// "más de 5.000": rounded down, so the claim stays true as the catalog changes.
+const roundedTotal = (Math.floor(total / 1000) * 1000).toLocaleString('es-CO');
 ---
 
 <section id="productos" class="section section--soft">
@@ -42,11 +45,10 @@ import { waCatalogLink } from '../lib/whatsapp';
     <p class="swipe-hint" aria-hidden="true">Deslice para ver más <Icon name="arrow" size={16} /></p>
 
     <div class="catalog">
-      <p>Busque entre todas nuestras referencias, arme su lista y pídanos la cotización por WhatsApp.</p>
+      <p>Busque entre más de {roundedTotal} referencias, arme su lista y pídanos la cotización por WhatsApp.</p>
       <a class="btn btn--primary" href={routes.catalog}>
-        Ver catálogo completo <Icon name="arrow" size={20} />
+        Buscar en el catálogo <Icon name="arrow" size={20} />
       </a>
-      <a class="link-action" href={waCatalogLink()} target="_blank" rel="noopener">Ver catálogo en WhatsApp</a>
     </div>
   </div>
 </section>

@@ -9,8 +9,3 @@ export function waLink(intent: WhatsAppIntent = 'general'): string {
 export function waTextLink(text: string): string {
   return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(text)}`;
 }
-
-/** Opens the WhatsApp Business product catalog. */
-export function waCatalogLink(): string {
-  return `https://wa.me/c/${company.whatsapp}`;
-}

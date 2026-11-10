@@ -35,6 +35,14 @@ const EXPANSIONS: Record<string, string> = {
   adu: 'adulto',
   iny: 'inyectable',
   algod: 'algodon',
+  // Tube cap colours: names say "TAPA LILA" or "AMARILLO", people type either gender, and lila = morado.
+  amarillo: 'amarilla',
+  amarilla: 'amarillo',
+  rojo: 'roja',
+  roja: 'rojo',
+  lila: 'morado morada',
+  morado: 'lila',
+  morada: 'lila',
 };
 
 /** Lowercase, no accents, punctuation as spaces: "TENSIOM. W.A." → "tensiom w a". */
@@ -79,8 +87,12 @@ export function toItems(payload: CatalogPayload): Item[] {
   }));
 }
 
-/** Ends with a short field after a line break, like the site's other prefilled messages (see whatsappMessages). */
+/**
+ * Ends with a short field after a line break, like the site's other prefilled messages (see whatsappMessages).
+ * "(web-catalogo)" tells the team the chat came from the catalog; the item count shows if a long message got cut.
+ */
 export function quoteMessage(items: { cod: string; nombre: string }[]) {
   const lines = items.map((p) => `• ${p.cod} · ${p.nombre}`);
-  return `Hola, quisiera una cotización de estos productos del catálogo. (web)\n\n${lines.join('\n')}\n\nCantidades y municipio: `;
+  const what = items.length === 1 ? 'este producto' : `estos ${items.length} productos`;
+  return `Hola, quisiera cotizar ${what} del catálogo. (web-catalogo)\n\n${lines.join('\n')}\n\nCantidades y municipio: `;
 }

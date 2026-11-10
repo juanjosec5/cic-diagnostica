@@ -692,10 +692,15 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     justify-content: space-between;
     gap: 0.75rem;
     padding: 0.5rem 0.5rem 0.5rem 1rem;
-    background: #fff;
-    border: 1px solid var(--line);
+    /* Navy like the urgent bar, so it stands out from the white page. */
+    background: var(--blue-900);
+    border: 1px solid var(--blue-900);
     border-radius: var(--radius);
-    box-shadow: 0 4px 16px rgb(8 39 54 / 0.12);
+    box-shadow: 0 6px 20px rgb(8 39 54 / 0.25);
+  }
+
+  .quote-bar :focus-visible {
+    outline-color: var(--sky-light);
   }
 
   @media (min-width: 640px) {
@@ -725,7 +730,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     background: none;
     font: inherit;
     font-weight: 600;
-    color: var(--blue-700);
+    color: #fff;
     text-decoration: underline;
     text-underline-offset: 3px;
     cursor: pointer;

@@ -116,7 +116,7 @@ These are declared in `astro.config.mjs` as `context: 'server', access: 'secret'
 
 To track a new WhatsApp button under its own name, add `data-track="nombre"` to the link.
 
-**Summary report:** `npm run ga:report` prints leads by button, most requested products and searches without results, for the period since the previous report day (Monday → from Friday, Friday → from Monday). It reads GA4 with a service account that has Viewer access to the property (`analytics.propertyId`). The credentials come from `GA_KEY` (a path to the key file), or `GA_SA_KEY_B64` / `GA_SA_KEY_JSON` in cloud environments. Never commit the key. A scheduled Claude routine runs it every Monday and Friday at 8:00 (Bogotá) and emails the summary.
+**Summary report:** `npm run ga:report` prints (in English, as the owner asked) leads by button, most requested products and searches without results, for the period since the previous report day (Monday → from Friday, Friday → from Monday). It reads GA4 with a service account that has Viewer access to the property (`analytics.propertyId`). The credentials come from `GA_KEY` (a path to the key file), or `GA_SA_KEY_B64` / `GA_SA_KEY_JSON` in cloud environments. Never commit the key. A scheduled Claude routine runs it every Monday and Friday at 8:00 (Bogotá) and emails the summary.
 
 ## Privacy and consent
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// GA4 summary for the sales team: leads by button, most requested products, searches without results.
+// GA4 summary (in English, for the owner): leads by button, most requested products, searches without results.
 // Read-only (analytics.readonly). No dependencies: signs a service-account JWT with node:crypto and calls the
 // GA4 Data API over fetch.
 //
@@ -101,19 +101,19 @@ async function main() {
   const [[exports = 0] = []] = await report(token, range, { metrics: [{ name: 'eventCount' }], dimensionFilter: eventIs('export_pdf') });
 
   const totalLeads = leads.reduce((n, r) => n + r[2], 0);
-  console.log(`Resumen de www.cicdiagnostica.com: ${range.from} a ${range.to}
-Solo cuenta visitantes que aceptaron cookies.
+  console.log(`www.cicdiagnostica.com summary: ${range.from} to ${range.to}
+Only visitors who accepted cookies are counted.
 
-Visitantes: ${visitors} · Sesiones: ${sessions} · Contactos (WhatsApp y formulario): ${totalLeads} · PDF exportados: ${exports}
+Visitors: ${visitors} · Sessions: ${sessions} · Leads (WhatsApp and form): ${totalLeads} · PDFs exported: ${exports}
 
-Contactos por botón (ubicación · canal · cantidad):
-${table(leads.map(([loc, method, n]) => [loc || '(sin ubicación)', method || '?', n]), 'ninguno en el periodo')}
+Leads by button (location · channel · count):
+${table(leads.map(([loc, method, n]) => [loc || '(no location)', method || '?', n]), 'none in this period')}
 
-Productos más pedidos (código · producto · unidades pedidas · unidades agregadas):
-${table(products.filter((r) => r[2] || r[3]), 'ninguna lista enviada en el periodo')}
+Most requested products (code · product · units requested · units added to list):
+${table(products.filter((r) => r[2] || r[3]), 'no lists sent in this period')}
 
-Búsquedas sin resultados (lo que buscan y no encuentran · veces):
-${table(notFound, 'ninguna en el periodo')}`);
+Searches without results (what people searched for and didn't find · times):
+${table(notFound, 'none in this period')}`);
 }
 
 function fail(message) {

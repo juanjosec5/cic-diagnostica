@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-11-10",
-  "total": 5341,
+  "total": 5318,
   "categorias": [
     {
       "slug": "agujas",
@@ -12,7 +12,7 @@
       "slug": "antisepticos-desinfectantes-e-higiene",
       "label": "Antisépticos, desinfectantes e higiene",
       "comun": true,
-      "count": 104
+      "count": 105
     },
     {
       "slug": "apositos-y-curacion-de-heridas",
@@ -42,7 +42,7 @@
       "slug": "diagnostico-y-monitoreo",
       "label": "Diagnóstico y monitoreo",
       "comun": false,
-      "count": 586
+      "count": 564
     },
     {
       "slug": "emergencias-y-primeros-auxilios",
@@ -54,19 +54,19 @@
       "slug": "equipos-de-infusion-y-accesorios-iv",
       "label": "Equipos de infusión y accesorios IV",
       "comun": false,
-      "count": 134
+      "count": 133
     },
     {
       "slug": "espatulas-y-bajalenguas",
       "label": "Espátulas y bajalenguas",
       "comun": false,
-      "count": 15
+      "count": 14
     },
     {
       "slug": "especulos",
       "label": "Espéculos",
       "comun": false,
-      "count": 24
+      "count": 22
     },
     {
       "slug": "gasas-algodon-y-compresas",
@@ -156,13 +156,13 @@
       "slug": "ropa-y-bioseguridad",
       "label": "Ropa y bioseguridad",
       "comun": true,
-      "count": 123
+      "count": 122
     },
     {
       "slug": "soluciones-y-liquidos",
       "label": "Soluciones y líquidos",
       "comun": false,
-      "count": 106
+      "count": 107
     },
     {
       "slug": "suturas-y-mallas",
@@ -174,7 +174,7 @@
       "slug": "toma-de-muestras-y-laboratorio",
       "label": "Toma de muestras y laboratorio",
       "comun": false,
-      "count": 195
+      "count": 197
     },
     {
       "slug": "vendas",
@@ -187,7 +187,7 @@
     {
       "slug": "cuidados-intensivos",
       "label": "Cuidados intensivos",
-      "count": 1135
+      "count": 1119
     },
     {
       "slug": "fisioterapia",
@@ -202,12 +202,12 @@
     {
       "slug": "medicina-general",
       "label": "Medicina general",
-      "count": 2110
+      "count": 2105
     },
     {
       "slug": "medicina-pediatrica",
       "label": "Medicina pediátrica",
-      "count": 176
+      "count": 174
     },
     {
       "slug": "medicina-veterinaria",
@@ -243,13 +243,11 @@
     {"cod":"CD10000156","antes":"25983","nombre":"AGUJA DESECHABLE 21G x 1 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000164","antes":"25985","nombre":"AGUJA DESECHABLE 22G x 1 1/2 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000172","antes":"8419","nombre":"AGUJA DESECHABLE 23 x 1 B.D x 100 UND REF.300388/302355","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD10000180","antes":"25986","nombre":"AGUJA DESECHABLE 23G x 1 1/2 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000198","antes":"25988","nombre":"AGUJA DESECHABLE 23G x 1 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000206","antes":"25989","nombre":"AGUJA DESECHABLE 24G x 1 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000214","antes":"15063","nombre":"AGUJA DESECHABLE 25 x 5/8 B.D x 100 UND REF.301973","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000222","antes":"25991","nombre":"AGUJA DESECHABLE 26G x 1 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000230","antes":"25993","nombre":"AGUJA DESECHABLE 27G x 1 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD10000248","antes":"25994","nombre":"AGUJA DESECHABLE 27G x 1/2 CAJA x 100 LIFE CARE","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000255","antes":"5110","nombre":"AGUJA DESECHABLE 30 x 1 B.D 305108","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000263","antes":"0860","nombre":"AGUJA DESECHABLE 30 x 1/2 B.D 305107","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000271","antes":"28430","nombre":"AGUJA ECHOPLEX BISEL 20 DE 21G X 100MM REF. 6194-103 - VYGON","categoria":"agujas","segmento":"cuidados-intensivos","bajoPedido":false},
@@ -263,8 +261,10 @@
     {"cod":"CD10000354","nombre":"AGUJA HIPODERM 20G X 1 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000362","nombre":"AGUJA HIPODERM 21G X 1 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000370","nombre":"AGUJA HIPODERM 22G X 1 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD10000388","nombre":"AGUJA HIPODERM 23G X 1 1/2 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false,"antes":"25986"},
     {"cod":"CD10000396","nombre":"AGUJA HIPODERM 23G X 1 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000404","nombre":"AGUJA HIPODERM 26G X 1/2 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD10000412","nombre":"AGUJA HIPODERM 27G X 1/2 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false,"antes":"25994"},
     {"cod":"CD10000420","nombre":"AGUJA HIPODERM 30G X 1/2 CAJA X 100 UND","categoria":"agujas","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD10000438","antes":"33429","nombre":"AGUJA HIPODERMICA ESTERIL DESECHABLE 32G X 4MM MESOTERAPIA CJA x 100 UND - ZIBOJECT","categoria":"agujas","segmento":"medicina-estetica","bajoPedido":false},
     {"cod":"CD10000446","antes":"33430","nombre":"AGUJA HIPODERMICA ESTERIL DESECHABLE 34G X 4MM MESOTERAPIA CJA x 100 UND - ZIBOJECT","categoria":"agujas","segmento":"medicina-estetica","bajoPedido":false},
@@ -344,8 +344,9 @@
     {"cod":"CD11000049","antes":"2477","nombre":"ALCOHOL 70% ENV. PLAS. x 700 ml JGB","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD11000056","antes":"4236","nombre":"ALCOHOL 70% GALON x 3800 ml JGB","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD11000064","antes":"33313","nombre":"ALCOHOL ANTISEPTICO 70% ENV. PLAS. x 700 ML SOL.TOPICA USO INSTITUCIONAL - MK","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD11000072","antes":"27980","nombre":"ALCOHOL ANTISEPTICO 70% OSA X 345 ML","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD11000080","antes":"29252","nombre":"ALCOHOL ANTISEPTICO 70% X 3600 ML - OSA","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD11000098","nombre":"ALCOHOL FARMACEUTICO AL 70% 120ML","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD11000106","nombre":"ALCOHOL FARMACEUTICO AL 70% 345ML","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false,"antes":"27980"},
     {"cod":"CD11000114","nombre":"ALCOHOL FARMACEUTICO AL 70% 360ML","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD11000122","nombre":"ALCOHOL FARMACEUTICO AL 70% 700ML","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD11000130","nombre":"ALCOHOL FARMACEUTICO AL 70% GALON 3.800","categoria":"antisepticos-desinfectantes-e-higiene","segmento":"medicina-general","bajoPedido":false},
@@ -1167,11 +1168,9 @@
     {"cod":"CD16000051","antes":"33177","nombre":"432 MALETA DE TRANSPORTE PARA SECA 525 DIMENSIONES 410 x 310 x 295 MM SECA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000069","antes":"32438","nombre":"856 BASCULA PARA ORGANOS/PAÑALES DIGITAL CAPACIDAD 5 KG BATERIA SECA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000077","antes":"31329","nombre":"878 BASCULA DIGITAL DE PISO GRADO MEDICO CLASE III DOBLE PANTALLA FUNCION 2EN1 200 Kg SECA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16000085","antes":"32353","nombre":"5079-137 FONENDOSCOPIO ADULT PROFESSIONAL TYCOS ADULTO AZUL OSCURO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16000093","antes":"4891","nombre":"5079-137 FONENDOSCOPIO ADULT PROFESSIONAL TYCOS ADULTO AZUL OSCURO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
+    {"cod":"CD16000085","antes":"32353 4891","nombre":"5079-137 FONENDOSCOPIO ADULT PROFESSIONAL TYCOS ADULTO AZUL OSCURO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000101","antes":"32824","nombre":"5079-137 FONENDOSCOPIO ADULT PROFESSIONAL TYCOS ADULTO AZUL OSCURO WELCH ALLYN BAXTER+MANT","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16000119","antes":"2276","nombre":"5079-145 FONENDOSCOPIO PEDIATRICO TYCOS NEGRO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":false},
-    {"cod":"CD16000127","antes":"31831","nombre":"5079-145 FONENDOSCOPIO PEDIATRICO TYCOS NEGRO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":true},
+    {"cod":"CD16000119","antes":"2276 31831","nombre":"5079-145 FONENDOSCOPIO PEDIATRICO TYCOS NEGRO WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":false},
     {"cod":"CD16000135","antes":"4893","nombre":"5079-147 FONENDOSCOPIO PEDIATRICO TYCOS AZUL WELCH ALLYN BAXTER","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":true},
     {"cod":"CD16000143","antes":"23704","nombre":"60814 MANGO LARINGOSCOPIO DELGADO PARA HOJA FIBRA OPTICA WELCH ALLYN","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16000150","antes":"29607","nombre":"60814-LED MANGO LARINGOSCOPIO DELGADO LUZ LED PARA HOJA FIBRA OPTICA WELCH ALLYN","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
@@ -1189,8 +1188,7 @@
     {"cod":"CD16000275","antes":"30332","nombre":"BATERIA DE LITIO-DIOXIDO DE MANGANESO PARA DEA C2 REF.115-064561-00 - MINDRAY","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16000283","antes":"2308","nombre":"BOMBILLO LARINGOSCOPIO W.A. 04700 2.5V H.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16000291","antes":"2086","nombre":"BOMBILLO LARINGOSCOPIO W.A. 04800 2.5V H.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16000309","antes":"32957","nombre":"BOMBILLO LARINGOSCOPIO W.A. 06000 2.5V M.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16000317","antes":"4472","nombre":"BOMBILLO LARINGOSCOPIO W.A. 06000 2.5V M.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD16000309","antes":"32957 4472","nombre":"BOMBILLO LARINGOSCOPIO W.A. 06000 2.5V M.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16000325","antes":"31422","nombre":"BOMBILLO LED REF. 06500-U - WELCH ALLYN","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000333","antes":"30606","nombre":"BOMBILLO LUZ LED PLANO PARA OFTALMOSCOPIO REF.B-206 - LENZ","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16000341","antes":"30607","nombre":"BOMBILLO LUZ LED PLANO PARA OTOSCOPIO REF.B-109 - LENZ","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
@@ -1200,8 +1198,7 @@
     {"cod":"CD16000382","antes":"1424","nombre":"BOMBILLO OFTALMOSCOPIO W.A. 03900 2.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000390","antes":"1428","nombre":"BOMBILLO OFTALMOSCOPIO W.A. 04400 2.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000408","antes":"4037","nombre":"BOMBILLO OFTALMOSCOPIO W.A. 04900 3.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16000416","antes":"32958","nombre":"BOMBILLO OTOSCOPIO W.A. 03100 3.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16000424","antes":"0441","nombre":"BOMBILLO OTOSCOPIO W.A. 03100 3.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
+    {"cod":"CD16000416","antes":"32958 0441","nombre":"BOMBILLO OTOSCOPIO W.A. 03100 3.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000432","antes":"1420","nombre":"BOMBILLO OTOSCOPIO W.A. 03400 2.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16000440","antes":"2729","nombre":"BOMBILLO PANOPTIC W.A. 03800","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16000457","antes":"4624","nombre":"BOMBILLO RETINOSCOPIO W.A. 03700 3.5V","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
@@ -1383,27 +1380,15 @@
     {"cod":"CD16002214","antes":"33136","nombre":"GLUCOCARE MATCH COMBO GLUCOMETRIA(GLUCO+50TIRAS+50LANCETAS)SISTEMA MONITOREO GLUCOSA SANGRE x UND","categoria":"diagnostico-y-monitoreo","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD16002222","antes":"23300","nombre":"GLUCOMETER FREESTYLE OPTIUM NEO H 71353-80 ABBOTT Uso Institucional","categoria":"diagnostico-y-monitoreo","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD16002230","antes":"33280","nombre":"H3 ECG DIGITAL PANT TACTIL 6\" 12 DERV. IMPRIME 3 CANALES PAPEL 80MMX20M Z COMEN","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16002248","antes":"0812","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 1 69061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002255","antes":"32291","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 1 69061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD16002248","antes":"0812 32291","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 1 69061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD16002263","antes":"17556","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 1 E-MAC W.A. 69211 (OLE)","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002271","antes":"0815","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 2 69062 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002289","antes":"32292","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 2 69062 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002297","antes":"0816","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 3 69063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002305","antes":"32202","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 3 69063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002313","antes":"31897","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 3 69063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002321","antes":"1221","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 4 69064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002339","antes":"32203","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 4 69064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002347","antes":"0008","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 0 68060 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002354","antes":"31834","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 0 68060 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002362","antes":"10895","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 00 68065 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002370","antes":"31836","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 00 68065 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002388","antes":"0232","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 1 68061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002396","antes":"31837","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 1 68061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002404","antes":"5337","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 2 68062 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002412","antes":"31838","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 2 68062 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD16002271","antes":"0815 32292","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 2 69062 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD16002297","antes":"0816 32202 31897","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 3 69063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD16002321","antes":"1221 32203","nombre":"HOJA LARINGO. FIBRA OPTICA CURVA # 4 69064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD16002347","antes":"0008 31834","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 0 68060 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD16002388","antes":"0232 31837","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 1 68061 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD16002420","antes":"3530","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 3 68063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16002438","antes":"31835","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 4 68064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16002446","antes":"7800","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 4 68064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD16002438","antes":"31835 7800","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA # 4 68064 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16002453","antes":"31839","nombre":"HOJA LARINGO. FIBRA OPTICA RECTA #3 68063 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16002461","antes":"3327","nombre":"HOJA LARINGO. LUZ HALOGENA CURVA # 1 69041 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD16002479","antes":"6312","nombre":"HOJA LARINGO. LUZ HALOGENA CURVA # 2 69042 W.A.","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
@@ -1542,16 +1527,13 @@
     {"cod":"CD16003808","antes":"20111","nombre":"MANGO ESPIRALADO PARA TRANFORMADOR DE PARED W.A. REF: 104299","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16003816","antes":"23964","nombre":"MANGO INSERTO PORTAGUJAS REF 0250080235 STRIKER (DAT)","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16003824","antes":"4234","nombre":"MANGO LARINGO. W.A. 60300 LUZ CORRIENTE","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16003832","antes":"32289","nombre":"MANGO LARINGO. W.A. 60813 F.OPTICA","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16003840","antes":"1055","nombre":"MANGO LARINGO. W.A. 60813 F.OPTICA","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD16003832","antes":"32289 1055","nombre":"MANGO LARINGO. W.A. 60813 F.OPTICA","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16003857","antes":"3306","nombre":"MANGO PARA BISTURI No. 3 06.103.00 DIMEDA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16003865","antes":"0639","nombre":"MANGO PARA BISTURI No. 3 Hospital REF.03301422","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16003873","antes":"0640","nombre":"MANGO PARA BISTURI No. 4 Hospital REF.03301423","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16003881","antes":"3305","nombre":"MANGO PARA BISTURI No. 4 REF 06.104.00 DIMEDA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16003899","antes":"29422","nombre":"MANGO PARA LARINGO ESTANDAR WA. REF.60400","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD16003907","antes":"28133","nombre":"MANGO PARA LARINGO RECARGABLE REF. 60713","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
-    {"cod":"CD16003915","antes":"29606","nombre":"MANGO PARA LARINGO W.A REF.60813-LED","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD16003923","antes":"32290","nombre":"MANGO PARA LARINGO W.A REF.60813-LED","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD16003931","antes":"30302","nombre":"MANGO PARA LARINGO W.A REF.60813-LED (DAT)","categoria":"diagnostico-y-monitoreo","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD16003949","antes":"4333","nombre":"MANGO RECAR. W.A. 71000-C 3.5V CONVERTIBLE","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16003956","antes":"29423","nombre":"MANGO RECARGABLE PARA EQUIPO DE ORGANOS WA. REF.71910","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
@@ -1665,8 +1647,7 @@
     {"cod":"CD16005035","antes":"0235","nombre":"TENSIOM. DURASHOCK ADULTO DS44-11 BRAZALETE FLEXIPORT","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005043","antes":"3300","nombre":"TENSIOM. DURASHOCK ADULTO DS44-11CB 2 SALIDAS","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005050","antes":"23486","nombre":"TENSIOM. DURASHOCK ANEROIDE INTEGRADO SERIE PLATA DS45-11","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD16005068","antes":"25541","nombre":"TENSIOM. DURASHOCK ANEROIDE INTEGRADO SERIE PLATA FLEXIPORT 1 SALIDA CON ESTUCHE DS45-11C WA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD16005076","antes":"32956","nombre":"TENSIOM. DURASHOCK ANEROIDE INTEGRADO SERIE PLATA FLEXIPORT 1 SALIDA CON ESTUCHE DS45-11C WA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
+    {"cod":"CD16005068","antes":"25541 32956","nombre":"TENSIOM. DURASHOCK ANEROIDE INTEGRADO SERIE PLATA FLEXIPORT 1 SALIDA CON ESTUCHE DS45-11C WA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16005084","antes":"23485","nombre":"TENSIOM. DURASHOCK ANEROIDE INTEGRADO SERIE PLATINO DS48-11","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005092","antes":"24819","nombre":"TENSIOM. DURASHOCK PEDIATRICO DS44-09 CON BRAZALETE FLEXIPORT","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":true},
     {"cod":"CD16005100","antes":"2083","nombre":"TENSIOM. DURASHOCK PEDIATRICO DS44-09CB 2 SALIDAS","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":true},
@@ -1713,8 +1694,7 @@
     {"cod":"CD16005514","antes":"26895","nombre":"TENSIOMETRO DURASHOCK ANEROIDE ADULTO DS44-11CBT 2 SALIDAS TYCOS WELCH ALLYN","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005522","antes":"26977","nombre":"TENSIOMETRO DURASHOCK ANEROIDE INTEGRADO SERIE PLATA DS45-11 W.A (DAT)","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005530","antes":"33127","nombre":"TENSIOMETRO DURASHOCK+BRAZ ADUL FLEXIPORT+ESTUCHE REFDS4411C+BRAZ FLEXIPORT PED REUSE09+CALIBRACION","categoria":"diagnostico-y-monitoreo","segmento":"medicina-pediatrica","bajoPedido":true},
-    {"cod":"CD16005548","antes":"19167","nombre":"TENSIOMETRO DURASHOCK+BRAZALETE FLEXIPORT+ESTUCHE REF.DS44-11C","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD16005555","antes":"33104","nombre":"TENSIOMETRO DURASHOCK+BRAZALETE FLEXIPORT+ESTUCHE REF.DS44-11C","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
+    {"cod":"CD16005548","antes":"19167 33104","nombre":"TENSIOMETRO DURASHOCK+BRAZALETE FLEXIPORT+ESTUCHE REF.DS44-11C","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16005563","antes":"33126","nombre":"TENSIOMETRO DURASHOCK+BRAZALETE FLEXIPORT+ESTUCHE REF.DS44-11C + CALIBRACION","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005571","antes":"29753","nombre":"TENSIOMETRO MANUAL LENZ COLOR NAVY REF.XB11300 (SS-20A)","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16005589","antes":"29752","nombre":"TENSIOMETRO MANUAL LENZ COLOR NEGRO REF.XB11300 (SS-20A)","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
@@ -1743,8 +1723,7 @@
     {"cod":"CD16005811","antes":"30379","nombre":"TUBO ACCESORIO DE PUERTO CON RACOR. REF 2-SC - WELCH ALLYN","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16005829","antes":"25534","nombre":"TUBO EXTENSION ROSCADO CAUCHO NEGRO P .TENSIOMETRO MURAL CAJA X 12 5089-13H WA","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD16005837","antes":"4278","nombre":"TUBO EXTENSION ROSCADO CAUCHO NEGRO P .TENSIOMETRO MURAL REF. 5089-13","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD16005845","antes":"31208","nombre":"WELCH ALLYN 7670-01 TENSIOMETRO PARED 767 BRAZALETE FLEXIPORT ADULTO #11","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD16005852","antes":"15699","nombre":"WELCH ALLYN 7670-01 TENSIOMETRO PARED 767 BRAZALETE FLEXIPORT ADULTO #11","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD16005845","antes":"31208 15699","nombre":"WELCH ALLYN 7670-01 TENSIOMETRO PARED 767 BRAZALETE FLEXIPORT ADULTO #11","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD16005860","antes":"17926","nombre":"WELCH ALLYN 7670-10 TENSIOMETRO MOVIL 767 CARRO 5 RUEDAS CANASTILLA BRAZAL FLEXIPORT ADULTO#11(OLE)","categoria":"diagnostico-y-monitoreo","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD17000019","antes":"20395","nombre":"122 CAMILLA PLEGABLE EN CUATRO REF. ST00122A SPENCER","categoria":"emergencias-y-primeros-auxilios","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD17000027","antes":"20489","nombre":"AIR WIV EXPRIME BOLSAS CON CAMARA DE AIRE REF. IF00310 SPENCER","categoria":"emergencias-y-primeros-auxilios","segmento":"cuidados-intensivos","bajoPedido":true},
@@ -1984,8 +1963,7 @@
     {"cod":"CD18000414","antes":"29105","nombre":"EQUIPO DE ORGANOS CON MANGO RECARGABLE DE LITIO REF.97200-MS W.A.","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD18000422","antes":"33062","nombre":"EQUIPO DE ORGANOS DE PARED W.A. 777-SM2XXX C/ OFTAL. 11720-L Y OTOSC. MACROVIEW 238-2","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD18000430","antes":"33226","nombre":"EQUIPO DE ORGANOS PARED W.A. 777-PM3XXX C/ OFTAL. PANOPTIC+ 118-3 OTOSC. MACROVIEW+ 238-3 IEXAMINER","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD18000448","antes":"26685","nombre":"EQUIPO DE ORGANOS REF. 97200-CL + ESTUCHE RIGIDO + ACCESORIOS WELCH ALLYN","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD18000455","antes":"31286","nombre":"EQUIPO DE ORGANOS REF. 97200-CL + ESTUCHE RIGIDO + ACCESORIOS WELCH ALLYN","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
+    {"cod":"CD18000448","antes":"26685 31286","nombre":"EQUIPO DE ORGANOS REF. 97200-CL + ESTUCHE RIGIDO + ACCESORIOS WELCH ALLYN","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD18000463","antes":"30312","nombre":"EQUIPO DE ORGANOS REF.97200-MCL - WELCH ALLYN","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD18000471","antes":"23613","nombre":"EQUIPO DESECHABLE DE INFUSION MACRO S/A CON VALVULA - PRECISION","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD18000489","antes":"30991","nombre":"EQUIPO E-PUMP CON BOLSA NUTRICION X 500 ML KANGAROO REF. 772055","categoria":"equipos-de-infusion-y-accesorios-iv","segmento":"cuidados-intensivos","bajoPedido":false},
@@ -2088,13 +2066,10 @@
     {"cod":"CD19000116","antes":"31134","nombre":"LAMINA EN GEL ABDOMINAL CON MALLA REF.430001NL CJA X 4 UND - KAMEX","categoria":"espatulas-y-bajalenguas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD19000124","antes":"31135","nombre":"LAMINA EN GEL ABDOMINAL REF.430003NL CJA X 1 UND - KAMEX","categoria":"espatulas-y-bajalenguas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD19000132","antes":"31141","nombre":"LAMINA EN GEL PERIAREOLAR REF.430002NL CJA X 2 UND - KAMEX","categoria":"espatulas-y-bajalenguas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
-    {"cod":"CD19000140","antes":"33381","nombre":"LAMINA PORTAOBJETOS ESMERILADA CJA X 50 UND REF. 7105 - CEPILAB","categoria":"espatulas-y-bajalenguas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD19000157","antes":"29928","nombre":"LAMINA PORTAOBJETOS ESMERILADA CON ESTUCHE X UND - CEPIMAX","categoria":"espatulas-y-bajalenguas","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD20000014","antes":"30475","nombre":"DISPENSADOR DE ESPECULOS REF.52400 W.A PARA ESPECULO 52432-U Y 52434-U - WELCH ALLYN","categoria":"especulos","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD20000022","antes":"31211","nombre":"ESPECULO DESECHABLE OTOSCOP. 52434-U W.A. 4.25 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD20000030","antes":"14889","nombre":"ESPECULO DESECHABLE OTOSCOP. 52434-U W.A. 4.25 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-general","bajoPedido":true},
-    {"cod":"CD20000048","antes":"31212","nombre":"ESPECULO DESECHABLE PEDIATRICO OTOSCOP. 52432-U W.A. 2.75 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-pediatrica","bajoPedido":false},
-    {"cod":"CD20000055","antes":"14888","nombre":"ESPECULO DESECHABLE PEDIATRICO OTOSCOP. 52432-U W.A. 2.75 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-pediatrica","bajoPedido":true},
+    {"cod":"CD20000022","antes":"31211 14889","nombre":"ESPECULO DESECHABLE OTOSCOP. 52434-U W.A. 4.25 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-general","bajoPedido":false},
+    {"cod":"CD20000048","antes":"31212 14888","nombre":"ESPECULO DESECHABLE PEDIATRICO OTOSCOP. 52432-U W.A. 2.75 mm BOLSA x 34 Unid","categoria":"especulos","segmento":"medicina-pediatrica","bajoPedido":false},
     {"cod":"CD20000063","nombre":"ESPECULO DESECHABLE TALLA M Y S X UND","categoria":"especulos","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD20000071","antes":"15448","nombre":"ESPECULO NASAL \"KILLIAN\" # 4 DIMEDA CAT 46.120.90","categoria":"especulos","segmento":"medicina-general","bajoPedido":true},
     {"cod":"CD20000089","antes":"10479","nombre":"ESPECULO NASAL VIENA ADULTO DIMEDA 46.112.03","categoria":"especulos","segmento":"medicina-general","bajoPedido":true},
@@ -4828,7 +4803,6 @@
     {"cod":"CD35000405","antes":"31958","nombre":"CAMPO OPERATORIO DESECHABLE NO ESTERIL 2MT X 2.17MT FENESTRADO PAQ X 10 UND - ALLMED","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35000413","antes":"28056","nombre":"CANDADO PARA CARRO DE PARO x UND REF.C604300 - BIOLIFE","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35000421","antes":"10741","nombre":"CANDADO PLASTICO P/CARRO DE PARO X 100 UNID.","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
-    {"cod":"CD35000439","antes":"33378","nombre":"CITOCEPILLO VAGINAL CONICO DESECHABLE PAQ X 100 UND - CEPILAB","categoria":"ropa-y-bioseguridad","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD35000447","antes":"26822","nombre":"CITOCEPILLO VAGINAL CONICO DESECHABLE x UNIDAD CEPIMAX","categoria":"ropa-y-bioseguridad","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD35000454","antes":"31270","nombre":"CONJUNTO PIJAMA CIRUJANO (PANTALON Y CAMISA) 25-30GR AZUL(ROPA DESECHABLE NO ESTERIL) UND - ALLMED","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD35000462","antes":"16541","nombre":"DISPENSADOR AVAGARD MANUAL x 500 ml 3M","categoria":"ropa-y-bioseguridad","segmento":"medicina-general","bajoPedido":true},
@@ -5008,8 +4982,9 @@
     {"cod":"CD36000974","antes":"24555","nombre":"SOLUCION SALINA NORMAL 0.9% x 25 ml CAJA x 140 UND ml ARB1300 BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD36000982","antes":"6221","nombre":"SOLUCION SALINA NORMAL 0.9% x 50 ml ARB1301 BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD36000990","antes":"3324","nombre":"SOLUCION SALINA NORMAL 0.9% x 100 ml ARB1302 (cloruro de sodio)","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD36001014","antes":"0793","nombre":"SOLUCION SALINA NORMAL 0.9% x 250 ml ARB1322 BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
-    {"cod":"CD36001030","antes":"1109","nombre":"SOLUCION SALINA NORMAL 0.9% x 500 ml ARB1323 (cloruro de sodio).","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD36001006","nombre":"SOLUCION SALINA NORMAL 0.9% X 100 ML X UND","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
+    {"cod":"CD36001022","nombre":"SOLUCION SALINA NORMAL 0.9% X 250 ML X UND","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false,"antes":"0793"},
+    {"cod":"CD36001048","nombre":"SOLUCION SALINA NORMAL 0.9% X 500 ML X UND","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false,"antes":"1109"},
     {"cod":"CD36001055","antes":"1198","nombre":"SOLUCION SALINA NORMAL 0.9% x 1000 ml ARB1324 BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD36001063","antes":"5202","nombre":"SUPRANE (DESFLURANO USP) FCO X 240 ML - BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":false},
     {"cod":"CD36001071","antes":"26900","nombre":"ULTRASET BOLSA PARA DRENAJE CON EQUIPO DE DESCONEXION EN \"Y\" PARA CAPD 5C4366P BAXTER","categoria":"soluciones-y-liquidos","segmento":"cuidados-intensivos","bajoPedido":true},
@@ -5300,6 +5275,7 @@
     {"cod":"CD38000188","antes":"33024","nombre":"CINTA INDICADORA DE VAPOR LIBRE DE PLOMO 1355 ATTEST RLL 18MM - 3M","categoria":"toma-de-muestras-y-laboratorio","segmento":"cuidados-intensivos","bajoPedido":true},
     {"cod":"CD38000196","antes":"25057","nombre":"CINTA INDICADORA PARA ESTERILIZACION VAPOR COMPLY 1228 (PEROXIDO DE HIDROGENO)","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000204","antes":"18454","nombre":"CITO ESPATULA NUEVA PAQ x 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000212","nombre":"CITOCEPILLO INDIVIDUAL PAQ X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false,"antes":"33378"},
     {"cod":"CD38000220","nombre":"CITOFIJADOR (ENVASE EN ALUMINIO SPRAY) 160 ML FCO 150 CC","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000238","antes":"0991","nombre":"CITROMEL SOL (LAXANTE SALINO) FCO X 310ml -JGB","categoria":"toma-de-muestras-y-laboratorio","segmento":"medicina-general","bajoPedido":false},
     {"cod":"CD38000246","antes":"33483","nombre":"COMBO TIRILLAS GMD-B06 PAGUE 1 LLEVE 2 (OBS 100 UND LANCETAS) - GMD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5352,6 +5328,7 @@
     {"cod":"CD38000717","antes":"33481","nombre":"KIT DE TIRILLAS X 50 UND (GLUCOMETRO CON BLUETOOTH GH30/50 LANCETAS/50 TIR)- GMD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38000725","antes":"33480","nombre":"KIT DE TIRILLAS X 50 UND (GLUCOMETRO GLUCOSCAN CONNECT BLUETOOTH/50 LANCETAS/50 TIR) - GMD","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000733","nombre":"LAMINA PORTA OBJETOS BANDA MATE VERDE CAJA X 50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38000741","nombre":"LAMINAS PORTA OBJETOS ESMERILADA CAJA X 50","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false,"antes":"33381"},
     {"cod":"CD38000758","nombre":"LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000766","nombre":"LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 200","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38000774","nombre":"LAMINILLAS CUBRE OBJETOS 24X60 CAJA X 100","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
@@ -5441,7 +5418,6 @@
     {"cod":"CD38001616","antes":"33187","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA AZUL(13X75mm)4.5ML PAQX100 UND(3.2% Citrato de sodio)-H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001624","antes":"32987","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA AZUL(13X100mm)4.5ML PAQX100 UND(3.2% Citrato de sodio)-H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001632","antes":"32992","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA GRIS (13X100mm)5ML PAQX100 UND(FLUORURO DE SODIO+EDTA K2)H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
-    {"cod":"CD38001640","antes":"32986","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA LILA (13X75mm) 2ML PAQ X 100 UND (EDTA K2) - H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001657","antes":"30818","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA LILA (13X75mm) 4ML PAQ X 100 UND (EDTA K2) - H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001665","antes":"32988","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA ROJA (13X75mm) 4ML PAQ X 100 UND (CON ACTIVADOR)- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001673","antes":"30820","nombre":"TUBO DE RECOLECCION DE SANGRE TAPA ROJA (13X100mm) 6ML PAQ X 100 UND (CON ACTIVADOR)- H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
@@ -5460,6 +5436,7 @@
     {"cod":"CD38001806","antes":"32997","nombre":"TUBO MINI DE RECOLECCION DE SANGRE TAPA ROJA 1ML PAQ X 100 UND (CON ACTIVADOR)-H&M TEST","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":true},
     {"cod":"CD38001814","nombre":"TUBO POLIPROPILENO 12X75 -13X75 MM 5ML (SIN TAPA) PAQX500","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001822","nombre":"TUBO TAPA AZUL 1.8 - 2.7- 3.0 O 4,5 ML 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
+    {"cod":"CD38001830","nombre":"TUBO TAPA LILA 2 ML 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false,"antes":"32986"},
     {"cod":"CD38001848","nombre":"TUBO TAPA LILA 4 ML 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001855","nombre":"TUBO TAPA ROJA 5 ML CLOT ACTIVATOR 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},
     {"cod":"CD38001863","nombre":"TUBO TAPA ROJA 6 ML SIN ADICTIVO 100 UND","categoria":"toma-de-muestras-y-laboratorio","segmento":"toma-de-muestras-de-laboratorio","bajoPedido":false},

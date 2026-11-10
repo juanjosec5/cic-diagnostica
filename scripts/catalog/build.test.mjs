@@ -129,3 +129,21 @@ test('fails on a missing column in the additional products', () => {
   const { errors } = buildCatalog([HEADER, row()], { updatedAt: 'x', extra: [['Cod', 'Nombre']] });
   assert.match(errors.join('\n'), /Productos adicionales: Missing column "Categoría"/);
 });
+
+test('retired products are left out; their supplier code becomes an alias of the replacement', () => {
+  const codes = new Map([['1', 'CD22000012'], ['2', 'CD22000020'], ['3', 'CD22000038']]);
+  const retired = new Map([['2', 'CD22000012'], ['3', '']]);
+  const { catalog, errors, skipped } = buildCatalog([HEADER, row({ Cod: '1' }), row({ Cod: '2' }), row({ Cod: '3' })], { updatedAt: 'x', codes, retired });
+  assert.deepEqual(errors, []);
+  assert.equal(skipped, 2);
+  assert.deepEqual(catalog.productos.map((p) => [p.cod, p.antes]), [['CD22000012', '1 2']]);
+});
+
+test('a retired product replaced by a code not in the catalog stops the import', () => {
+  const { errors } = buildCatalog([HEADER, row({ Cod: '1' }), row({ Cod: '2' })], {
+    updatedAt: 'x',
+    codes: new Map([['1', 'CD22000012'], ['2', 'CD22000020']]),
+    retired: new Map([['2', 'CD22000038']]),
+  });
+  assert.match(errors.join('\n'), /2 is replaced by CD22000038, which isn't in the catalog/);
+});

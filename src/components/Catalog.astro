@@ -660,7 +660,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     items = toItems(data);
     byCod = new Map(items.map((p) => [p.cod, p]));
     // Lists saved before the CIC codes hold supplier codes: swap them once, so they keep their products.
-    const upgraded = upgradeList(list, new Map(items.filter((p) => p.antes).map((p) => [p.antes, p.cod])));
+    const upgraded = upgradeList(list, new Map(items.flatMap((p) => (p.antes ? p.antes.split(' ').map((a) => [a, p.cod] as const) : []))));
     if (JSON.stringify(upgraded) !== JSON.stringify(list)) {
       list.splice(0, list.length, ...upgraded);
       saveList();

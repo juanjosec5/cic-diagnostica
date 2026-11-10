@@ -78,6 +78,10 @@ What gets published: code, name, categoría, segmento, and an "out of stock" fla
 - `Cod` is the product's CIC code from the register (`data/raw/codigos-cic.csv`). The import stops on an invalid or repeated code.
 - `Disponibilidad` is `En inventario` or `Bajo pedido`.
 
+**Retired products** (duplicates and products not sold, as decided by the sales team) are listed in `data/productos-retirados.csv` (columns `Código proveedor`, `Código CIC`, `Reemplazado por`, `Motivo`). It's committed and holds supplier codes only.
+- The import leaves each one out, and its supplier code becomes an alias of the product in `Reemplazado por`, so old searches and saved quote lists land on the kept product. An empty `Reemplazado por` means the product is removed with no replacement.
+- Retired CIC codes are never reused.
+
 ### CIC product codes
 
 The catalog uses CIC's own codes, assigned in the inventory system (Quality Manager). Format: `CD` + categoría number (3 digits) + product number (4 digits) + check digit. 10 characters, e.g. `CD10000016` (Agujas, product 1). Code: `scripts/catalog/codes.mjs`.

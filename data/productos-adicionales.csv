@@ -3,8 +3,10 @@ CD10000347;AGUJA HIPODERM 20G X 1 1/2 CAJA X 100 UND;Agujas;Medicina general;En 
 CD10000354;AGUJA HIPODERM 20G X 1 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000362;AGUJA HIPODERM 21G X 1 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000370;AGUJA HIPODERM 22G X 1 CAJA X 100 UND;Agujas;Medicina general;En inventario
+CD10000388;AGUJA HIPODERM 23G X 1 1/2 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000396;AGUJA HIPODERM 23G X 1 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000404;AGUJA HIPODERM 26G X 1/2 CAJA X 100 UND;Agujas;Medicina general;En inventario
+CD10000412;AGUJA HIPODERM 27G X 1/2 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000420;AGUJA HIPODERM 30G X 1/2 CAJA X 100 UND;Agujas;Medicina general;En inventario
 CD10000552;AGUJA VACUTAINER 21GX1 1/2 VERDE CAJA 100 UND;Agujas;Medicina general;En inventario
 CD10000560;AGUJA VACUTAINER 22GX1 NEGRA CAJA X 100 UND;Agujas;Medicina general;En inventario
@@ -14,6 +16,8 @@ CD10000917;PERICRANEAL 22G X 3/4 X UND;Agujas;Medicina general;En inventario
 CD10000925;PERICRANEAL 23G X 3/4 X UND;Agujas;Medicina general;En inventario
 CD11000015;AGUA OXIGENADA FCO X 120ML X UND;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
 CD11000023;AGUA OXIGENADA GL X 3.600 ML X UND;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
+CD11000098;ALCOHOL FARMACEUTICO AL 70% 120ML;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
+CD11000106;ALCOHOL FARMACEUTICO AL 70% 345ML;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
 CD11000114;ALCOHOL FARMACEUTICO AL 70% 360ML;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
 CD11000122;ALCOHOL FARMACEUTICO AL 70% 700ML;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
 CD11000130;ALCOHOL FARMACEUTICO AL 70% GALON 3.800;Antisépticos, desinfectantes e higiene;Medicina general;En inventario
@@ -149,6 +153,9 @@ CD36000149;AGUA ESTERIL SOLUCION INY 10 ML X UND;Soluciones y líquidos;Cuidados
 CD36000164;AGUA IRRIGACION GLICINA X3000 X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
 CD36000750;LACTATO DE RINGER SOLUC HARTMAN 500ML X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
 CD36000966;SOLUCION SALINA NORMAL 0.9% X 1.000 ML X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
+CD36001006;SOLUCION SALINA NORMAL 0.9% X 100 ML X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
+CD36001022;SOLUCION SALINA NORMAL 0.9% X 250 ML X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
+CD36001048;SOLUCION SALINA NORMAL 0.9% X 500 ML X UND;Soluciones y líquidos;Cuidados intensivos;En inventario
 CD38000022;AGAR CHOCOLATE CON SUPLEMENTO X 10 UND CAJA X 10;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000030;AGAR CROMOGENICO UTI X 10 UND CAJA X 10;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000048;AGAR MACCONKEY X 10 UND CAJA X 10;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
@@ -160,6 +167,7 @@ CD38000121;CANASTILLA EN ACERO INOXIDABLE HORIZONTAL 25 LAMINAS X UND;Toma de mu
 CD38000139;CARGA GLUCOSA EN POLVO SOBRES DE 25G CAJA X 50;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000147;CARGA GLUCOSA EN POLVO SOBRES DE 75G PAQ X 25;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000170;CINTA INDICADORA DE PH X 5 MTS X UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
+CD38000212;CITOCEPILLO INDIVIDUAL PAQ X 100;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000220;CITOFIJADOR (ENVASE EN ALUMINIO SPRAY) 160 ML FCO 150 CC;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000303;DENGUE COMBO NS1/IGG/IGM WB/S/P CASSETTE CAJA X 30;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000329;EPPENDORF TUBO DE MICROCENTRÍFUGA, 0,5 ML CÓNICO PAQ X 500 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
@@ -170,6 +178,7 @@ CD38000501;HEMOCLASIFICADOR ANTI D 10 ML X UND;Toma de muestras y laboratorio;To
 CD38000519;HISOPO NASOFARINGEO Y OROFARINGEO X UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000683;KIT DE GLUCOMETRO 50 TIRAS + 50 LANCETAS Y GLUCOMETRO X UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000733;LAMINA PORTA OBJETOS BANDA MATE VERDE CAJA X 50;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
+CD38000741;LAMINAS PORTA OBJETOS ESMERILADA CAJA X 50;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000758;LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 100;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000766;LAMINILLAS CUBRE OBJETOS 22X22 CAJA X 200;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38000774;LAMINILLAS CUBRE OBJETOS 24X60 CAJA X 100;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
@@ -218,6 +227,7 @@ CD38001731;TUBO MICROTAINER PEDIATRICO 0.5 - 1.0 ML AZUL 100 UND;Toma de muestra
 CD38001749;TUBO MICROTAINER PEDIATRICO 0.5 - 1ML TAPA AMARILLA 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38001814;TUBO POLIPROPILENO 12X75 -13X75 MM 5ML (SIN TAPA) PAQX500;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38001822;TUBO TAPA AZUL 1.8 - 2.7- 3.0 O 4,5 ML 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
+CD38001830;TUBO TAPA LILA 2 ML 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38001848;TUBO TAPA LILA 4 ML 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38001855;TUBO TAPA ROJA 5 ML CLOT ACTIVATOR 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario
 CD38001863;TUBO TAPA ROJA 6 ML SIN ADICTIVO 100 UND;Toma de muestras y laboratorio;Toma de muestras de laboratorio;En inventario

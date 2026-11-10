@@ -23,10 +23,13 @@ const DISPONIBILIDAD = { 'en inventario': false, 'bajo pedido': true };
  * @param {{ updatedAt: string, codes?: Map<string, string>, extra?: string[][] }} options refresh date (YYYY-MM-DD),
  *   shown on the page; codes: supplier code → CIC code (data/raw/codigos-cic.csv). With it, the CIC code is published
  *   as `cod` and the supplier code as `antes`, so old codes keep working in search and in saved quote lists during the
- *   transition. extra: rows of data/productos-adicionales.csv, header first (CIC codes already).
+ *   transition. extra: rows of data/productos-adicionales.csv, header first (CIC codes already). retired: supplier
+ *   code → the CIC code that replaces it, or '' (data/productos-retirados.csv: duplicates and products not sold). A
+ *   retired product is left out, and its supplier code becomes an alias of its replacement (`antes` holds every
+ *   supplier code that leads to a product, its own first, space-separated).
  * @returns {{ catalog?: object, errors: string[], skipped: number }}
  */
-export function buildCatalog(rows, { updatedAt, codes, extra }) {
+export function buildCatalog(rows, { updatedAt, codes, extra, retired = new Map() }) {
   const headerAt = Math.max(0, rows.slice(0, HEADER_SEARCH_ROWS).findIndex((r) => r.some((h) => String(h).trim() === COLUMNS.cod)));
   const header = rows[headerAt] ?? [];
   const data = rows.slice(headerAt + 1);
@@ -61,7 +64,7 @@ export function buildCatalog(rows, { updatedAt, codes, extra }) {
     const line = headerAt + i + 2; // row number as the spreadsheet shows it
     const get = (key) => String(row[index[key]] ?? '').trim();
     if (row.every((v) => String(v).trim() === '')) return;
-    if (get('activo').toLowerCase() !== 'si') {
+    if (get('activo').toLowerCase() !== 'si' || retired.has(get('cod'))) {
       skipped++;
       return;
     }
@@ -108,6 +111,15 @@ export function buildCatalog(rows, { updatedAt, codes, extra }) {
     productos.push({ cod, nombre, categoria, segmento, bajoPedido: bajoPedido ?? true });
   });
 
+  // A retired product's supplier code now leads to the product that replaced it (search, saved quote lists).
+  const byCod = new Map(productos.map((p) => [p.cod, p]));
+  for (const [supplierCod, replacement] of retired) {
+    if (!replacement) continue;
+    const p = byCod.get(replacement);
+    if (!p) errors.push(`Productos retirados: ${supplierCod} is replaced by ${replacement}, which isn't in the catalog`);
+    else p.antes = p.antes ? `${p.antes} ${supplierCod}` : supplierCod;
+  }
+
   if (errors.length) return { errors, skipped };
 
   productos.sort((a, b) => a.cod.localeCompare(b.cod, 'es', { numeric: true }));
@@ -132,7 +144,7 @@ export function buildCatalog(rows, { updatedAt, codes, extra }) {
  * codes shows as "recoded" instead of every product removed and added. Printed on every refresh so the PR is reviewable.
  */
 export function diffCatalogs(prev, next) {
-  const id = (p) => p.antes ?? p.cod;
+  const id = (p) => (p.antes ? p.antes.split(' ')[0] : p.cod);
   const before = new Map((prev?.productos ?? []).map((p) => [id(p), p]));
   const after = new Map(next.productos.map((p) => [id(p), p]));
   const ids = [...after.keys()];

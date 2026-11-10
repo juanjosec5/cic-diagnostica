@@ -1,8 +1,10 @@
-// Analytics events, named as GA4's recommended events (search, add_to_cart, generate_lead). Does nothing until
-// GA4's gtag is on the page (planned, after consent); the catalog already reports what we'll want to measure.
+// Analytics events, named as GA4's recommended events where one fits (search, add_to_cart, begin_checkout,
+// generate_lead). window.gtag only exists once GA4 has loaded (after consent, on the production host); until then
+// track() does nothing, so calling it is always safe.
 declare global {
   interface Window {
-    gtag?: (command: 'event', name: string, params?: Record<string, unknown>) => void;
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 

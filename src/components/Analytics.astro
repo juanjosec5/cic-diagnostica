@@ -1,11 +1,50 @@
 ---
-// Vercel Web Analytics (aggregate page views) loads only after the visitor accepts in the consent banner.
-// See README > Privacy and consent.
+// Google Analytics 4: loads only after the visitor accepts in the consent banner, and only on the production host
+// (analytics in src/data/site.ts). Before that, nothing from Google loads and track() does nothing.
+// See README > Analytics for the events, and README > Privacy and consent.
 ---
 
 <script>
-  import { inject } from '@vercel/analytics';
+  import { analytics } from '../data/site';
   import { whenConsentGranted } from '../lib/consent';
+  import { track } from '../lib/track';
 
-  whenConsentGranted(() => inject({ framework: 'astro' }));
+  const SECONDS_PER_MONTH = 30 * 24 * 60 * 60;
+
+  whenConsentGranted(() => {
+    if (location.hostname !== analytics.host) return;
+    window.dataLayer = window.dataLayer || [];
+    // gtag must push the arguments object itself, not an array: that's what gtag.js reads.
+    window.gtag = function gtag() {
+      window.dataLayer!.push(arguments);
+    };
+    window.gtag('js', new Date());
+    // No ads features: no Google signals, no ad personalization (they would need more consent).
+    window.gtag('config', analytics.measurementId, {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      cookie_expires: analytics.retentionMonths * SECONDS_PER_MONTH, // the policy states this period
+    });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analytics.measurementId)}`;
+    document.head.append(script);
+  });
+
+  /** Which button produced the lead: its data-track, else its page section, else footer (or 'otro', see README). */
+  const leadLocation = (link: HTMLElement) =>
+    link.dataset.track ?? link.closest<HTMLElement>('section[id]')?.id ?? (link.closest('footer') ? 'footer' : 'otro');
+
+  // Every WhatsApp button on the site is a lead. The catalog's send buttons report themselves (with the products),
+  // and a click another handler cancelled (e.g. "Cotizar" opening the list instead) didn't open WhatsApp.
+  const onLinkClick = (e: MouseEvent) => {
+    const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="https://wa.me/"]');
+    if (!link || e.defaultPrevented || link.matches('[data-send]')) return;
+    track('generate_lead', { method: 'whatsapp', location: leadLocation(link) });
+  };
+  document.addEventListener('click', onLinkClick);
+  // Middle-click opens the link in a new tab without a `click` event.
+  document.addEventListener('auxclick', (e) => {
+    if (e.button === 1) onLinkClick(e);
+  });
 </script>

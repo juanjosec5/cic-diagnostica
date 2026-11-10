@@ -108,7 +108,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     <p data-empty-text></p>
     <div class="empty__actions">
       <button class="btn btn--primary" type="button" hidden data-empty-all></button>
-      <a class="btn btn--wa" data-empty-wa href="#" target="_blank" rel="noopener" hidden>
+      <a class="btn btn--wa" data-empty-wa data-track="catalogo-sin-resultados" href="#" target="_blank" rel="noopener" hidden>
         <Icon name="whatsapp" size={20} /> Preguntar por WhatsApp
       </a>
     </div>
@@ -317,12 +317,20 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   function add(cod: string) {
     if (entry(cod) || list.length >= MAX_LIST_ITEMS) return;
     list.push({ cod, qty: 1 });
-    track('add_to_cart', { items: [{ item_id: cod, quantity: 1 }] });
+    track('add_to_cart', { items: [gaItem(byCod.get(cod)!, 1)] });
     saveList();
     renderList();
     // Keep keyboard focus on the row: "Agregar" just turned into the stepper.
     results.querySelector<HTMLElement>(`.row[data-cod="${CSS.escape(cod)}"] [data-inc]`)?.focus({ preventScroll: true });
   }
+
+  // GA4 item: its item reports ("most requested products") group by these names.
+  const gaItem = (p: Item, quantity: number) => ({
+    item_id: p.cod,
+    item_name: p.nombre,
+    item_category: data.categorias[p.cat].label,
+    quantity,
+  });
 
   function remove(cod: string) {
     const i = list.findIndex((e) => e.cod === cod);
@@ -439,7 +447,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   }
   let hintTimer: number | undefined;
   exportLink.addEventListener('click', (e) => {
-    if (!exportReason) return track('export_pdf', { items: filtered.length });
+    if (!exportReason) return track('export_pdf', { products: filtered.length });
     e.preventDefault(); // disabled: say why (the title tooltip doesn't show on phones)
     exportHint.textContent = exportReason;
     exportHint.hidden = false;
@@ -447,13 +455,18 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     hintTimer = window.setTimeout(() => (exportHint.hidden = true), 3000);
   });
 
+  /** Products matching `term` in the whole catalog, ignoring the filters. */
+  const catalogMatches = (term: string) => {
+    const match = matcher(term);
+    return items.filter((p) => match(p.key)).length;
+  };
+
   function renderEmpty() {
     const term = q.value.trim();
     const text = $('[data-empty-text]');
     const all = $<HTMLButtonElement>('[data-empty-all]');
     const wa = $<HTMLAnchorElement>('[data-empty-wa]');
-    const match = matcher(term);
-    const elsewhere = term ? items.filter((p) => match(p.key)).length : 0;
+    const elsewhere = term ? catalogMatches(term) : 0;
     all.hidden = !!term && !elsewhere;
     wa.hidden = !term || elsewhere > 0;
     if (!term) {
@@ -519,7 +532,8 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     clearTimeout(trackTimer);
     trackTimer = window.setTimeout(() => {
       const term = q.value.trim();
-      if (term.length >= 3) track('search', { search_term: term, results: filtered.length });
+      // Whole catalog, not just the active filters: "0" should mean we don't have it (or call it something else).
+      if (term.length >= 3 && items.length) track('search', { search_term: term, results: catalogMatches(term) });
     }, 1500);
   });
   segSelect.addEventListener('change', applyFilters);
@@ -615,10 +629,23 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     saveList();
     renderList();
   });
-  root.querySelectorAll('[data-send]').forEach((a) =>
-    a.addEventListener('click', () =>
-      track('generate_lead', { method: 'whatsapp', items: list.length, units: list.reduce((n, e) => n + e.qty, 0) }),
-    ),
+  // The same list sent again (back from WhatsApp, or the bar's "Cotizar" then the dialog's) is one lead, not two.
+  let lastSent = '';
+  root.querySelectorAll<HTMLElement>('[data-send]').forEach((a) =>
+    a.addEventListener('click', () => {
+      const sent = listItems();
+      const signature = sent.map((p) => `${p.cod}x${p.qty}`).join(',');
+      if (signature === lastSent) return;
+      lastSent = signature;
+      // `items` is GA4's product list (reserved name), so the product count goes in `products`.
+      track('begin_checkout', { items: sent.map((p) => gaItem(p, p.qty)) });
+      track('generate_lead', {
+        method: 'whatsapp',
+        location: a.closest('dialog') ? 'catalogo-lista' : 'catalogo-barra',
+        products: sent.length,
+        units: sent.reduce((n, p) => n + p.qty, 0),
+      });
+    }),
   );
 
   async function init() {

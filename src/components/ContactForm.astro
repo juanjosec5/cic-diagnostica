@@ -117,7 +117,7 @@ import { LIMITS } from '../lib/contact';
     <div class="status__box status__box--ok">
       <strong>¡Gracias! Recibimos su solicitud.</strong>
       <p>Uno de nuestros asesores le responderá en menos de {company.responseTime} por teléfono o WhatsApp.</p>
-      <p>¿Es urgente? <a href={waLink('urgent')} target="_blank" rel="noopener">Escríbanos por WhatsApp</a>.</p>
+      <p>¿Es urgente? <a href={waLink('urgent')} target="_blank" rel="noopener" data-track="formulario-urgente">Escríbanos por WhatsApp</a>.</p>
     </div>
   </template>
   <template id="tpl-invalid">
@@ -129,7 +129,7 @@ import { LIMITS } from '../lib/contact';
     <div class="status__box status__box--error">
       <strong>No fue posible enviar su mensaje.</strong>
       <p>
-        Por favor, escríbanos por <a href={waLink('general')} target="_blank" rel="noopener">WhatsApp</a> o al correo
+        Por favor, escríbanos por <a href={waLink('general')} target="_blank" rel="noopener" data-track="formulario-error">WhatsApp</a> o al correo
         <a href={`mailto:${company.email}`}>{company.email}</a>.
       </p>
     </div>
@@ -138,6 +138,7 @@ import { LIMITS } from '../lib/contact';
 
 <script>
   import { validateContact, type ContactErrors } from '../lib/contact';
+  import { track } from '../lib/track';
 
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
 
@@ -217,6 +218,7 @@ import { LIMITS } from '../lib/contact';
           form.reset();
           syncContractFields();
           showStatus('success');
+          track('generate_lead', { method: 'formulario', location: 'contacto', interest: data.interes });
           status.focus();
         } else if (res.status === 400 && body.errors) {
           showErrors(body.errors);

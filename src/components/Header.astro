@@ -15,7 +15,7 @@ const isCurrent = (href: string) => !href.includes('#') && Astro.url.pathname.st
         <span class="wide">¿Se está quedando sin insumos?</span>
         <span class="narrow">¿Sin insumos?</span>
       </span>
-      <a href={waLink('urgent')} target="_blank" rel="noopener">
+      <a href={waLink('urgent')} target="_blank" rel="noopener" data-track="barra-urgente">
         <Icon name="whatsapp" size={16} />
         <span class="wide">Haga su pedido urgente por WhatsApp</span>
         <span class="narrow">Pedido urgente</span>
@@ -40,7 +40,7 @@ const isCurrent = (href: string) => !href.includes('#') && Astro.url.pathname.st
       </ul>
     </nav>
 
-    <a class="btn btn--wa header__wa" href={waLink('quote')} target="_blank" rel="noopener">
+    <a class="btn btn--wa header__wa" href={waLink('quote')} target="_blank" rel="noopener" data-track="header-cotizar">
       <Icon name="whatsapp" size={20} />
       <span>Cotizar</span>
     </a>

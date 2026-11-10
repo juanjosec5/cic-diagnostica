@@ -11,6 +11,18 @@
  */
 export const routes = { home: '/', catalog: '/catalogo/', privacy: '/politica-de-datos/' } as const;
 
+/**
+ * Google Analytics 4. The ID is public (it's in every page's source). It only runs on the production host, so Vercel
+ * previews and local development don't add fake visits, and only after the visitor accepts (see Analytics.astro).
+ */
+export const analytics = {
+  measurementId: 'G-ZJYS5ZZVXJ',
+  host: 'www.cicdiagnostica.com',
+  // The policy says "14 meses": the _ga cookies last this long, and the property's data retention is set to 14
+  // months in GA4 (Admin → Data collection and modification → Data retention). Change both together.
+  retentionMonths: 14,
+} as const;
+
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export const company = {
@@ -45,8 +57,9 @@ export const company = {
  * Bump `version` (and CONSENT_TEXT_VERSION below if the checkbox text changes) on every substantial change.
  */
 export const privacy = {
-  version: '1.1',
-  effectiveDate: '19 de octubre de 2026',
+  // 1.2: Google Analytics replaced Vercel Web Analytics.
+  version: '1.2',
+  effectiveDate: '9 de noviembre de 2026',
   requestEmail: company.email,
   responsibleArea: 'Gerencia',
   // Mail for cicdiagnostica.com is hosted on the domain's cPanel server (MX → 174.136.57.9, VivaWebHost).

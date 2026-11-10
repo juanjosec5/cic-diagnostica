@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import { waLink } from '../lib/whatsapp';
 ---
 
-<a class="wa-float" href={waLink('general')} target="_blank" rel="noopener" aria-label="Escríbanos por WhatsApp">
+<a class="wa-float" data-track="boton-flotante" href={waLink('general')} target="_blank" rel="noopener" aria-label="Escríbanos por WhatsApp">
   <Icon name="whatsapp" size={30} />
 </a>
 

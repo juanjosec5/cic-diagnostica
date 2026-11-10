@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
-import { company, isPlaceholder, privacy } from '../data/site';
+import { analytics, company, isPlaceholder, privacy } from '../data/site';
 
 // Draft until every company fact is filled in and a lawyer has reviewed it (see README > Privacy and consent).
 const pending = [company.legalName, company.nit, ...Object.values(privacy)].some(isPlaceholder);
@@ -106,6 +106,10 @@ const pending = [company.legalName, company.nit, ...Object.values(privacy)].some
     <ul>
       <li><strong>Vercel Inc.</strong> (Estados Unidos): alojamiento del sitio y procesamiento del formulario.</li>
       <li><strong>Resend</strong> (Estados Unidos): envío de los correos del formulario.</li>
+      <li>
+        <strong>Google LLC</strong> (Estados Unidos): medición de visitas (Google Analytics) y mapa, solo si usted lo
+        acepta (sección 8).
+      </li>
       <li><strong>{privacy.emailProvider}</strong>: correo electrónico corporativo.</li>
     </ul>
     <p>
@@ -128,9 +132,12 @@ const pending = [company.legalName, company.nit, ...Object.values(privacy)].some
             <td>Siempre</td>
           </tr>
           <tr>
-            <td>Vercel Web Analytics</td>
-            <td>Contar visitas de forma agregada</td>
-            <td>No</td>
+            <td>Google Analytics</td>
+            <td>Medir de forma agregada qué páginas, búsquedas y botones se usan, para mejorar el sitio</td>
+            <td>
+              Sí, de Google (<code>_ga</code> y <code>_ga_…</code>), por {analytics.retentionMonths} meses; los datos
+              se conservan {analytics.retentionMonths} meses
+            </td>
             <td>Solo si usted acepta</td>
           </tr>
           <tr>

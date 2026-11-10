@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { matcher, normalize, quoteMessage, searchKey, startsWithQuery } from '../../src/lib/catalog-search.ts';
+import { MAX_QTY, clampQty, matcher, normalize, quoteMessage, readSavedList, searchKey, startsWithQuery } from '../../src/lib/catalog-search.ts';
 
 const finds = (query, nombre, cod = '1', categoria = 'Diagnóstico y monitoreo') => matcher(query)(searchKey(cod, nombre, categoria));
 
@@ -66,12 +66,26 @@ test('empty query matches everything', () => {
   assert.ok(finds('   ', 'ANYTHING'));
 });
 
-test('quote message lists code and name, and ends with the field to fill', () => {
-  const text = quoteMessage([{ cod: '0986', nombre: 'JABON DE CALENDULA' }, { cod: '33429', nombre: 'AGUJA 32G' }]);
+test('quote message: quantity first, then code and name; ends with the municipality field', () => {
+  const text = quoteMessage([
+    { cod: '0986', nombre: 'JABON DE CALENDULA', qty: 2 },
+    { cod: '33429', nombre: 'AGUJA 32G CJA X 100 UND', qty: 1 },
+  ]);
   assert.match(text, /^Hola, quisiera cotizar estos 2 productos del catálogo\. \(web-catalogo\)/);
-  assert.match(quoteMessage([{ cod: '1', nombre: 'X' }]), /cotizar este producto/);
-  assert.match(text, /• 0986 · JABON DE CALENDULA\n• 33429 · AGUJA 32G/);
-  assert.ok(text.endsWith('Cantidades y municipio: '));
+  assert.match(quoteMessage([{ cod: '1', nombre: 'X', qty: 1 }]), /cotizar este producto/);
+  assert.match(text, /• Cant\. 2 · 0986 · JABON DE CALENDULA\n• Cant\. 1 · 33429 · AGUJA 32G CJA X 100 UND/);
+  assert.ok(text.endsWith('Municipio: '));
+});
+
+test('saved list: old code-only format loads with quantity 1; bad entries, duplicates and quantities are fixed', () => {
+  assert.deepEqual(readSavedList(['0986', '33429']), [{ cod: '0986', qty: 1 }, { cod: '33429', qty: 1 }]);
+  assert.deepEqual(
+    readSavedList([{ cod: '1', qty: 5 }, { cod: '1', qty: 9 }, { cod: '2', qty: 0 }, { cod: '3', qty: 5000 }, { qty: 2 }, null, 7]),
+    [{ cod: '1', qty: 5 }, { cod: '2', qty: 1 }, { cod: '3', qty: MAX_QTY }],
+  );
+  assert.deepEqual(readSavedList('nope'), []);
+  assert.equal(clampQty(Number('abc')), 1);
+  assert.equal(clampQty(2.6), 3);
 });
 
 // --- Shared filters (catalog page and PDF export) ---

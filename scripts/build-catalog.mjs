@@ -16,6 +16,8 @@ const OUT = 'src/data/catalog.json';
 const REVIEW_OUT = join(RAW_DIR, 'revision-clasificacion.csv');
 // Supplier code → CIC code, from npm run codes:assign. Gitignored like the export.
 const CODES = join(RAW_DIR, 'codigos-cic.csv');
+// Products not in the export yet (committed; public fields only, CIC codes from the register).
+const EXTRA = 'data/productos-adicionales.csv';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -33,8 +35,9 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) fail(`--date must be YYYY-MM-DD, 
 const source = args[0] ?? newestSource();
 const rows = extname(source).toLowerCase() === '.csv' ? readCsv(source) : readSheet(source, SHEET);
 const codes = existsSync(CODES) ? readCodes(CODES) : undefined;
-const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date, codes });
-if (errors.length) fail(`${errors.length} problem(s) in ${basename(source)}, nothing written:\n  ${errors.slice(0, 30).join('\n  ')}`);
+const extra = existsSync(EXTRA) ? readCsv(EXTRA) : undefined;
+const { catalog, errors, skipped } = buildCatalog(rows, { updatedAt: date, codes, extra });
+if (errors.length) fail(`${errors.length} problem(s) in ${basename(source)}${extra ? ` or ${basename(EXTRA)}` : ''}, nothing written:\n  ${errors.slice(0, 30).join('\n  ')}`);
 
 const prev = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : undefined;
 const diff = diffCatalogs(prev, catalog);

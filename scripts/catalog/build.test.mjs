@@ -101,3 +101,31 @@ test('marks the shared categories', () => {
 test('slugify strips accents and punctuation', () => {
   assert.equal(slugify('Antisépticos, desinfectantes e higiene'), 'antisepticos-desinfectantes-e-higiene');
 });
+
+const EXTRA_HEADER = ['Cod', 'Nombre', 'Categoría', 'Segmento', 'Disponibilidad'];
+const extraRow = (over = {}) => {
+  const r = { Cod: 'CD38000014', Nombre: 'PRUEBA RAPIDA HBSAG CAJA X 25', Categoría: 'Toma de muestras y laboratorio', Segmento: 'Toma de muestras de laboratorio', Disponibilidad: 'En inventario', ...over };
+  return EXTRA_HEADER.map((h) => r[h]);
+};
+const withExtra = (...extraRows) => buildCatalog([HEADER, row()], { updatedAt: 'x', extra: [EXTRA_HEADER, ...extraRows] });
+
+test('merges additional products with their CIC code and availability', () => {
+  const { catalog, errors } = withExtra(extraRow(), extraRow({ Cod: 'CD38000022', Disponibilidad: 'Bajo pedido' }));
+  assert.deepEqual(errors, []);
+  assert.deepEqual(catalog.productos.map((p) => [p.cod, p.bajoPedido]), [['0986', false], ['CD38000014', false], ['CD38000022', true]]);
+});
+
+test('additional products need a valid CIC code, a known availability and no duplicate code', () => {
+  const { catalog, errors } = withExtra(extraRow({ Cod: 'W0001' }), extraRow({ Cod: 'CD38000015' }), extraRow({ Disponibilidad: 'Sí' }), extraRow());
+  assert.equal(catalog, undefined);
+  const all = errors.join('\n');
+  assert.match(all, /row 2: Cod "W0001" is not a valid CIC code/);
+  assert.match(all, /row 3: Cod "CD38000015" is not a valid CIC code/);
+  assert.match(all, /row 4: Disponibilidad "Sí" must be/);
+  assert.match(all, /row 5: duplicate Cod CD38000014 \(first at productos adicionales row 4\)/);
+});
+
+test('fails on a missing column in the additional products', () => {
+  const { errors } = buildCatalog([HEADER, row()], { updatedAt: 'x', extra: [['Cod', 'Nombre']] });
+  assert.match(errors.join('\n'), /Productos adicionales: Missing column "Categoría"/);
+});

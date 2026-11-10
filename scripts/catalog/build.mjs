@@ -13,14 +13,20 @@ const COLUMNS = { segmento: 'Segmento', categoria: 'Categoría', cod: 'Cod', nom
 
 const toTaxonomy = (labels) => labels.map((label) => ({ slug: slugify(label), label }));
 
+// Products that aren't in the sales export (data/productos-adicionales.csv, committed: public fields only). Their CIC
+// codes come from the code register (npm run codes:assign), like every other product's.
+const EXTRA_COLUMNS = { cod: 'Cod', nombre: 'Nombre', categoria: 'Categoría', segmento: 'Segmento', disponibilidad: 'Disponibilidad' };
+const DISPONIBILIDAD = { 'en inventario': false, 'bajo pedido': true };
+
 /**
  * @param {string[][]} rows sheet rows, header first
- * @param {{ updatedAt: string, codes?: Map<string, string> }} options refresh date (YYYY-MM-DD), shown on the page;
- *   codes: supplier code → CIC code (data/raw/codigos-cic.csv). With it, the CIC code is published as `cod` and the
- *   supplier code as `antes`, so old codes keep working in search and in saved quote lists during the transition.
+ * @param {{ updatedAt: string, codes?: Map<string, string>, extra?: string[][] }} options refresh date (YYYY-MM-DD),
+ *   shown on the page; codes: supplier code → CIC code (data/raw/codigos-cic.csv). With it, the CIC code is published
+ *   as `cod` and the supplier code as `antes`, so old codes keep working in search and in saved quote lists during the
+ *   transition. extra: rows of data/productos-adicionales.csv, header first (CIC codes already).
  * @returns {{ catalog?: object, errors: string[], skipped: number }}
  */
-export function buildCatalog(rows, { updatedAt, codes }) {
+export function buildCatalog(rows, { updatedAt, codes, extra }) {
   const headerAt = Math.max(0, rows.slice(0, HEADER_SEARCH_ROWS).findIndex((r) => r.some((h) => String(h).trim() === COLUMNS.cod)));
   const header = rows[headerAt] ?? [];
   const data = rows.slice(headerAt + 1);
@@ -29,6 +35,14 @@ export function buildCatalog(rows, { updatedAt, codes }) {
   for (const [key, name] of Object.entries(COLUMNS)) {
     index[key] = header.findIndex((h) => h.trim() === name);
     if (index[key] < 0) errors.push(`Missing column "${name}" (found: ${header.join(', ')})`);
+  }
+  const extraIndex = {};
+  if (extra) {
+    const extraHeader = (extra[0] ?? []).map((h) => String(h).trim());
+    for (const [key, name] of Object.entries(EXTRA_COLUMNS)) {
+      extraIndex[key] = extraHeader.indexOf(name);
+      if (extraIndex[key] < 0) errors.push(`Productos adicionales: Missing column "${name}" (found: ${extraHeader.join(', ')})`);
+    }
   }
   if (errors.length) return { errors, skipped: 0 };
 
@@ -68,11 +82,30 @@ export function buildCatalog(rows, { updatedAt, codes }) {
     if (!categoria) errors.push(`Row ${line}: unknown Categoría "${get('categoria')}" (add it to scripts/catalog/taxonomy.mjs if it's new)`);
     if (!segmento) errors.push(`Row ${line}: unknown Segmento "${get('segmento')}" (add it to scripts/catalog/taxonomy.mjs if it's new)`);
     if (stockText === '' || Number.isNaN(stock)) errors.push(`Row ${line}: stock "${stockText}" is not a number (Cod ${cod})`);
-    if (cod && seen.has(cod)) errors.push(`Row ${line}: duplicate Cod ${cod} (first at row ${seen.get(cod)})`);
-    if (!seen.has(cod)) seen.set(cod, line);
+    if (cod && seen.has(cod)) errors.push(`Row ${line}: duplicate Cod ${cod} (first at ${seen.get(cod)})`);
+    if (!seen.has(cod)) seen.set(cod, `row ${line}`);
 
     // Publish only whether it's in stock, never the quantity.
     productos.push({ cod, ...(codes && { antes: supplierCod }), nombre, categoria, segmento, bajoPedido: !(stock > 0) });
+  });
+
+  (extra ?? []).slice(1).forEach((row, i) => {
+    const where = `Productos adicionales row ${i + 2}`;
+    const get = (key) => String(row[extraIndex[key]] ?? '').trim();
+    if (row.every((v) => String(v).trim() === '')) return;
+    const cod = get('cod');
+    const nombre = get('nombre').replace(/\s+/g, ' ');
+    const categoria = catSlug.get(get('categoria'));
+    const segmento = segSlug.get(get('segmento'));
+    const bajoPedido = DISPONIBILIDAD[get('disponibilidad').toLowerCase()];
+    if (!parseCode(cod)) errors.push(`${where}: Cod "${cod}" is not a valid CIC code (take it from data/raw/codigos-cic.csv)`);
+    if (!nombre) errors.push(`${where}: empty Nombre (Cod ${cod})`);
+    if (!categoria) errors.push(`${where}: unknown Categoría "${get('categoria')}"`);
+    if (!segmento) errors.push(`${where}: unknown Segmento "${get('segmento')}"`);
+    if (bajoPedido === undefined) errors.push(`${where}: Disponibilidad "${get('disponibilidad')}" must be "En inventario" or "Bajo pedido" (Cod ${cod})`);
+    if (cod && seen.has(cod)) errors.push(`${where}: duplicate Cod ${cod} (first at ${seen.get(cod)})`);
+    if (!seen.has(cod)) seen.set(cod, where.toLowerCase());
+    productos.push({ cod, nombre, categoria, segmento, bajoPedido: bajoPedido ?? true });
   });
 
   if (errors.length) return { errors, skipped };

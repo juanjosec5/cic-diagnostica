@@ -34,7 +34,11 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     </nav>
     <h1>{title}</h1>
     <p class="lead">{intro}</p>
-    <p class="facts">Sin pedido mínimo · Entrega gratis en {municipalities.length} municipios del Valle</p>
+    <!-- Each fact stays whole, so on phones the line breaks at the "·" and not mid-phrase. -->
+    <p class="facts">
+      <span class="nowrap">Sin pedido mínimo ·</span>
+      <span class="nowrap">Entrega gratis en {municipalities.length} municipios del Valle</span>
+    </p>
     <p class="updated">
       {!categoria && `${total.toLocaleString('es-CO')} referencias · `}Catálogo actualizado el {formatDate(updatedAt)}
     </p>
@@ -672,6 +676,10 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     margin: 0.5rem 0 0;
     font-weight: 600;
     color: var(--ink);
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 
   .updated {

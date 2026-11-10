@@ -77,6 +77,11 @@ test('review sample covers every category and is deterministic', () => {
   assert.deepEqual(one, reviewSample(productos, 20));
 });
 
+test('marks the shared categories', () => {
+  const { catalog } = build(row({ Cod: '1' }), row({ Cod: '2', Categoría: 'Medicamentos' }));
+  assert.deepEqual(catalog.categorias.map((c) => [c.slug, c.comun]), [['guantes', true], ['medicamentos', false]]);
+});
+
 test('slugify strips accents and punctuation', () => {
   assert.equal(slugify('Antisépticos, desinfectantes e higiene'), 'antisepticos-desinfectantes-e-higiene');
 });

@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Catalog from '../../components/Catalog.astro';
+import Footer from '../../components/Footer.astro';
+import { company, municipalities } from '../../data/site';
+import { productos, total } from '../../lib/catalog';
+
+// The first 50 alphabetically: enough for a useful page without JS. Every product is server-rendered on its
+// category page, which is what search engines crawl.
+const initial = productos.slice(0, 50);
+const count = total.toLocaleString('es-CO');
+---
+
+<Layout
+  title={`Catálogo de insumos médicos en Buga | ${company.name}`}
+  description={`Busque entre ${count} insumos médicos, arme su lista y cotice por WhatsApp. Sin pedido mínimo y entrega gratis en ${municipalities.length} municipios del Valle del Cauca.`}>
+  <Header />
+  <main id="main">
+    <Catalog
+      title="Catálogo de insumos médicos"
+      intro="Busque el producto, toque «Agregar» y envíenos la lista por WhatsApp."
+      initial={initial}
+    />
+  </main>
+  <Footer />
+</Layout>

@@ -5,151 +5,181 @@
     {
       "slug": "agujas",
       "label": "Agujas",
+      "comun": true,
       "count": 99
     },
     {
       "slug": "antisepticos-desinfectantes-e-higiene",
       "label": "Antisépticos, desinfectantes e higiene",
+      "comun": true,
       "count": 95
     },
     {
       "slug": "apositos-y-curacion-de-heridas",
       "label": "Apósitos y curación de heridas",
+      "comun": true,
       "count": 179
     },
     {
       "slug": "cateteres-y-canulas",
       "label": "Catéteres y cánulas",
+      "comun": false,
       "count": 328
     },
     {
       "slug": "cintas-y-esparadrapos",
       "label": "Cintas y esparadrapos",
+      "comun": true,
       "count": 112
     },
     {
       "slug": "cuidado-oral",
       "label": "Cuidado oral",
+      "comun": false,
       "count": 63
     },
     {
       "slug": "diagnostico-y-monitoreo",
       "label": "Diagnóstico y monitoreo",
+      "comun": false,
       "count": 583
     },
     {
       "slug": "emergencias-y-primeros-auxilios",
       "label": "Emergencias y primeros auxilios",
+      "comun": false,
       "count": 194
     },
     {
       "slug": "equipos-de-infusion-y-accesorios-iv",
       "label": "Equipos de infusión y accesorios IV",
+      "comun": false,
       "count": 129
     },
     {
       "slug": "espatulas-y-bajalenguas",
       "label": "Espátulas y bajalenguas",
+      "comun": false,
       "count": 14
     },
     {
       "slug": "especulos",
       "label": "Espéculos",
+      "comun": false,
       "count": 21
     },
     {
       "slug": "gasas-algodon-y-compresas",
       "label": "Gasas, algodón y compresas",
+      "comun": true,
       "count": 85
     },
     {
       "slug": "guantes",
       "label": "Guantes",
+      "comun": true,
       "count": 70
     },
     {
       "slug": "incontinencia-y-cuidado-del-paciente",
       "label": "Incontinencia y cuidado del paciente",
+      "comun": false,
       "count": 64
     },
     {
       "slug": "instrumental-quirurgico",
       "label": "Instrumental quirúrgico",
+      "comun": false,
       "count": 201
     },
     {
       "slug": "jeringas",
       "label": "Jeringas",
+      "comun": true,
       "count": 63
     },
     {
       "slug": "medias-de-compresion",
       "label": "Medias de compresión",
+      "comun": false,
       "count": 615
     },
     {
       "slug": "medicamentos",
       "label": "Medicamentos",
+      "comun": false,
       "count": 451
     },
     {
       "slug": "movilidad-y-descanso",
       "label": "Movilidad y descanso",
+      "comun": false,
       "count": 232
     },
     {
       "slug": "nutricion-y-suplementos",
       "label": "Nutrición y suplementos",
+      "comun": false,
       "count": 62
     },
     {
       "slug": "ortopedia-y-soportes",
       "label": "Ortopedia y soportes",
+      "comun": false,
       "count": 536
     },
     {
       "slug": "ostomia",
       "label": "Ostomía",
+      "comun": false,
       "count": 80
     },
     {
       "slug": "otros",
       "label": "Otros",
+      "comun": false,
       "count": 23
     },
     {
       "slug": "pipetas",
       "label": "Pipetas",
+      "comun": false,
       "count": 2
     },
     {
       "slug": "respiratorio-y-oxigenoterapia",
       "label": "Respiratorio y oxigenoterapia",
+      "comun": false,
       "count": 134
     },
     {
       "slug": "ropa-y-bioseguridad",
       "label": "Ropa y bioseguridad",
+      "comun": true,
       "count": 106
     },
     {
       "slug": "soluciones-y-liquidos",
       "label": "Soluciones y líquidos",
+      "comun": false,
       "count": 98
     },
     {
       "slug": "suturas-y-mallas",
       "label": "Suturas y mallas",
+      "comun": false,
       "count": 265
     },
     {
       "slug": "toma-de-muestras-y-laboratorio",
       "label": "Toma de muestras y laboratorio",
+      "comun": false,
       "count": 120
     },
     {
       "slug": "vendas",
       "label": "Vendas",
+      "comun": false,
       "count": 81
     }
   ],

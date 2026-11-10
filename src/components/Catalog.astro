@@ -1,0 +1,1035 @@
+---
+// The catalog UI, shared by /catalogo/ and /catalogo/[categoria]/. The server renders a first list (so the page
+// works and is indexed without JS); the script then loads /catalogo/productos.json and adds search, filters and
+// the quote list. Rows are built from a <template> with textContent only, never innerHTML.
+import Icon from './Icon.astro';
+import { categoriaPath, categorias, formatDate, segmentos, total, updatedAt, type Producto } from '../lib/catalog';
+import { MAX_LIST_ITEMS } from '../lib/catalog-search';
+import { company, municipalities } from '../data/site';
+import { waTextLink } from '../lib/whatsapp';
+
+interface Props {
+  title: string;
+  intro: string;
+  /** Rows rendered on the server. */
+  initial: Producto[];
+  /** Set on a category page: that pill starts selected. */
+  categoria?: string;
+}
+const { title, intro, initial, categoria } = Astro.props;
+const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?? slug;
+---
+
+<section
+  class="catalog container"
+  data-categoria={categoria}
+  data-wa-base={waTextLink('')}
+  data-response-time={company.responseTime}
+  data-max-items={MAX_LIST_ITEMS}>
+  <header class="catalog__head">
+    <nav class="crumbs" aria-label="Ruta">
+      <a href="/">Inicio</a> <span aria-hidden="true">/</span>
+      {categoria ? <a href="/catalogo/">Catálogo</a> : <span aria-current="page">Catálogo</span>}
+      {categoria && (<><span aria-hidden="true">/</span> <span aria-current="page">{label(categoria)}</span></>)}
+    </nav>
+    <h1>{title}</h1>
+    <p class="lead">{intro}</p>
+    <p class="facts">Sin pedido mínimo · Entrega gratis en {municipalities.length} municipios del Valle</p>
+    <p class="updated">
+      {!categoria && `${total.toLocaleString('es-CO')} referencias · `}Catálogo actualizado el {formatDate(updatedAt)}
+    </p>
+  </header>
+
+  <!-- Hidden until the script runs: without JS there's nothing to search, the category links below still work. -->
+  <div class="tools" hidden data-tools>
+    <!-- Results update while typing; the keyboard's "Buscar" key submits, which closes it and shows the results. -->
+    <form class="search" role="search" data-search>
+      <label class="visually-hidden" for="catalog-q">Buscar por nombre, marca o código</label>
+      <Icon name="search" size={20} />
+      <input id="catalog-q" type="search" placeholder="Ej.: guantes, jeringa 5 ml" autocomplete="off" enterkeyhint="search" />
+    </form>
+    <label class="seg">
+      <span class="visually-hidden">Especialidad</span>
+      <select id="catalog-seg">
+        <option value="">Todas las especialidades</option>
+        {segmentos.map((s) => <option value={s.slug}>{s.label}</option>)}
+      </select>
+    </label>
+  </div>
+
+  <nav class="pills" aria-label="Categorías">
+    <ul>
+      {categorias.map((c) => (
+        <li>
+          <a href={categoriaPath(c.slug)} class="pill" data-cat={c.slug} aria-current={c.slug === categoria ? 'page' : undefined}>
+            <span class="pill__check" aria-hidden="true"><Icon name="check" size={16} /></span>
+            {c.label} <span class="pill__count">{c.count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <button class="pills__toggle link-action" type="button" aria-expanded="false" hidden data-pills-toggle>
+      Ver todas las categorías ({categorias.length})
+    </button>
+  </nav>
+
+  <div class="status-row">
+    <p class="status" role="status" data-status>
+      {categoria ? `${initial.length} productos` : `Mostrando ${initial.length} de ${total.toLocaleString('es-CO')} productos`}
+    </p>
+    <button class="link-action" type="button" hidden data-clear-filters>Limpiar filtros</button>
+    <!-- PDF of the current results (with letterhead) for hospitals; needs a filter, see MAX_EXPORT_ITEMS. -->
+    <a class="export" href="#" target="_blank" rel="noopener" aria-disabled="true" hidden data-export>
+      <Icon name="download" size={20} />
+    </a>
+    <p class="export__hint" role="status" hidden data-export-hint></p>
+  </div>
+
+  <ul class="results" data-results>
+    {initial.map((p) => (
+      <li class="row">
+        <div class="row__main">
+          <span class="row__name">{p.nombre}</span>
+          <span class="row__meta">
+            Cód. {p.cod} · {label(p.categoria)}
+            {p.bajoPedido && <span class="badge">Bajo pedido</span>}
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  <!-- Three cases (see renderEmpty): filters only, a term found elsewhere in the catalog, a term found nowhere. -->
+  <div class="empty" hidden data-empty>
+    <p data-empty-text></p>
+    <div class="empty__actions">
+      <button class="btn btn--primary" type="button" hidden data-empty-all></button>
+      <a class="btn btn--wa" data-empty-wa href="#" target="_blank" rel="noopener" hidden>
+        <Icon name="whatsapp" size={20} /> Preguntar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <button class="btn btn--primary more" type="button" hidden data-more>Ver más productos</button>
+
+  <template data-row>
+    <li class="row">
+      <div class="row__main">
+        <span class="row__name"></span>
+        <span class="row__meta"><span data-meta></span><span class="badge" hidden>Bajo pedido</span></span>
+      </div>
+      <button class="row__add" type="button" aria-pressed="false">
+        <span class="row__add-off"><Icon name="plus" size={18} /> Agregar</span>
+        <span class="row__add-on"><Icon name="check" size={18} /> En la lista</span>
+      </button>
+    </li>
+  </template>
+
+  <!-- Quote list: a bar while it has items, a dialog to review it. -->
+  <div class="quote-bar" hidden data-bar>
+    <button class="quote-bar__open" type="button" data-open-list>
+      Ver lista (<span data-count>0</span>)
+    </button>
+    <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-send>
+      <Icon name="whatsapp" size={20} /> <span>Cotizar<span class="wide"> por WhatsApp</span></span>
+    </a>
+  </div>
+
+  <dialog class="quote" aria-labelledby="quote-title" data-dialog>
+    <!-- The padding is on this wrapper, so a click on the dialog element itself is always the backdrop. -->
+    <div class="quote__inner">
+      <div class="quote__head">
+        <h2 id="quote-title">Su lista para cotizar</h2>
+        <button class="quote__close" type="button" aria-label="Cerrar" data-close><Icon name="close" /></button>
+      </div>
+      <p class="quote__hint">
+        Al final del mensaje escriba cantidades y municipio, o envíelo así y lo completamos en el chat. Le respondemos en
+        menos de {company.responseTime}.
+      </p>
+      <ul class="quote__items" data-list></ul>
+      <p class="quote__limit" hidden data-limit>Llegó a {MAX_LIST_ITEMS} productos, el máximo por mensaje. Envíe esta lista y luego arme otra.</p>
+      <div class="quote__actions">
+        <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-send>
+          <Icon name="whatsapp" size={20} /> Enviar lista por WhatsApp
+        </a>
+        <button class="link-action" type="button" data-clear>Vaciar lista</button>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  import {
+    MAX_LIST_ITEMS,
+    describeFilters,
+    exportProblem,
+    filterItems,
+    hasFilters,
+    matcher,
+    quoteMessage,
+    readFilters,
+    toItems,
+    writeFilters,
+    type CatalogPayload,
+    type Filters,
+    type Item,
+  } from '../lib/catalog-search';
+  import { track } from '../lib/track';
+
+  const PAGE = 50;
+  const STORAGE_KEY = 'cic-catalog-list';
+
+  const root = document.querySelector<HTMLElement>('.catalog')!;
+  const $ = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+  const q = $<HTMLInputElement>('#catalog-q');
+  const segSelect = $<HTMLSelectElement>('#catalog-seg');
+  const results = $<HTMLUListElement>('[data-results]');
+  const status = $('[data-status]');
+  const more = $<HTMLButtonElement>('[data-more]');
+  const empty = $('[data-empty]');
+  const rowTpl = $<HTMLTemplateElement>('template[data-row]');
+  const bar = $('[data-bar]');
+  const dialog = $<HTMLDialogElement>('[data-dialog]');
+  const listEl = $<HTMLUListElement>('[data-list]');
+  const waBase = root.dataset.waBase!;
+
+  let data: CatalogPayload;
+  let items: Item[] = [];
+  let byCod = new Map<string, Item>();
+  const selectedCats = new Set<number>();
+  let shown = PAGE;
+  let filtered: Item[] = [];
+  const catIndex = (slug: string | undefined) => data.categorias.findIndex((c) => c.slug === slug);
+
+  // --- Quote list (persisted per browser; storage can be unavailable in private mode) ---
+  const list: string[] = (() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
+      return Array.isArray(saved) ? saved.filter((c) => typeof c === 'string') : [];
+    } catch {
+      return [];
+    }
+  })();
+  const saveList = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch {
+      /* the list still works for this visit */
+    }
+  };
+
+  const listItems = () => list.map((c) => byCod.get(c)).filter((p): p is Item => !!p);
+  const sendHref = () => waBase + encodeURIComponent(quoteMessage(listItems()));
+
+  function renderList() {
+    const current = listItems();
+    // Codes that left the catalog after a refresh are dropped quietly.
+    if (current.length !== list.length) {
+      list.splice(0, list.length, ...current.map((p) => p.cod));
+      saveList();
+    }
+    const n = current.length;
+    bar.hidden = n === 0;
+    $('[data-count]').textContent = String(n);
+    root.querySelectorAll<HTMLAnchorElement>('[data-send]').forEach((a) => (a.href = sendHref()));
+    $('[data-limit]').hidden = n < MAX_LIST_ITEMS;
+
+    listEl.replaceChildren(
+      ...current.map((p) => {
+        const li = document.createElement('li');
+        const name = document.createElement('span');
+        name.textContent = `${p.cod} · ${p.nombre}`;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'link-action';
+        remove.textContent = 'Quitar';
+        remove.setAttribute('aria-label', `Quitar ${p.nombre}`);
+        remove.addEventListener('click', () => toggle(p.cod));
+        li.append(name, remove);
+        return li;
+      }),
+    );
+    if (!n && dialog.open) dialog.close();
+    results.querySelectorAll<HTMLButtonElement>('.row__add').forEach(syncButton);
+  }
+
+  function syncButton(btn: HTMLButtonElement) {
+    const on = list.includes(btn.dataset.cod!);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.disabled = !on && list.length >= MAX_LIST_ITEMS;
+  }
+
+  function toggle(cod: string) {
+    const i = list.indexOf(cod);
+    if (i >= 0) list.splice(i, 1);
+    else if (list.length < MAX_LIST_ITEMS) {
+      list.push(cod);
+      track('add_to_cart', { items: [{ item_id: cod }] });
+    }
+    saveList();
+    renderList();
+  }
+
+  // --- Results ---
+  function row(p: Item) {
+    const li = rowTpl.content.firstElementChild!.cloneNode(true) as HTMLLIElement;
+    li.querySelector('.row__name')!.textContent = p.nombre;
+    li.querySelector('[data-meta]')!.textContent = `Cód. ${p.cod} · ${data.categorias[p.cat].label}`;
+    (li.querySelector('.badge') as HTMLElement).hidden = !p.bajoPedido;
+    const btn = li.querySelector<HTMLButtonElement>('.row__add')!;
+    btn.dataset.cod = p.cod;
+    btn.setAttribute('aria-label', `Agregar ${p.nombre} a la lista`);
+    syncButton(btn);
+    return li;
+  }
+
+  const current = (): Filters => ({
+    query: q.value,
+    cats: selectedCats,
+    seg: data.segmentos.findIndex((s) => s.slug === segSelect.value),
+  });
+
+  function applyFilters() {
+    const { base, results: ordered } = filterItems(items, data.categorias, current());
+    updatePillCounts(base);
+    filtered = ordered;
+    shown = PAGE;
+    render();
+    syncUrl();
+  }
+
+  function render() {
+    results.replaceChildren(...filtered.slice(0, shown).map(row));
+    more.hidden = filtered.length <= shown;
+    const n = filtered.length.toLocaleString('es-CO');
+    const count = filtered.length > shown ? `Mostrando ${shown} de ${n} productos` : `${n} productos`;
+    // Active filters spelled out (the search term is already in the box): on phones selected pills can be off screen.
+    const active = describeFilters({ ...current(), query: '' }, data);
+    status.textContent = [count, ...active].join(' · ');
+    $('[data-clear-filters]').hidden = !hasFilters(current());
+    empty.hidden = filtered.length > 0;
+    if (!filtered.length) renderEmpty();
+    renderExport();
+  }
+
+  const exportLink = $<HTMLAnchorElement>('[data-export]');
+  const exportHint = $('[data-export-hint]');
+  let exportReason = '';
+  function renderExport() {
+    const n = filtered.length;
+    exportReason = exportProblem(current(), n);
+    const label = exportReason || `Descargar PDF (${n.toLocaleString('es-CO')} productos)`;
+    exportLink.hidden = false;
+    exportLink.title = label;
+    exportLink.setAttribute('aria-label', label);
+    exportLink.setAttribute('aria-disabled', String(!!exportReason));
+    exportLink.href = exportReason ? '#' : `/catalogo/imprimir/?${writeFilters(new URLSearchParams(), current(), data)}`;
+    exportHint.hidden = true;
+  }
+  let hintTimer: number | undefined;
+  exportLink.addEventListener('click', (e) => {
+    if (!exportReason) return track('export_pdf', { items: filtered.length });
+    e.preventDefault(); // disabled: say why (the title tooltip doesn't show on phones)
+    exportHint.textContent = exportReason;
+    exportHint.hidden = false;
+    clearTimeout(hintTimer);
+    hintTimer = window.setTimeout(() => (exportHint.hidden = true), 3000);
+  });
+
+  function renderEmpty() {
+    const term = q.value.trim();
+    const text = $('[data-empty-text]');
+    const all = $<HTMLButtonElement>('[data-empty-all]');
+    const wa = $<HTMLAnchorElement>('[data-empty-wa]');
+    const match = matcher(term);
+    const elsewhere = term ? items.filter((p) => match(p.key)).length : 0;
+    all.hidden = !!term && !elsewhere;
+    wa.hidden = !term || elsewhere > 0;
+    if (!term) {
+      text.textContent = 'No hay productos con estos filtros.';
+      all.textContent = 'Quitar filtros';
+    } else if (elsewhere) {
+      text.textContent = `«${term}» no aparece con estos filtros.`;
+      all.textContent = elsewhere === 1 ? 'Ver el resultado en todo el catálogo' : `Ver los ${elsewhere} resultados en todo el catálogo`;
+    } else {
+      // A search with no results is still a lead: offer to ask for it by name.
+      text.textContent = `«${term}» no aparece en el catálogo, pero puede que lo tengamos. Pregúntenos por WhatsApp y le respondemos en menos de ${root.dataset.responseTime}.`;
+      wa.href = waBase + encodeURIComponent(`Hola, ¿tienen ${term}? No lo encontré en el catálogo. (web-catalogo)\nCantidad y municipio: `);
+    }
+  }
+
+  // Keeps the search term, drops categories and specialty.
+  function clearFilters({ keepSearch = true } = {}) {
+    selectedCats.clear();
+    segSelect.value = '';
+    if (!keepSearch) q.value = '';
+    syncPills();
+    applyFilters();
+  }
+
+  function updatePillCounts(base: Item[]) {
+    const counts = new Array(data.categorias.length).fill(0);
+    base.forEach((p) => counts[p.cat]++);
+    root.querySelectorAll<HTMLAnchorElement>('.pill').forEach((pill) => {
+      const i = catIndex(pill.dataset.cat);
+      pill.querySelector('.pill__count')!.textContent = String(counts[i]);
+      // A selected pill stays visible (even at 0) so it can be unselected.
+      pill.parentElement!.hidden = counts[i] === 0 && !selectedCats.has(i);
+    });
+    updatePillsToggle();
+  }
+
+  function syncPills() {
+    root.querySelectorAll<HTMLAnchorElement>('.pill').forEach((pill) => {
+      pill.setAttribute('aria-pressed', String(selectedCats.has(catIndex(pill.dataset.cat))));
+      pill.removeAttribute('aria-current');
+    });
+  }
+
+  // Filters live in the URL so a filtered view can be shared (e.g. pasted in WhatsApp).
+  // Other parameters (utm_*, gclid…) are kept, so campaign attribution survives.
+  function syncUrl() {
+    const params = new URLSearchParams(location.search);
+    const f = current();
+    // One category and nothing else is exactly a category page: keep that clean URL.
+    const only = f.cats.size === 1 && !f.query.trim() && f.seg < 0 ? data.categorias[[...f.cats][0]].slug : '';
+    writeFilters(params, only ? { ...f, cats: new Set() } : f, data);
+    const qs = params.toString(); // not params.size: missing before Safari 17
+    const path = `/catalogo/${only ? `${only}/` : ''}${qs ? `?${qs}` : ''}`;
+    if (path !== location.pathname + location.search) history.replaceState(null, '', path);
+  }
+
+  let searchTimer: number | undefined;
+  let trackTimer: number | undefined;
+  q.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(applyFilters, 120);
+    // Report the search once the visitor stops typing; zero-result searches show demand we don't cover.
+    clearTimeout(trackTimer);
+    trackTimer = window.setTimeout(() => {
+      const term = q.value.trim();
+      if (term.length >= 3) track('search', { search_term: term, results: filtered.length });
+    }, 1500);
+  });
+  segSelect.addEventListener('change', applyFilters);
+
+  // On phones the keyboard covers the results (and the "Preguntar por WhatsApp" button when nothing matches).
+  $<HTMLFormElement>('[data-search]').addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearTimeout(searchTimer);
+    applyFilters();
+    q.blur();
+    (filtered.length ? status : empty).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  root.querySelector('.pills')!.addEventListener('click', (e) => {
+    const pill = (e.target as HTMLElement).closest<HTMLAnchorElement>('.pill');
+    if (!pill || !data) return;
+    e.preventDefault(); // with JS, pills toggle (and mix); without it they're links to the category pages
+    const i = catIndex(pill.dataset.cat);
+    if (selectedCats.has(i)) selectedCats.delete(i);
+    else selectedCats.add(i);
+    syncPills();
+    applyFilters();
+    // Phones move selected pills to the front of the swipe row: scroll there so the tapped one stays in view.
+    if (matchMedia('(max-width: 639px)').matches) pillsList.scrollTo({ left: 0, behavior: 'smooth' });
+  });
+
+  results.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.row__add');
+    if (btn) toggle(btn.dataset.cod!);
+  });
+
+  more.addEventListener('click', () => {
+    shown += PAGE;
+    render();
+  });
+
+  // Wider screens show two rows of pills; the rest open with the toggle (phones scroll the row instead).
+  const pillsList = $('.pills ul');
+  const pillsToggle = $<HTMLButtonElement>('[data-pills-toggle]');
+  const setPillsOpen = (open: boolean) => {
+    pillsList.classList.toggle('is-open', open);
+    pillsToggle.setAttribute('aria-expanded', String(open));
+    updatePillsToggle();
+  };
+  pillsToggle.addEventListener('click', () => setPillsOpen(!pillsList.classList.contains('is-open')));
+  // Tabbing into a pill in the collapsed rows would scroll the list inside its box: open it instead.
+  // Only for keyboard focus on a pill that is actually cut off: a mouse click on a visible pill must not open them all.
+  pillsList.addEventListener('focusin', (e) => {
+    const pill = e.target as HTMLElement;
+    if (pillsToggle.hidden || pillsList.classList.contains('is-open') || !pill.matches(':focus-visible')) return;
+    // Position within the list's content: focusing a cut-off pill scrolls the list box itself, so compare against the
+    // visible height rather than where it is on screen right now.
+    const bottom = pill.getBoundingClientRect().bottom - pillsList.getBoundingClientRect().top + pillsList.scrollTop;
+    if (bottom > pillsList.clientHeight) {
+      setPillsOpen(true);
+      pillsList.scrollTop = 0;
+    }
+  });
+  function updatePillsToggle() {
+    const open = pillsList.classList.contains('is-open');
+    const visible = pillsList.querySelectorAll('li:not([hidden])').length;
+    pillsToggle.textContent = open ? 'Ver menos categorías' : `Ver todas las categorías (${visible})`;
+    pillsToggle.hidden = !open && pillsList.scrollHeight <= pillsList.clientHeight + 1;
+  }
+  // Phones: the pill row fades at the right edge to show it scrolls; no fade once at the end.
+  const syncPillsFade = () =>
+    pillsList.classList.toggle('at-end', pillsList.scrollLeft + pillsList.clientWidth >= pillsList.scrollWidth - 4);
+  pillsList.addEventListener('scroll', syncPillsFade, { passive: true });
+
+  function initPillsToggle() {
+    syncPillsFade();
+    updatePillsToggle();
+    // Don't hide a selected category behind the toggle.
+    const top = pillsList.getBoundingClientRect().bottom;
+    const hiddenSelected = [...pillsList.querySelectorAll('.pill[aria-pressed="true"]')].some((el) => el.getBoundingClientRect().top >= top);
+    if (hiddenSelected) setPillsOpen(true);
+  }
+
+  $('[data-clear-filters]').addEventListener('click', () => clearFilters({ keepSearch: false }));
+  $('[data-empty-all]').addEventListener('click', () => clearFilters());
+
+  // The header's "Cotizar" sends a generic message; with a list started, open the list instead so it isn't lost.
+  // listItems() is empty until the catalog loads, so a failed or slow load leaves the normal link working.
+  document.querySelector('.header__wa')?.addEventListener('click', (e) => {
+    if (!listItems().length) return;
+    e.preventDefault();
+    dialog.showModal();
+  });
+
+  $('[data-open-list]').addEventListener('click', () => dialog.showModal());
+  $('[data-close]').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close(); // click on the backdrop
+  });
+  $('[data-clear]').addEventListener('click', () => {
+    list.length = 0;
+    saveList();
+    renderList();
+  });
+  root.querySelectorAll('[data-send]').forEach((a) =>
+    a.addEventListener('click', () => track('generate_lead', { method: 'whatsapp', items: list.length })),
+  );
+
+  async function init() {
+    try {
+      const res = await fetch('/catalogo/productos.json');
+      if (!res.ok) throw new Error(String(res.status));
+      data = await res.json();
+    } catch {
+      return; // the server-rendered list and category links keep working
+    }
+    items = toItems(data);
+    byCod = new Map(items.map((p) => [p.cod, p]));
+
+    const initial = readFilters(new URLSearchParams(location.search), data, root.dataset.categoria);
+    initial.cats.forEach((i) => selectedCats.add(i));
+    q.value = initial.query;
+    segSelect.value = initial.seg >= 0 ? data.segmentos[initial.seg].slug : '';
+
+    $('[data-tools]').hidden = false;
+    syncPills();
+    initPillsToggle();
+    renderList();
+    applyFilters();
+  }
+  init();
+</script>
+
+<style>
+  .catalog {
+    padding-block: 1.5rem 8rem; /* room for the floating quote bar */
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .crumbs a {
+    color: var(--blue-700);
+  }
+
+  .catalog__head h1 {
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .catalog__head .lead {
+    margin: 0;
+    max-width: 680px;
+  }
+
+  .facts {
+    margin: 0.5rem 0 0;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .updated {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .tools {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+
+  @media (min-width: 640px) {
+    .tools {
+      grid-template-columns: 1fr 260px;
+    }
+  }
+
+  .search {
+    position: relative;
+  }
+
+  .search :global(svg) {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    translate: 0 -50%;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .search input,
+  .seg select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    font: inherit;
+    color: var(--ink);
+  }
+
+  .search input {
+    padding: 0.6rem 0.9rem 0.6rem 2.75rem;
+  }
+
+  /* Custom chevron: Safari ignores min-height and keeps its own look on a native select. */
+  .seg select {
+    appearance: none;
+    padding: 0.6rem 2.5rem 0.6rem 0.9rem;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%234a5e70' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.9rem center;
+    cursor: pointer;
+  }
+
+  .search input:focus-visible,
+  .seg select:focus-visible {
+    outline: 3px solid var(--blue-600);
+    outline-offset: 1px;
+  }
+
+  /* Phones: one swipeable row of pills. Wider screens: they wrap. */
+  .pills ul {
+    list-style: none;
+    display: flex;
+    gap: 0.4rem;
+    margin: 0.9rem -16px 0;
+    padding: 0.25rem 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .pills ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .pills ul:not(.at-end) {
+      mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    }
+
+    /* Selected pills first, so they stay in view in the swipe row. */
+    .pills li:has(.pill[aria-pressed='true']) {
+      order: -1;
+    }
+
+    /* Shorter header so the search box shows sooner; the placeholder and the buttons explain the page. */
+    .catalog__head .lead {
+      display: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .pills ul {
+      flex-wrap: wrap;
+      margin-inline: 0;
+      padding-inline: 0;
+      /* two rows of 40px pills + gap + focus-ring room */
+      max-height: calc(2 * 40px + 0.4rem + 0.5rem);
+      overflow: hidden;
+    }
+
+    .pills ul.is-open {
+      max-height: none;
+    }
+  }
+
+
+  @media (max-width: 639px) {
+    .pills__toggle {
+      display: none;
+    }
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 40px;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .pill:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-600);
+  }
+
+  /* Selected isn't shown by colour alone: a check appears too. */
+  .pill__check {
+    display: none;
+    flex: none; /* in the phone swipe row the pill is squeezed and the icon would shrink to nothing */
+  }
+
+  .pill[aria-pressed='true'] .pill__check,
+  .pill[aria-current='page'] .pill__check {
+    display: inline-flex;
+  }
+
+  .pill[aria-pressed='true'],
+  .pill[aria-current='page'],
+  .pill[aria-pressed='true']:hover {
+    background: var(--blue-700);
+    border-color: var(--blue-700);
+    color: #fff;
+  }
+
+  .pill__count {
+    font-weight: 400;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  .pill[aria-pressed='true'] .pill__count,
+  .pill[aria-current='page'] .pill__count {
+    opacity: 0.85;
+  }
+
+  /* scrollIntoView targets: land below the sticky header (urgent bar + header). */
+  .status,
+  .empty {
+    scroll-margin-top: calc(var(--urgent-h) + var(--header-h) + 0.75rem);
+  }
+
+  .status-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 1rem;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .status {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .status-row .link-action {
+    font-size: 0.9rem;
+  }
+
+  .export {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--blue-700);
+    background: #fff;
+  }
+
+  .export:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-600);
+  }
+
+  .export[aria-disabled='true'] {
+    color: var(--muted);
+    opacity: 0.55;
+  }
+
+  .export__hint {
+    flex-basis: 100%;
+    margin: 0.25rem 0 0;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .empty__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row__main {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .row__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+
+  .row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+
+  .row__add {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--blue-700);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--blue-700);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .row__add > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .row__add-on,
+  .row__add[aria-pressed='true'] .row__add-off {
+    display: none !important;
+  }
+
+  .row__add[aria-pressed='true'] .row__add-on {
+    display: inline-flex !important;
+  }
+
+  .row__add[aria-pressed='true'] {
+    background: var(--green-50);
+    border-color: var(--green-700);
+    color: var(--green-700);
+  }
+
+  .row__add:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .more {
+    display: flex;
+    margin: 1.5rem auto 0;
+  }
+
+
+  .empty {
+    padding: 1.5rem 0;
+  }
+
+  .empty p {
+    margin: 0 0 1rem;
+  }
+
+  /* Floating card, as wide as the page content: the container's side padding (16px, 24px from 640px) on each
+     side and the same gap at the bottom, above the consent banner and the phone's home indicator. */
+  .quote-bar {
+    --gap: 16px;
+    position: fixed;
+    left: var(--gap);
+    right: var(--gap);
+    bottom: calc(var(--gap) + var(--consent-h, 0px) + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    max-width: calc(1120px - 2 * var(--gap));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    /* Navy like the urgent bar, so it stands out from the white page. */
+    background: var(--blue-900);
+    border: 1px solid var(--blue-900);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(8 39 54 / 0.25);
+  }
+
+  .quote-bar :focus-visible {
+    outline-color: var(--sky-light);
+  }
+
+  @media (min-width: 640px) {
+    .quote-bar {
+      --gap: 24px;
+    }
+  }
+
+  .quote-bar .btn {
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+  }
+
+  .quote-bar .wide {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .quote-bar .wide {
+      display: inline;
+    }
+  }
+
+  .quote-bar__open {
+    min-height: 44px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .quote {
+    width: min(560px, calc(100% - 32px));
+    max-height: min(80vh, 720px);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .quote__inner {
+    padding: 1.25rem;
+  }
+
+  .quote::backdrop {
+    background: rgb(8 39 54 / 0.5);
+  }
+
+  .quote__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .quote__head h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .quote__close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .quote__hint,
+  .quote__limit {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .quote__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .quote__items :global(li) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+
+  .quote__items :global(.link-action) {
+    flex: none;
+  }
+
+  .quote__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    margin-top: 1rem;
+  }
+</style>

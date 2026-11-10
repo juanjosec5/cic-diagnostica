@@ -81,6 +81,10 @@ The catalog will move from supplier codes to CIC's own codes, assigned in the in
 - **Codes are permanent:** a product keeps its code when it's reclassified. The digits mean "categoría when created".
 - **IVA isn't in the code:** it's a field in the inventory system (`pendiente / excluido / exento / 5 / 19`), so a rate change never changes a code.
 - **Check digit:** Luhn (mod 10). It catches a mistyped digit and most swapped neighbours.
+- **Code register:** `npm run codes:assign` writes `data/raw/codigos-cic.csv` (gitignored, it has suppliers). It records which code belongs to which product. Products go into Quality Manager by hand, one at a time, the first time a client asks for them, using the code from the register or the website. Nobody imports 5,000 items. Sources: the sales export plus CIC's own list (`data/raw/cic/lista-julio.xlsx`). Each row has the CIC code, supplier code, supplier, name, categoría, segmento and IVA.
+  - When a product is in both sources, the CIC list wins. Likely pairs are flagged in "Posible duplicado (revisar)": confirm each one and drop the export row in Quality Manager. Names alone can't prove a duplicate, so the flag is only a hint.
+  - CIC list products are classified by `CIC_LIST_RULES` in `scripts/catalog/assign.mjs`. A name no rule matches stops the script.
+  - Re-running keeps every code already assigned and numbers only new products. Codes published in `src/data/catalog.json` count as assigned too, so losing the CSV can't reassign them. If the two disagree, the script stops. Back up the CSV anyway: it's the only place that holds the codes of CIC list products not yet on the website. A built-in checker verifies that each code is valid, unique and in its categoría's range.
 
 ## Contact form
 

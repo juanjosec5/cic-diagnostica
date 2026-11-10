@@ -24,6 +24,9 @@ export interface Item {
 /** Most WhatsApp apps open long prefilled messages, but very long links fail on some phones. */
 export const MAX_LIST_ITEMS = 30;
 
+/** A PDF export needs a filter and at most this many products (about 25 pages): "export all" would be 5,000+. */
+export const MAX_EXPORT_ITEMS = 600;
+
 // Abbreviations that appear in the product names (counted in the 2026-11 export), expanded so a search for the
 // full word finds them. Keys are already normalized (see `normalize`).
 const EXPANSIONS: Record<string, string> = {
@@ -124,4 +127,68 @@ export function quoteMessage(items: { cod: string; nombre: string }[]) {
   const lines = items.map((p) => `• ${p.cod} · ${p.nombre}`);
   const what = items.length === 1 ? 'este producto' : `estos ${items.length} productos`;
   return `Hola, quisiera cotizar ${what} del catálogo. (web-catalogo)\n\n${lines.join('\n')}\n\nCantidades y municipio: `;
+}
+
+// --- Filters: shared by the catalog page and the PDF export, so the PDF is exactly what the screen shows ---
+
+export interface Filters {
+  query: string;
+  /** Category indexes into payload.categorias. */
+  cats: Set<number>;
+  /** Segment index into payload.segmentos, -1 for all. */
+  seg: number;
+}
+
+export const hasFilters = (f: Filters) => f.query.trim() !== '' || f.cats.size > 0 || f.seg >= 0;
+
+/** Why these results can't be exported as PDF, or '' if they can. One rule for the download icon and the PDF page. */
+export function exportProblem(f: Filters, count: number) {
+  if (!hasFilters(f)) return 'Filtre para exportar';
+  if (count > MAX_EXPORT_ITEMS) return `Filtre más para exportar (${count.toLocaleString('es-CO')} productos, máximo ${MAX_EXPORT_ITEMS})`;
+  if (!count) return 'No hay productos para exportar';
+  return '';
+}
+
+/** Stable partition: items matching `pred` first, each group keeping its order. */
+const moveToFront = (list: Item[], pred: (p: Item) => boolean) => [...list.filter(pred), ...list.filter((p) => !pred(p))];
+
+/**
+ * `results` in display order; `base` is the same before the category filter (it drives the pill counts, so a pill
+ * never leads to 0 results). Shared categories (gloves, gauze…) count as part of every segment.
+ */
+export function filterItems(items: Item[], categorias: CatalogPayload['categorias'], { query, cats, seg }: Filters) {
+  const match = matcher(query);
+  const base = items.filter((p) => (seg < 0 || p.seg === seg || categorias[p.cat].comun) && match(p.key));
+  let results = cats.size ? base.filter((p) => cats.has(p.cat)) : base;
+  // Names that start with the first word typed go first ("guantes" → "GUANTE…" before "CAJA PARA GUANTES").
+  const startsWith = startsWithQuery(query);
+  if (startsWith) results = moveToFront(results, (p) => startsWith(p.name));
+  // With a specialty picked, its own products before the shared supplies. Applied last, so it wins over the name match.
+  if (seg >= 0) results = moveToFront(results, (p) => p.seg === seg);
+  return { base, results };
+}
+
+/** ?q=&cat=a,b&seg=x → Filters. Unknown slugs are ignored. `defaultCat`: the category page's own category. */
+export function readFilters(params: URLSearchParams, payload: CatalogPayload, defaultCat?: string): Filters {
+  const catSlugs = params.get('cat')?.split(',') ?? (defaultCat ? [defaultCat] : []);
+  const cats = new Set(catSlugs.map((slug) => payload.categorias.findIndex((c) => c.slug === slug)).filter((i) => i >= 0));
+  return { query: params.get('q') ?? '', cats, seg: payload.segmentos.findIndex((s) => s.slug === params.get('seg')) };
+}
+
+/** Filters → q/cat/seg in `params` (other parameters, like utm_*, are left alone). */
+export function writeFilters(params: URLSearchParams, { query, cats, seg }: Filters, payload: CatalogPayload) {
+  ['q', 'cat', 'seg'].forEach((k) => params.delete(k));
+  if (query.trim()) params.set('q', query.trim());
+  if (cats.size) params.set('cat', [...cats].map((i) => payload.categorias[i].slug).join(','));
+  if (seg >= 0) params.set('seg', payload.segmentos[seg].slug);
+  return params;
+}
+
+/** "Guantes, Jeringas · Odontología · «nitrilo»": the active filters in words, for the status line and the PDF title. */
+export function describeFilters({ query, cats, seg }: Filters, payload: CatalogPayload) {
+  return [
+    [...cats].map((i) => payload.categorias[i].label).join(', '),
+    seg >= 0 ? payload.segmentos[seg].label : '',
+    query.trim() ? `«${query.trim()}»` : '',
+  ].filter(Boolean);
 }

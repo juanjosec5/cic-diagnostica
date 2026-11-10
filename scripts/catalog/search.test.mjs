@@ -73,3 +73,63 @@ test('quote message lists code and name, and ends with the field to fill', () =>
   assert.match(text, /• 0986 · JABON DE CALENDULA\n• 33429 · AGUJA 32G/);
   assert.ok(text.endsWith('Cantidades y municipio: '));
 });
+
+// --- Shared filters (catalog page and PDF export) ---
+import { describeFilters, exportProblem, filterItems, hasFilters, readFilters, toItems, writeFilters } from '../../src/lib/catalog-search.ts';
+
+const payload = {
+  updatedAt: '2026-11-09',
+  categorias: [
+    { slug: 'guantes', label: 'Guantes', comun: true },
+    { slug: 'cuidado-oral', label: 'Cuidado oral', comun: false },
+    { slug: 'vendas', label: 'Vendas', comun: false },
+  ],
+  segmentos: [
+    { slug: 'medicina-general', label: 'Medicina general' },
+    { slug: 'odontologia', label: 'Odontología' },
+  ],
+  productos: [
+    ['1', 'GUANTE NITRILO M', 0, 0, 0],
+    ['2', 'CEPILLO DENTAL', 1, 1, 0],
+    ['3', 'VENDA ELASTICA', 2, 0, 1],
+  ],
+};
+const items = toItems(payload);
+const codes = (f) => filterItems(items, payload.categorias, f).results.map((p) => p.cod);
+
+test('a specialty includes the shared categories, its own products first', () => {
+  assert.deepEqual(codes({ query: '', cats: new Set(), seg: 1 }), ['2', '1']);
+  assert.deepEqual(codes({ query: '', cats: new Set([2]), seg: 1 }), []);
+});
+
+test('base ignores the category filter (it drives the pill counts)', () => {
+  const { base, results } = filterItems(items, payload.categorias, { query: '', cats: new Set([2]), seg: -1 });
+  assert.equal(base.length, 3);
+  assert.deepEqual(results.map((p) => p.cod), ['3']);
+});
+
+test('filters survive the URL round trip, keep other params, and ignore unknown slugs', () => {
+  const f = { query: ' guante ', cats: new Set([0, 2]), seg: 1 };
+  const params = writeFilters(new URLSearchParams('utm_source=wa'), f, payload);
+  assert.equal(params.toString(), 'utm_source=wa&q=guante&cat=guantes%2Cvendas&seg=odontologia');
+  const back = readFilters(params, payload);
+  assert.deepEqual([back.query, [...back.cats], back.seg], ['guante', [0, 2], 1]);
+  const bad = readFilters(new URLSearchParams('cat=nope,vendas&seg=nope'), payload);
+  assert.deepEqual([[...bad.cats], bad.seg], [[2], -1]);
+  assert.deepEqual([...readFilters(new URLSearchParams(), payload, 'vendas').cats], [2]);
+});
+
+test('export: needs a filter, at most 600 products, and some results', () => {
+  const none = { query: '', cats: new Set(), seg: -1 };
+  const some = { query: '', cats: new Set([0]), seg: -1 };
+  assert.equal(exportProblem(none, 10), 'Filtre para exportar');
+  assert.match(exportProblem(some, 601), /^Filtre más para exportar \(601 productos, máximo 600\)/);
+  assert.equal(exportProblem(some, 600), '');
+  assert.equal(exportProblem(some, 0), 'No hay productos para exportar');
+});
+
+test('export needs a filter; filters are described in words', () => {
+  assert.equal(hasFilters({ query: '  ', cats: new Set(), seg: -1 }), false);
+  assert.equal(hasFilters({ query: '', cats: new Set(), seg: 0 }), true);
+  assert.deepEqual(describeFilters({ query: 'x', cats: new Set([0, 2]), seg: 1 }, payload), ['Guantes, Vendas', 'Odontología', '«x»']);
+});

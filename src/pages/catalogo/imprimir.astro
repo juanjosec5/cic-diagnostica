@@ -1,0 +1,268 @@
+---
+// Product listing for hospitals as a PDF: the catalog's current filters (same URL parameters), on letterhead, no
+// prices. Opened from the download icon on /catalogo/; the browser's print dialog saves it as PDF. Not indexed.
+import { company } from '../../data/site';
+import { formatDate, updatedAt } from '../../lib/catalog';
+
+const site = new URL(Astro.site!);
+const logo = new URL('/brand/logo-horizontal-color.png', site).pathname;
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Portafolio de productos | {company.name}</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+  </head>
+  <body data-site={site.origin} data-updated={formatDate(updatedAt)}>
+    <!-- Screen only: the print dialog opens by itself, this is for when it was closed or blocked. -->
+    <div class="toolbar">
+      <a href="/catalogo/" data-back>← Volver al catálogo</a>
+      <button type="button" data-print hidden>Guardar como PDF</button>
+    </div>
+
+    <header class="letterhead">
+      <img src={logo} alt={company.name} width="179" height="42" />
+      <div class="company">
+        <strong>{company.legalName}</strong><br />
+        NIT {company.nit}<br />
+        {company.address}<br />
+        WhatsApp {company.whatsappDisplay} · {company.email}<br />
+        {site.host}
+      </div>
+    </header>
+
+    <main>
+      <h1 data-title>Portafolio de productos</h1>
+      <p class="meta" data-meta>Cargando…</p>
+      <table hidden data-table>
+        <thead>
+          <tr><th>Código</th><th>Producto</th><th>Disponibilidad</th></tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+      <p class="source" data-source></p>
+    </main>
+
+    <script>
+      import { describeFilters, exportProblem, filterItems, readFilters, toItems, writeFilters, type CatalogPayload } from '../../lib/catalog-search';
+
+      const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
+      const meta = $('[data-meta]');
+
+      async function init() {
+        let data: CatalogPayload;
+        try {
+          const res = await fetch('/catalogo/productos.json');
+          if (!res.ok) throw new Error(String(res.status));
+          data = await res.json();
+        } catch {
+          meta.textContent = 'No se pudo cargar el catálogo. Intente de nuevo.';
+          return;
+        }
+        const filters = readFilters(new URLSearchParams(location.search), data);
+        const { results } = filterItems(toItems(data), data.categorias, filters);
+        const catalogUrl = `/catalogo/?${writeFilters(new URLSearchParams(), filters, data)}`;
+        $<HTMLAnchorElement>('[data-back]').href = catalogUrl;
+
+        // Same rule as the catalog's download icon, for links opened or edited by hand.
+        const problem = exportProblem(filters, results.length);
+        if (problem) {
+          meta.textContent = `${problem}. Vuelva al catálogo y ajuste los filtros.`;
+          return;
+        }
+
+        const described = describeFilters(filters, data);
+        $('[data-title]').textContent = ['Portafolio de productos', ...described].join(' · ');
+        document.title = `Portafolio ${described.join(' - ')} - CIC Diagnóstica`; // the PDF's suggested file name
+        meta.textContent = `${results.length.toLocaleString('es-CO')} referencias · Listado actualizado el ${document.body.dataset.updated} · Sin precios: cotización por WhatsApp`;
+
+        $('[data-rows]').replaceChildren(
+          ...results.map((p) => {
+            const tr = document.createElement('tr');
+            for (const [text, cls] of [[p.cod, 'cod'], [p.nombre, ''], [p.bajoPedido ? 'Bajo pedido' : 'En inventario', 'est']]) {
+              const td = document.createElement('td');
+              td.textContent = text;
+              if (cls) td.className = cls;
+              tr.append(td);
+            }
+            return tr;
+          }),
+        );
+        $('[data-table]').hidden = false;
+        $('[data-source]').textContent = `Listado generado desde ${document.body.dataset.site}${catalogUrl}`;
+
+        const print = $<HTMLButtonElement>('[data-print]');
+        print.hidden = false;
+        print.addEventListener('click', () => window.print());
+        // Let the browser lay out the table (and load the logo) before opening the dialog.
+        await document.querySelector<HTMLImageElement>('.letterhead img')!.decode().catch(() => {});
+        requestAnimationFrame(() => window.print());
+      }
+      init();
+    </script>
+
+    <style is:global>
+      /* Chrome prints the footer from these margin boxes; other browsers may add their own header/footer instead. */
+      @page {
+        size: letter;
+        margin: 16mm 14mm 18mm;
+
+        @bottom-left {
+          content: 'CIC Diagnóstica · Portafolio de productos';
+          font: 7pt system-ui, sans-serif;
+          color: #4a5e70;
+        }
+
+        @bottom-right {
+          content: 'Página ' counter(page) ' de ' counter(pages);
+          font: 7pt system-ui, sans-serif;
+          color: #4a5e70;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      body {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 16px;
+        font: 10pt/1.35 system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        color: #0f2533;
+        background: #fff;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 16px;
+      }
+
+      .toolbar a {
+        color: #1b5a86;
+      }
+
+      .toolbar button {
+        min-height: 44px;
+        padding: 0.5rem 1.1rem;
+        border: 0;
+        border-radius: 999px;
+        background: #1b5a86;
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .letterhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #082736;
+      }
+
+      .letterhead img {
+        height: 42px;
+        width: auto;
+      }
+
+      .company {
+        text-align: right;
+        font-size: 8.5pt;
+        line-height: 1.45;
+        color: #4a5e70;
+      }
+
+      .company strong {
+        font-size: 9.5pt;
+        color: #0f2533;
+      }
+
+      h1 {
+        margin: 14px 0 2px;
+        font-size: 15pt;
+        color: #082736;
+      }
+
+      .meta {
+        margin: 0 0 10px;
+        font-size: 9pt;
+        color: #4a5e70;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        display: table-header-group; /* repeats on every printed page */
+      }
+
+      th {
+        padding: 5px 6px;
+        border-bottom: 1px solid #d9e4ee;
+        text-align: left;
+        font-size: 8pt;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #4a5e70;
+      }
+
+      td {
+        padding: 8px 6px;
+        border-bottom: 1px solid #eef3f8;
+        font-size: 8pt;
+        vertical-align: top;
+      }
+
+      tr {
+        break-inside: avoid;
+      }
+
+      td.cod {
+        width: 62px;
+        font-variant-numeric: tabular-nums;
+        color: #4a5e70;
+      }
+
+      td.est {
+        width: 78px;
+        white-space: nowrap;
+        font-size: 7pt;
+        color: #4a5e70;
+      }
+
+      .source {
+        margin-top: 12px;
+        font-size: 8pt;
+        color: #4a5e70;
+        overflow-wrap: anywhere;
+      }
+
+      @media print {
+        .toolbar {
+          display: none;
+        }
+
+        body {
+          max-width: none;
+          padding: 0;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -78,6 +78,11 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
       {categoria ? `${initial.length} productos` : `Mostrando ${initial.length} de ${total.toLocaleString('es-CO')} productos`}
     </p>
     <button class="link-action" type="button" hidden data-clear-filters>Limpiar filtros</button>
+    <!-- PDF of the current results (with letterhead) for hospitals; needs a filter, see MAX_EXPORT_ITEMS. -->
+    <a class="export" href="#" target="_blank" rel="noopener" aria-disabled="true" hidden data-export>
+      <Icon name="download" size={20} />
+    </a>
+    <p class="export__hint" role="status" hidden data-export-hint></p>
   </div>
 
   <ul class="results" data-results>
@@ -154,7 +159,21 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
 </section>
 
 <script>
-  import { MAX_LIST_ITEMS, matcher, quoteMessage, startsWithQuery, toItems, type CatalogPayload, type Item } from '../lib/catalog-search';
+  import {
+    MAX_LIST_ITEMS,
+    describeFilters,
+    exportProblem,
+    filterItems,
+    hasFilters,
+    matcher,
+    quoteMessage,
+    readFilters,
+    toItems,
+    writeFilters,
+    type CatalogPayload,
+    type Filters,
+    type Item,
+  } from '../lib/catalog-search';
   import { track } from '../lib/track';
 
   const PAGE = 50;
@@ -264,23 +283,16 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     return li;
   }
 
-  /** Stable partition: items matching `pred` first, each group keeping its order. */
-  const moveToFront = (list: Item[], pred: (p: Item) => boolean) => [...list.filter(pred), ...list.filter((p) => !pred(p))];
+  const current = (): Filters => ({
+    query: q.value,
+    cats: selectedCats,
+    seg: data.segmentos.findIndex((s) => s.slug === segSelect.value),
+  });
 
   function applyFilters() {
-    const match = matcher(q.value);
-    const seg = data.segmentos.findIndex((s) => s.slug === segSelect.value);
-    // Search and specialty first; the category counts come from this set, so a pill never leads to 0 results.
-    const inSeg = (p: Item) => seg < 0 || p.seg === seg || data.categorias[p.cat].comun;
-    const base = items.filter((p) => inSeg(p) && match(p.key));
+    const { base, results: ordered } = filterItems(items, data.categorias, current());
     updatePillCounts(base);
-    filtered = selectedCats.size ? base.filter((p) => selectedCats.has(p.cat)) : base;
-    // Names that start with the first word typed go first ("guantes" → "GUANTE…" before "CAJA PARA GUANTES").
-    const startsWith = startsWithQuery(q.value);
-    if (startsWith) filtered = moveToFront(filtered, (p) => startsWith(p.name));
-    // With a specialty picked, its own products before the shared supplies (gloves, gauze…) added to every one.
-    // Applied last, so it wins over the name match above.
-    if (seg >= 0) filtered = moveToFront(filtered, (p) => p.seg === seg);
+    filtered = ordered;
     shown = PAGE;
     render();
     syncUrl();
@@ -291,16 +303,38 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     more.hidden = filtered.length <= shown;
     const n = filtered.length.toLocaleString('es-CO');
     const count = filtered.length > shown ? `Mostrando ${shown} de ${n} productos` : `${n} productos`;
-    // Active filters spelled out: on phones the selected pills can be scrolled out of view.
-    const active = [
-      [...selectedCats].map((i) => data.categorias[i].label).join(', '),
-      data.segmentos.find((s) => s.slug === segSelect.value)?.label ?? '',
-    ].filter(Boolean);
+    // Active filters spelled out (the search term is already in the box): on phones selected pills can be off screen.
+    const active = describeFilters({ ...current(), query: '' }, data);
     status.textContent = [count, ...active].join(' · ');
-    $('[data-clear-filters]').hidden = !active.length && !q.value.trim();
+    $('[data-clear-filters]').hidden = !hasFilters(current());
     empty.hidden = filtered.length > 0;
     if (!filtered.length) renderEmpty();
+    renderExport();
   }
+
+  const exportLink = $<HTMLAnchorElement>('[data-export]');
+  const exportHint = $('[data-export-hint]');
+  let exportReason = '';
+  function renderExport() {
+    const n = filtered.length;
+    exportReason = exportProblem(current(), n);
+    const label = exportReason || `Descargar PDF (${n.toLocaleString('es-CO')} productos)`;
+    exportLink.hidden = false;
+    exportLink.title = label;
+    exportLink.setAttribute('aria-label', label);
+    exportLink.setAttribute('aria-disabled', String(!!exportReason));
+    exportLink.href = exportReason ? '#' : `/catalogo/imprimir/?${writeFilters(new URLSearchParams(), current(), data)}`;
+    exportHint.hidden = true;
+  }
+  let hintTimer: number | undefined;
+  exportLink.addEventListener('click', (e) => {
+    if (!exportReason) return track('export_pdf', { items: filtered.length });
+    e.preventDefault(); // disabled: say why (the title tooltip doesn't show on phones)
+    exportHint.textContent = exportReason;
+    exportHint.hidden = false;
+    clearTimeout(hintTimer);
+    hintTimer = window.setTimeout(() => (exportHint.hidden = true), 3000);
+  });
 
   function renderEmpty() {
     const term = q.value.trim();
@@ -356,15 +390,10 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   // Other parameters (utm_*, gclid…) are kept, so campaign attribution survives.
   function syncUrl() {
     const params = new URLSearchParams(location.search);
-    ['q', 'cat', 'seg'].forEach((k) => params.delete(k));
-    const term = q.value.trim();
+    const f = current();
     // One category and nothing else is exactly a category page: keep that clean URL.
-    const only = selectedCats.size === 1 && !term && !segSelect.value ? data.categorias[[...selectedCats][0]].slug : '';
-    if (!only) {
-      if (term) params.set('q', term);
-      if (selectedCats.size) params.set('cat', [...selectedCats].map((i) => data.categorias[i].slug).join(','));
-      if (segSelect.value) params.set('seg', segSelect.value);
-    }
+    const only = f.cats.size === 1 && !f.query.trim() && f.seg < 0 ? data.categorias[[...f.cats][0]].slug : '';
+    writeFilters(params, only ? { ...f, cats: new Set() } : f, data);
     const qs = params.toString(); // not params.size: missing before Safari 17
     const path = `/catalogo/${only ? `${only}/` : ''}${qs ? `?${qs}` : ''}`;
     if (path !== location.pathname + location.search) history.replaceState(null, '', path);
@@ -426,8 +455,17 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   };
   pillsToggle.addEventListener('click', () => setPillsOpen(!pillsList.classList.contains('is-open')));
   // Tabbing into a pill in the collapsed rows would scroll the list inside its box: open it instead.
-  pillsList.addEventListener('focusin', () => {
-    if (!pillsToggle.hidden && !pillsList.classList.contains('is-open')) setPillsOpen(true);
+  // Only for keyboard focus on a pill that is actually cut off: a mouse click on a visible pill must not open them all.
+  pillsList.addEventListener('focusin', (e) => {
+    const pill = e.target as HTMLElement;
+    if (pillsToggle.hidden || pillsList.classList.contains('is-open') || !pill.matches(':focus-visible')) return;
+    // Position within the list's content: focusing a cut-off pill scrolls the list box itself, so compare against the
+    // visible height rather than where it is on screen right now.
+    const bottom = pill.getBoundingClientRect().bottom - pillsList.getBoundingClientRect().top + pillsList.scrollTop;
+    if (bottom > pillsList.clientHeight) {
+      setPillsOpen(true);
+      pillsList.scrollTop = 0;
+    }
   });
   function updatePillsToggle() {
     const open = pillsList.classList.contains('is-open');
@@ -485,14 +523,10 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
     items = toItems(data);
     byCod = new Map(items.map((p) => [p.cod, p]));
 
-    const params = new URLSearchParams(location.search);
-    const cats = params.get('cat')?.split(',') ?? (root.dataset.categoria ? [root.dataset.categoria] : []);
-    cats.forEach((slug) => {
-      const i = catIndex(slug);
-      if (i >= 0) selectedCats.add(i);
-    });
-    q.value = params.get('q') ?? '';
-    if (data.segmentos.some((s) => s.slug === params.get('seg'))) segSelect.value = params.get('seg')!;
+    const initial = readFilters(new URLSearchParams(location.search), data, root.dataset.categoria);
+    initial.cats.forEach((i) => selectedCats.add(i));
+    q.value = initial.query;
+    segSelect.value = initial.seg >= 0 ? data.segmentos[initial.seg].slug : '';
 
     $('[data-tools]').hidden = false;
     syncPills();
@@ -673,6 +707,7 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
   /* Selected isn't shown by colour alone: a check appears too. */
   .pill__check {
     display: none;
+    flex: none; /* in the phone swipe row the pill is squeezed and the icon would shrink to nothing */
   }
 
   .pill[aria-pressed='true'] .pill__check,
@@ -721,6 +756,36 @@ const label = (slug: string) => categorias.find((c) => c.slug === slug)?.label ?
 
   .status-row .link-action {
     font-size: 0.9rem;
+  }
+
+  .export {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--blue-700);
+    background: #fff;
+  }
+
+  .export:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-600);
+  }
+
+  .export[aria-disabled='true'] {
+    color: var(--muted);
+    opacity: 0.55;
+  }
+
+  .export__hint {
+    flex-basis: 100%;
+    margin: 0.25rem 0 0;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   .empty__actions {
